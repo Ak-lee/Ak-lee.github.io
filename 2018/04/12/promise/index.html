@@ -67,18 +67,18 @@
 
 
 
-<meta name="description" content="模拟zepto1234567891011121314151617181920212223242526272829303132(function(window)&amp;#123;  var $=function(selector)&amp;#123;      return zepto.init(selector)  &amp;#125;  var zepto =&amp;#123;&amp;#125;  zepto.init=func">
+<meta name="description" content="Promise 异常捕获12345678910// 规定：then 只接受一个参数，最后统一用 catch 捕获异常result.then(function(img)&amp;#123;    console.log(img.width)    return img&amp;#125;).then(function(img)&amp;#123;    console.log(img.height)&amp;#125;).catc">
 <meta name="keywords" content="js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="模拟zepto">
-<meta property="og:url" content="http://yoursite.com/2018/04/11/模拟zepto/index.html">
+<meta property="og:title" content="promise">
+<meta property="og:url" content="http://yoursite.com/2018/04/12/promise/index.html">
 <meta property="og:site_name" content="Ak-lee">
-<meta property="og:description" content="模拟zepto1234567891011121314151617181920212223242526272829303132(function(window)&amp;#123;  var $=function(selector)&amp;#123;      return zepto.init(selector)  &amp;#125;  var zepto =&amp;#123;&amp;#125;  zepto.init=func">
+<meta property="og:description" content="Promise 异常捕获12345678910// 规定：then 只接受一个参数，最后统一用 catch 捕获异常result.then(function(img)&amp;#123;    console.log(img.width)    return img&amp;#125;).then(function(img)&amp;#123;    console.log(img.height)&amp;#125;).catc">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-11T11:47:03.366Z">
+<meta property="og:updated_time" content="2018-04-12T11:34:38.058Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="模拟zepto">
-<meta name="twitter:description" content="模拟zepto1234567891011121314151617181920212223242526272829303132(function(window)&amp;#123;  var $=function(selector)&amp;#123;      return zepto.init(selector)  &amp;#125;  var zepto =&amp;#123;&amp;#125;  zepto.init=func">
+<meta name="twitter:title" content="promise">
+<meta name="twitter:description" content="Promise 异常捕获12345678910// 规定：then 只接受一个参数，最后统一用 catch 捕获异常result.then(function(img)&amp;#123;    console.log(img.width)    return img&amp;#125;).then(function(img)&amp;#123;    console.log(img.height)&amp;#125;).catc">
 
 
 
@@ -108,13 +108,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/11/模拟zepto/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/12/promise/"/>
 
 
 
 
 
-  <title>模拟zepto | Ak-lee</title>
+  <title>promise | Ak-lee</title>
   
 
 
@@ -241,7 +241,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/模拟zepto/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/12/promise/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ak-lee">
@@ -258,7 +258,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">模拟zepto</h1>
+          <h1 class="post-title" itemprop="name headline">promise</h1>
         
 
         <div class="post-meta">
@@ -270,8 +270,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T19:44:23+08:00">
-                2018-04-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-12T19:20:42+08:00">
+                2018-04-12
               </time>
             
 
@@ -308,7 +308,10 @@
       
 
       
-        <h1 id="模拟zepto"><a href="#模拟zepto" class="headerlink" title="模拟zepto"></a>模拟zepto</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">window</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> $=<span class="function"><span class="keyword">function</span>(<span class="params">selector</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> zepto.init(selector)</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> zepto =&#123;&#125;</div><div class="line">  zepto.init=<span class="function"><span class="keyword">function</span>(<span class="params">selector</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> slice = <span class="built_in">Array</span>.prototype.slice</div><div class="line">    <span class="keyword">var</span> dom = slice.call(<span class="built_in">document</span>.querySelectorAll(selector))</div><div class="line">    <span class="keyword">return</span> zepto.Z(dom,selector)</div><div class="line">  &#125;</div><div class="line">  zepto.Z=<span class="function"><span class="keyword">function</span>(<span class="params">dom,selector</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Z(dom,selector)</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">window</span>.$=$</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Z</span>(<span class="params">dom,selector</span>)</span>&#123;</div><div class="line">      <span class="keyword">var</span> i,len=dom?dom.length:<span class="number">0</span>;</div><div class="line">      <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">          <span class="keyword">this</span>[i]=dom[i]</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">this</span>.selector =selector || <span class="string">''</span>;</div><div class="line">      <span class="keyword">this</span>.length=len</div><div class="line">  &#125;</div><div class="line">  $.fn=&#123;</div><div class="line">      css:<span class="function"><span class="keyword">function</span>(<span class="params">key,value</span>)</span>&#123;</div><div class="line">          <span class="keyword">return</span> <span class="string">'css'</span></div><div class="line">      &#125;,</div><div class="line">      html:<span class="function"><span class="keyword">function</span>(<span class="params">key</span>)</span>&#123;</div><div class="line">          <span class="keyword">return</span> <span class="string">'html'</span></div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  Z.prototype=$.fn</div><div class="line">&#125;)(<span class="built_in">window</span>)</div></pre></td></tr></table></figure>
+        <h1 id="Promise-异常捕获"><a href="#Promise-异常捕获" class="headerlink" title="Promise 异常捕获"></a>Promise 异常捕获</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 规定：then 只接受一个参数，最后统一用 catch 捕获异常</span></div><div class="line">result.then(<span class="function"><span class="keyword">function</span>(<span class="params">img</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(img.width)</div><div class="line">    <span class="keyword">return</span> img</div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">img</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(img.height)</div><div class="line">&#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">ex</span>)</span>&#123;</div><div class="line">    <span class="comment">// 最后统一捕获异常</span></div><div class="line">    <span class="built_in">console</span>.log(ex)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>这里的捕获异常既可以是代码运行出现语法错误（例如：<code>throw new Error(&#39;...&#39;)</code>），也可以异步时调用reject方法（例如：<code>reject(&#39;图片加载失败&#39;)</code>）。</p>
+<p>实现了类似平时<code>try{}catch(ex){}</code> 的功能。</p>
+
       
     </div>
     
@@ -338,8 +341,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/11/NodeList元素变成数组/" rel="next" title="NodeList元素变成数组">
-                <i class="fa fa-chevron-left"></i> NodeList元素变成数组
+              <a href="/2018/04/12/jQuery的Deferred语法/" rel="next" title="jQuery的Deferred语法">
+                <i class="fa fa-chevron-left"></i> jQuery的Deferred语法
               </a>
             
           </div>
@@ -348,8 +351,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/12/jQuery的Deferred语法/" rel="prev" title="jQuery的Deferred语法">
-                jQuery的Deferred语法 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/12/promise串联/" rel="prev" title="promise串联">
+                promise串联 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -478,7 +481,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#模拟zepto"><span class="nav-number">1.</span> <span class="nav-text">模拟zepto</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise-异常捕获"><span class="nav-number">1.</span> <span class="nav-text">Promise 异常捕获</span></a></li></ol></div>
             
 
           </div>

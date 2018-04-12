@@ -67,18 +67,18 @@
 
 
 
-<meta name="description" content="promise 多个串联希望先加载第一个图片，成功后加载第二个图片。有先后顺序 1234567891011121314function loadImg(src)&amp;#123;    var promise = new Promise(function(resolve,reject)&amp;#123;        var img = document.createElement(&apos;img&apos;)">
+<meta name="description" content="promise 多个串联Promise 标准之 then Promise 实例都有 then 这个方法 then() 必须可以接受两个函数作为参数 then() 必须返回一个 Promise 实例  希望先加载第一个图片，成功后加载第二个图片。有先后顺序 1234567891011121314function loadImg(src)&amp;#123;    var promise = new Prom">
 <meta name="keywords" content="js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="promise串联">
 <meta property="og:url" content="http://yoursite.com/2018/04/12/promise串联/index.html">
 <meta property="og:site_name" content="Ak-lee">
-<meta property="og:description" content="promise 多个串联希望先加载第一个图片，成功后加载第二个图片。有先后顺序 1234567891011121314function loadImg(src)&amp;#123;    var promise = new Promise(function(resolve,reject)&amp;#123;        var img = document.createElement(&apos;img&apos;)">
+<meta property="og:description" content="promise 多个串联Promise 标准之 then Promise 实例都有 then 这个方法 then() 必须可以接受两个函数作为参数 then() 必须返回一个 Promise 实例  希望先加载第一个图片，成功后加载第二个图片。有先后顺序 1234567891011121314function loadImg(src)&amp;#123;    var promise = new Prom">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-12T11:57:14.811Z">
+<meta property="og:updated_time" content="2018-04-12T14:23:45.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="promise串联">
-<meta name="twitter:description" content="promise 多个串联希望先加载第一个图片，成功后加载第二个图片。有先后顺序 1234567891011121314function loadImg(src)&amp;#123;    var promise = new Promise(function(resolve,reject)&amp;#123;        var img = document.createElement(&apos;img&apos;)">
+<meta name="twitter:description" content="promise 多个串联Promise 标准之 then Promise 实例都有 then 这个方法 then() 必须可以接受两个函数作为参数 then() 必须返回一个 Promise 实例  希望先加载第一个图片，成功后加载第二个图片。有先后顺序 1234567891011121314function loadImg(src)&amp;#123;    var promise = new Prom">
 
 
 
@@ -308,7 +308,12 @@
       
 
       
-        <h1 id="promise-多个串联"><a href="#promise-多个串联" class="headerlink" title="promise 多个串联"></a>promise 多个串联</h1><p>希望先加载第一个图片，成功后加载第二个图片。有先后顺序</p>
+        <h1 id="promise-多个串联"><a href="#promise-多个串联" class="headerlink" title="promise 多个串联"></a>promise 多个串联</h1><h3 id="Promise-标准之-then"><a href="#Promise-标准之-then" class="headerlink" title="Promise 标准之 then"></a>Promise 标准之 then</h3><ul>
+<li>Promise 实例都有 then 这个方法</li>
+<li>then() 必须可以接受两个函数作为参数</li>
+<li>then() 必须返回一个 Promise 实例</li>
+</ul>
+<p>希望先加载第一个图片，成功后加载第二个图片。有先后顺序</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span>(<span class="params">src</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>)</div><div class="line">        img.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            resolve(img)</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'src'</span>)</div><div class="line">        &#125;</div><div class="line">        img.onerror=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            reject(<span class="string">'图片加载失败'</span>)</div><div class="line">        &#125;</div><div class="line">        img.src=src</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> promise</div><div class="line">&#125;</div></pre></td></tr></table></figure>
  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> src1=<span class="string">'http://p6qxip14s.bkt.clouddn.com/cover1.webp'</span></div><div class="line"><span class="keyword">var</span> result1=loadImg(src1)</div><div class="line"><span class="keyword">var</span> src2=<span class="string">'http://p6qxip14s.bkt.clouddn.com/recommand_bg_3x.png'</span></div><div class="line"><span class="keyword">var</span> result2=loadImg(src2)</div><div class="line"></div><div class="line"><span class="comment">// 链式操作</span></div><div class="line">result1.then(<span class="function"><span class="keyword">function</span>(<span class="params">img</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'第一张图片加载完成'</span>)</div><div class="line">    <span class="keyword">return</span> reslut2	<span class="comment">// 重要</span></div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">img</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'第二张图片加载完成'</span>)</div><div class="line">&#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">ex</span>)</span>&#123;</div><div class="line">    <span class="comment">// 统一捕获异常</span></div><div class="line">    <span class="built_in">console</span>.log(ex)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 
@@ -481,7 +486,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#promise-多个串联"><span class="nav-number">1.</span> <span class="nav-text">promise 多个串联</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#promise-多个串联"><span class="nav-number">1.</span> <span class="nav-text">promise 多个串联</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-标准之-then"><span class="nav-number">1.0.1.</span> <span class="nav-text">Promise 标准之 then</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

@@ -437,8 +437,13 @@
       
         
           
-          promise 多个串联希望先加载第一个图片，成功后加载第二个图片。有先后顺序
-1234567891011121314function loadImg(src)&#123;    var promise = new Promise(function(resolve,reject)&#123;    
+          promise 多个串联Promise 标准之 then
+Promise 实例都有 then 这个方法
+then() 必须可以接受两个函数作为参数
+then() 必须返回一个 Promise 实例
+
+希望先加载第一个图片，成功后加载第二个图片。有先后顺序
+1234567891011121314fun
           ...
           <!--noindex-->
           <div class="post-button text-center">

@@ -75,7 +75,7 @@
 <meta property="og:site_name" content="Ak-lee">
 <meta property="og:description" content="jQuery中的Deferred语法jQuery 1.5 的变化—— 1.5 之前123456789101112var ajax = $.ajax(&amp;#123;    url:&apos;data.json&apos;,    success:function()&amp;#123;        console.log(&apos;success1&apos;)        console.log(&apos;success2&apos;)        co">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-12T09:57:04.272Z">
+<meta property="og:updated_time" content="2018-04-12T10:12:16.434Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jQuery的Deferred语法">
 <meta name="twitter:description" content="jQuery中的Deferred语法jQuery 1.5 的变化—— 1.5 之前123456789101112var ajax = $.ajax(&amp;#123;    url:&apos;data.json&apos;,    success:function()&amp;#123;        console.log(&apos;success1&apos;)        console.log(&apos;success2&apos;)        co">
@@ -325,7 +325,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> w = waitHandle()</div><div class="line">w.then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'ok 1'</span>)</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'err 1'</span>)</div><div class="line">&#125;)</div><div class="line">w.then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'ok 2'</span>)</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'err 2'</span>)</div><div class="line">&#125;)</div><div class="line"><span class="comment">// 这里不是链式操作 若是调用dtd.reject() 则打印出 err 1和 err 1</span></div></pre></td></tr></table></figure>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>dtd 的 API 分为两类：</p>
 <ul>
-<li>dtd.resolve dte.reject</li>
+<li>dtd.resolve dtd.reject</li>
 <li>dtd.done    dtd.fail   dtd.then</li>
 </ul>
 <p>这两类应该分开，否则后果很严重。为了避免返回的dtd在外部被调用<code>dtd.reject()</code>或<code>dtd.resolve()</code>, 故在<code>wait</code>函数中不应该返回dtd, 而应该返回dtd.promise()</p>

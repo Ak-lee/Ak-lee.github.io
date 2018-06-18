@@ -75,7 +75,7 @@
 <meta property="og:site_name" content="Ak-lee">
 <meta property="og:description" content="背景与边框半透明边框background-clip ，这个属性的默认值是 border-box ，意味着背景会被元素的 border box 裁切掉。如果不希望背景侵入边框所在的范围，我们要做的就是把它的值设为 padding-box , 这样浏览器就会用内边距的外沿来把背景裁切掉。 多重边框 box-shadow 方案 一个正值的扩张半径加上两个为零的偏移量以及为零的模糊值，得到的 “ 投影 ”">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-18T10:36:13.025Z">
+<meta property="og:updated_time" content="2018-06-18T14:05:33.549Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="css背景与边框.md">
 <meta name="twitter:description" content="背景与边框半透明边框background-clip ，这个属性的默认值是 border-box ，意味着背景会被元素的 border box 裁切掉。如果不希望背景侵入边框所在的范围，我们要做的就是把它的值设为 padding-box , 这样浏览器就会用内边距的外沿来把背景裁切掉。 多重边框 box-shadow 方案 一个正值的扩张半径加上两个为零的偏移量以及为零的模糊值，得到的 “ 投影 ”">
@@ -174,7 +174,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -184,7 +184,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            Über
+            About
           </a>
         </li>
       
@@ -204,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -268,7 +268,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-18T18:25:28+08:00">
                 2018-06-18
@@ -342,6 +342,29 @@
 <p>这样我们现在只需要修改一个地方就可以改变所有颜色了。我们还得到了一个额外的好处，对于那些不支持 CSS 渐变的浏览器来说，这里的背景色还起到了回退的作用。</p>
 <p><strong>复杂的背景图片</strong></p>
 <p>用 CSS 渐变来创建任何种类的几何图案几乎都是可能的，只不过有时这种方法不太实际。我们可能稍不留神就会弄出一大块无法维护的代码。 CSS 图案可以算得上是一个值得使用 CSS 预处理器来减少代码冗余的案例，因为最终图案越复杂，相应的代码也会变得越来越不 DRY</p>
+<p><strong>波点</strong></p>
+<p>径向渐变能够创建的最简单的图案就是圆点的阵列</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">background</span>: <span class="selector-id">#655</span>;</div><div class="line"><span class="selector-tag">background-image</span><span class="selector-pseudo">:radial-gradient(tan</span> 30%, <span class="selector-tag">transparent</span> 0),</div><div class="line">				<span class="selector-tag">radial-gradient</span>(<span class="selector-tag">tan</span> 30%, <span class="selector-tag">transparent</span> 0);</div><div class="line"><span class="selector-tag">background-size</span>: 30<span class="selector-tag">px</span> 30<span class="selector-tag">px</span>;</div><div class="line"><span class="selector-tag">background-position</span>: 0 0, 15<span class="selector-tag">px</span> 15<span class="selector-tag">px</span>;</div></pre></td></tr></table></figure>
+<p>请注意，为了达到效果，第二层背景的偏移定位值必须是贴片宽高的一半。不幸的是，这意味着如果要改动贴片的尺寸，需要修改四处。虽然可能还没到不可收拾的底部，但这样的代码就快要跌入不可维护的深渊。如果你正在使用预处理器，就赶紧把它转换成 <code>mixin</code> 吧！</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">mixin</span> polka(<span class="variable">$size</span>, <span class="variable">$dot</span>, <span class="variable">$base</span>, <span class="variable">$accent</span>)&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="variable">$base</span>;</div><div class="line">    <span class="attribute">background-image</span>:</div><div class="line">        radial-gradient(<span class="variable">$accent</span> <span class="variable">$dot</span>, transparent <span class="number">0</span>),</div><div class="line">        radial-gradient(<span class="variable">$accent</span> <span class="variable">$dot</span>, transparent <span class="number">0</span>);</div><div class="line">    <span class="attribute">background-size</span>: <span class="variable">$size</span> <span class="variable">$size</span>;</div><div class="line">    <span class="attribute">background-position</span>: <span class="number">0</span> <span class="number">0</span>, <span class="variable">$size</span>/<span class="number">2</span> <span class="variable">$size</span>/<span class="number">2</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以后在创建波点图案时，我们就可以像这样调用它：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">include</span> polka(<span class="number">30px</span>, 30%, <span class="number">#655</span>, tan)</div></pre></td></tr></table></figure>
+<p><strong>连续的图像边框</strong></p>
+<p>一般做连续的图像边框可以通过两个 html 元素嵌套，外层一个元素背景图放图片，内层元素背景图放纯色。</p>
+<p>这种方法确实能够满足要求，但需要一个额外的 HTML 元素。这显然不够理想：它不仅把结构和表现混合起来，而且在某些特定场景下，修改 HTML 是根本做不到的。问题来了：如果只用一个元素，我们能做到这个效果吗？</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">padding</span>: 1<span class="selector-tag">em</span>;</div><div class="line"><span class="selector-tag">border</span>: 1<span class="selector-tag">em</span> <span class="selector-tag">solid</span> <span class="selector-tag">transparent</span>;</div><div class="line"><span class="selector-tag">background</span>: <span class="selector-tag">linear-gradient</span>(<span class="selector-tag">white</span>, <span class="selector-tag">white</span>),</div><div class="line">		    <span class="selector-tag">url</span>(<span class="selector-tag">stone-art</span><span class="selector-class">.jpg</span>);</div><div class="line"><span class="selector-tag">background-size</span>: <span class="selector-tag">cover</span>;</div><div class="line"><span class="selector-tag">background-clip</span>: <span class="selector-tag">padding-box</span>, <span class="selector-tag">border-box</span>;</div><div class="line"><span class="selector-tag">background-origin</span>: <span class="selector-tag">border-box</span>;</div></pre></td></tr></table></figure>
+<p> <code>background-origin</code> 规定了指定背景图片<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-image" target="_blank" rel="external"><code>background-image</code></a> 属性的原点位置的背景相对区域.</p>
+<ul>
+<li><p><code>border-box</code></p>
+<p>背景图片的摆放以border区域为参考</p>
+</li>
+<li><p><code>padding-box</code> (默认值)</p>
+<p>背景图片的摆放以padding区域为参考</p>
+</li>
+<li><p><code>content-box</code></p>
+<p>背景图片的摆放以content区域为参考</p>
+</li>
+</ul>
 
       
     </div>
@@ -434,10 +457,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -461,7 +484,7 @@
               <a href="/archives/">
             
                 <span class="site-state-item-count">16</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -474,7 +497,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -538,7 +561,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 

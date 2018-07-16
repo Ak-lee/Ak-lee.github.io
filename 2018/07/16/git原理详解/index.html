@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="什么是分布式版本控制系统 VCS版本控制： 最基本的功能 版本控制系统（VCS）最基本的功能是版本控制。所谓版本控制，意思就是在文件的修改历程中保留修改历史，让你可以方便地撤销之前对文件的修改操作。  主动提交：程序代码和普通文本的区别VCS 和文本编辑器的撤销功能比起来，有一个很重要的区别是：程序代码的修改的生命周期非常长。一次代码的修改，在几天后、几个月后、几年后都有可能需要被翻出来。如果依然">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git原理详解">
+<meta property="og:url" content="http://yoursite.com/2018/07/16/git原理详解/index.html">
+<meta property="og:site_name" content="Ak-lee">
+<meta property="og:description" content="什么是分布式版本控制系统 VCS版本控制： 最基本的功能 版本控制系统（VCS）最基本的功能是版本控制。所谓版本控制，意思就是在文件的修改历程中保留修改历史，让你可以方便地撤销之前对文件的修改操作。  主动提交：程序代码和普通文本的区别VCS 和文本编辑器的撤销功能比起来，有一个很重要的区别是：程序代码的修改的生命周期非常长。一次代码的修改，在几天后、几个月后、几年后都有可能需要被翻出来。如果依然">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-16T09:05:18.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git原理详解">
+<meta name="twitter:description" content="什么是分布式版本控制系统 VCS版本控制： 最基本的功能 版本控制系统（VCS）最基本的功能是版本控制。所谓版本控制，意思就是在文件的修改历程中保留修改历史，让你可以方便地撤销之前对文件的修改操作。  主动提交：程序代码和普通文本的区别VCS 和文本编辑器的撤销功能比起来，有一个很重要的区别是：程序代码的修改的生命周期非常长。一次代码的修改，在几天后、几个月后、几年后都有可能需要被翻出来。如果依然">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/16/git原理详解/"/>
+
+
+
+
+
+  <title>git原理详解 | Ak-lee</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ak-lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端修炼中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            Über
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/16/git原理详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ak-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ak-lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">git原理详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-16T16:55:48+08:00">
+                2018-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是分布式版本控制系统-VCS"><a href="#什么是分布式版本控制系统-VCS" class="headerlink" title="什么是分布式版本控制系统 VCS"></a>什么是分布式版本控制系统 VCS</h1><h3 id="版本控制：-最基本的功能"><a href="#版本控制：-最基本的功能" class="headerlink" title="版本控制： 最基本的功能"></a>版本控制： 最基本的功能</h3><blockquote>
+<p>版本控制系统（VCS）最基本的功能是版本控制。所谓版本控制，意思就是在文件的修改历程中保留修改历史，让你可以方便地撤销之前对文件的修改操作。</p>
+</blockquote>
+<h3 id="主动提交：程序代码和普通文本的区别"><a href="#主动提交：程序代码和普通文本的区别" class="headerlink" title="主动提交：程序代码和普通文本的区别"></a>主动提交：程序代码和普通文本的区别</h3><p>VCS 和文本编辑器的撤销功能比起来，有一个很重要的区别是：程序代码的修改的生命周期非常长。一次代码的修改，在几天后、几个月后、几年后都有可能需要被翻出来。如果依然采用「每次改动自动保存」的形式来保留修改历史，将会导致改动历史非常频繁和无章可循，这样，历史代码的查找、阅读和回退就会很困难了。所以，和文本编辑器的撤销功能不同，VCS 保存修改历史，使用的是主动提交改动的机制。</p>
+<p>在你写了一段完整的代码（例如修复了一个 bug）之后，使用 commit 命令把改动和对改动的描述信息提交，这次改动就被记录到版本历史中了。之后如果你希望回退到这个版本，就可以从 VCS 的历史日志中方便地找到它。</p>
+<h3 id="多人合作的同步需求：中央仓库"><a href="#多人合作的同步需求：中央仓库" class="headerlink" title="多人合作的同步需求：中央仓库"></a>多人合作的同步需求：中央仓库</h3><p>代码可以一个人写，但更多的时候会是多个人共同开发。那么自然地，就需要有一个中央仓库作为代码的存储中心：所有人的改动都会上传到这里，所有人都能也都能看到和下载到别人上传的改动。</p>
+<p>这样，解决了同步的需求，多个人在不同的机器上开发同一个程序就成了可能。</p>
+<p>版本控制、主动提交、中央仓库这三个要素，共同构成了版本控制系统（VCS）的核心：开发团队中的每个人向中央仓库主动提交自己的改动和同步别人的改动，并在需要的时候查看和操作历史版本，这就是版本控制系统。</p>
+<h2 id="分布式版本控制系统"><a href="#分布式版本控制系统" class="headerlink" title="分布式版本控制系统"></a>分布式版本控制系统</h2><p>分布式 VCS （Distributed VCS / DVCS）和中央式的区别在于，分布式 VCS 除了中央仓库之外，还有本地仓库：团队中每一个成员的机器上都有一份本地仓库，这个仓库里包含了所有的版本历史，或者换句话说，每个人在自己的机器上就可以提交代码、查看历史，而无需联网和中央仓库交互——当然，取而代之的，你需要和本地仓库交互。</p>
+<p>中央式 VCS 的中央仓库有两个主要功能：保存版本历史、同步团队代码。而在分布式 VCS 中，保存版本历史的工作转交到了每个团队成员的本地仓库中，中央仓库就只剩下了同步团队代码这一个主要任务。它的中央仓库依然也保存了历史版本，但这份历史版本更多的是作为团队间的同步中转站。</p>
+<h3 id="工作模型"><a href="#工作模型" class="headerlink" title="工作模型"></a>工作模型</h3><p>依然以三人团队为例，分布式 VCS 的工作模型大致是这样：</p>
+<ol>
+<li>首先，你作为主工程师，独立搭建了项目架构，并把这些代码提交到了本地仓库；</li>
+<li>然后，你在服务器上创建了一个中央仓库，并把 1 中的提交从本地仓库推送到了服务器的中央仓库；</li>
+<li>其他同事把中央仓库的所有内容克隆到本地，拥有了各自的本地仓库，从此刻开始，你们三人开始并行开发；</li>
+<li>在之后的开发过程中，你们三人总是每人独立负责开发一个功能，在这个功能开发过程中，一个人会把它的每一步改动提交到本地仓库。注意：<strong>由于本地提交无需立即上传到中央仓库，所以每一步提交不必是一个完整功能，而可以是功能中的一个步骤或块</strong>。</li>
+<li><strong>在一个人把某个功能开发完成之后，他就可以把这个功能相关的所有提交从本地仓库推送到中央仓库</strong>；</li>
+<li>每次当有人把新的提交推送到中央仓库的时候，另外两个人就可以选择<strong>把这些提交同步到自己的机器上，并把它们和自己的本地代码合并</strong>。</li>
+</ol>
+<h3 id="分布式-VCS-的优点："><a href="#分布式-VCS-的优点：" class="headerlink" title="分布式 VCS 的优点："></a>分布式 VCS 的优点：</h3><ul>
+<li>大多数的操作可以在本地进行，所以速度更快，而且由于无需联网，所以即使不在公司甚至没有在联网，你也可以提交代码、查看历史，从而极大地减小了开发者的网络条件和物理位置的限制（例如，你可以在飞机上提交代码、切换分支等等）；</li>
+<li>由于可以提交到本地，所以你可以分步提交代码，把代码提交做得更细，而不是一个提交包含很多代码，难以 review 也难以回溯。</li>
+</ul>
+<p>不过也有一些例外，比如游戏开发。游戏的开发中有大量的大尺寸数据和媒体文件，并且这些文件的格式也不容易压缩尺寸，如果用分布式 VCS 会导致仓库的体积非常庞大。所以一些大型游戏的开发会选择中央式的 VCS 来管理代码。</p>
+<h1 id="上手-Git"><a href="#上手-Git" class="headerlink" title="上手 Git"></a>上手 Git</h1><p><code>git init</code> 之后会有一个 <code>.git</code> 目录。这个 .git 目录，就是你的本地仓库（Local Repository），你的所有版本信息都会存在这里。<strong>而 <code>.git</code> 所在的这个根目录，称为 Git 的工作目录（Working Directory），它保存了你当前从仓库中签出（checkout）的内容</strong>。</p>
+<p><code>git add</code> 用于添加对一个文件的跟踪。</p>
+<h2 id="多人合作的基本工作流程"><a href="#多人合作的基本工作流程" class="headerlink" title="多人合作的基本工作流程"></a>多人合作的基本工作流程</h2><ol>
+<li>同事 <code>commit</code> 代码到他的本地，并 <code>push</code> 到 GitHub 中央仓库</li>
+<li>你把 GitHub 的新提交通过 <code>pull</code> 指令来取到你的本地</li>
+</ol>
+<p>当 <code>git pull</code> 操作发现不仅远端仓库包含本地没有的 <code>commits</code>，而且本地仓库也包含远端没有的 <code>commits</code> 时，它就会把远端和本地的独有 <code>commits</code> 进行合并，自动生成一个新的 <code>commit</code> ，而上图的这个界面，就是这个自动生成的<code>commit</code> 的提交信息界面。另外，和手动的 <code>commit</code> 不同，这种 <code>commit</code> 会自动填入一个默认的提交信息，简单说明了这条 <code>commit</code> 的来由。你可以直接退出界面来使用这个自动填写的提交信息，也可以修改它来填入自己提交信息。</p>
+<blockquote>
+<p>这种「 把不同的内容进行合并，生成新的提交 」的操作，叫做合并，它所对应的 Git 指令是 merge。事实上，git pull 这个指令的内部实现就是把远程仓库使用 git fetch 取下来以后再进行 merge 操作的。</p>
+</blockquote>
+<p>在退出提交信息的界面后，这次 <code>pull</code> 就完成了：远端仓库被取到了本地，并和本地仓库进行了合并。在这个时候，就可以再 <code>push</code> 一次了。由于现在本地仓库已经包含了所有远端仓库的 commits，所以这次 <code>push</code> 不会再失败。</p>
+<h1 id="HEAD、master-与-branch"><a href="#HEAD、master-与-branch" class="headerlink" title="HEAD、master 与 branch"></a>HEAD、master 与 branch</h1><p><code>commit</code> 后面括号里的 <code>HEAD -&gt; master, origin/master, origin/HEAD</code> ，是几个指向这个 <code>commit</code> 的引用。</p>
+<p>在 Git 的使用中，经常会需要对指定的 <code>commit</code> 进行操作。每一个 <code>commit</code> 都有一个它唯一的指定方式——它的 SHA-1 校验和。两个 SHA-1 值的重复概率极低，所以你可以使用这个 SHA-1 值来指代 <code>commit</code>，也可以只使用它的前几位来指代它。但毕竟这种没有任何含义的字符串是很难记忆的，所以 Git 提供了「引用」的机制：使用固定的字符串作为引用，指向某个 <code>commit</code>，作为操作 <code>commit</code> 时的快捷方式。</p>
+<h2 id="HEAD-指向当前-commit-的引用"><a href="#HEAD-指向当前-commit-的引用" class="headerlink" title="HEAD 指向当前 commit 的引用"></a>HEAD 指向当前 commit 的引用</h2><p><code>HEAD</code> 指向当前 commit 的引用。所谓<strong>当前 <code>commit</code></strong>这个概念很简单，它指的就是当前工作目录所对应的 <code>commit</code>。</p>
+<p>每次当有新的 commit 的时候，工作目录自动与最新的 commit 对应；而与此同时，HEAD 也会转而指向最新的 commit。事实上，当使用 checkout、reset 等指令手动指定改变当前 commit 的时候，HEAD 也会一起跟过去。</p>
+<p>总之，当前 <code>commit</code> 在哪里，<code>HEAD</code> 就在哪里，这是一个永远自动指向当前 <code>commit</code> 的引用，所以你永远可以用 <code>HEAD</code> 来操作当前 <code>commit</code>。</p>
+<h2 id="branch"><a href="#branch" class="headerlink" title="branch"></a>branch</h2><p><code>HEAD</code> 是 Git 中一个独特的引用，它是唯一的。而除了<code>HEAD</code> 之外，Git 还有一种引用，叫做 <code>branch</code>（分支）。<code>HEAD</code>除了可以指向<code>commit</code>，还可以指向一个 <code>branch</code>，当它指向某个 <code>branch</code> 的时候，会通过这个 <code>branch</code> 来间接地指向某个 <code>commit</code>；另外，当 <code>HEAD</code> 在提交时自动向前移动的时候，它会像一个拖钩一样带着它所指向的 <code>branch</code> 一起移动。</p>
+<p>例如，<code>HEAD -&gt; master</code> 中的 <code>master</code> 就是一个 <code>branch</code> 的名字，而它左边的箭头 <code>-&gt;</code>表示 <code>HEAD</code> 正指向它（当然，也会间接地指向它所指向的 <code>commit</code>）。</p>
+<h2 id="master-默认分支"><a href="#master-默认分支" class="headerlink" title="master 默认分支"></a>master 默认分支</h2><p>这个 <code>master</code> ，其实是一个特殊的 <code>branch</code>：它是 Git 的默认 <code>branch</code>（俗称主 <code>branch</code> / 主分支）。</p>
+<p>所谓的「默认 branch」，主要有两个特点：</p>
+<ol>
+<li>新创建的 repository（仓库）是没有任何 <code>commit</code> 的。但在它创建第一个 <code>commit</code> 时，会把 <code>master</code> 指向它，并把 <code>HEAD</code> 指向 <code>master</code>。</li>
+<li>当有人使用 git clone 时，除了从远程仓库把 .git 这个仓库目录下载到工作目录中，还会 <code>checkout</code>（签出） master（<code>checkout</code> 的意思就是把某个 commit 作为当前 commit，把 HEAD 移动过去，并把工作目录的文件内容替换成这个 commit 所对应的内容）。</li>
+</ol>
+<h2 id="branch-的通俗化理解"><a href="#branch-的通俗化理解" class="headerlink" title="branch 的通俗化理解"></a>branch 的通俗化理解</h2><p>尽管在 Git 中，<code>branch</code> 只是一个指向 <code>commit</code> 的引用，但它有一个更通俗的理解：你还可以把一个 <code>branch</code> 理解为从初始 <code>commit</code> 到 <code>branch</code> 所指向的 <code>commit</code> 之间的所有 <code>commit</code>s 的一个「串」。</p>
+<ol>
+<li>所有的 <code>branch</code> 之间都是平等的。</li>
+<li><code>branch</code> 包含了从初始 <code>commit</code> 到它的所有路径，而不是一条路径。并且，这些路径之间也是彼此平等的。</li>
+</ol>
+<h2 id="branch-的创建、切换和删除"><a href="#branch-的创建、切换和删除" class="headerlink" title="branch 的创建、切换和删除"></a>branch 的创建、切换和删除</h2><h3 id="创建-branch"><a href="#创建-branch" class="headerlink" title="创建 branch"></a>创建 branch</h3><p>如果你想在某处创建 <code>branch</code> ，只需要输入一行 <code>git branch 名称</code>。</p>
+<h3 id="切换-branch"><a href="#切换-branch" class="headerlink" title="切换 branch"></a>切换 branch</h3><p>不过新建的 <code>branch</code> 并不会自动切换，你的 <code>HEAD</code> 在这时依然是指向 <code>master</code> 的。你需要用 <code>checkout</code>来主动切换到你的新 <code>branch</code> 去。</p>
+<p>除此之外，你还可以用 <code>git checkout -b 名称</code> 来把上面两步操作合并执行。这行代码可以帮你用指定的名称创建 <code>branch</code> 后，再直接切换过去。</p>
+<h3 id="删除-branch"><a href="#删除-branch" class="headerlink" title="删除 branch"></a>删除 branch</h3><p>删除 <code>branch</code> 的方法非常简单：<code>git branch -d 名称</code></p>
+<p>需要说明的有两点：</p>
+<ol>
+<li>HEAD 指向的 branch 不能删除。如果要删除 HEAD 指向的 branch，需要先用 checkout 把 HEAD 指向其他地方。</li>
+<li>由于 Git 中的 branch 只是一个引用，所以删除 branch 的操作也只会删掉这个引用，并不会删除任何的 commit。（不过如果一个 commit 不在任何一个 branch 的「路径」上，或者换句话说，如果没有任何一个 branch 可以回溯到这条 commit（也许可以称为野生 commit？），那么在一定时间后，它会被 Git 的回收机制删除掉。）</li>
+</ol>
+<p>出于安全考虑，没有被合并到 master 过的 branch 在删除时会失败（因为怕你误删掉「未完成」的 branch 啊）。这种情况如果你确认是要删除这个 <code>branch</code> （例如某个未完成的功能被团队确认永久毙掉了，不再做了），可以把 <code>-d</code> 改成 <code>-D</code>，小写换成大写，就能删除了。</p>
+<h2 id="「引用」的本质"><a href="#「引用」的本质" class="headerlink" title="「引用」的本质"></a>「引用」的本质</h2><p>所谓「引用」（reference），其实就是一个个的字符串。这个字符串可以是一个 commit 的 SHA-1 码（例：c08de9a4d8771144cd23986f9f76c4ed729e69b0），也可以是一个 branch（例：ref: refs/heads/feature3）。</p>
+<p>Git 中的 HEAD 和每一个 branch 以及其他的引用，都是以文本文件的形式存储在本地仓库 .git 目录中，而 Git 在工作的时候，就是通过这些文本文件的内容来判断这些所谓的「引用」是指向谁的。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这一节介绍了 Git 中的一些「引用」：HEAD、master、branch。这里总结一下：</p>
+<ol>
+<li><code>HEAD</code> 是指向当前 commit 的引用，它具有唯一性，每个仓库中只有一个 <code>HEAD</code>。在每次提交时它都会自动向前移动到最新的 commit 。</li>
+<li><code>branch</code> 是一类引用。<code>HEAD</code> 除了直接指向 commit，也可以通过指向某个 <code>branch</code> 来间接指向 commit。当 <code>HEAD</code>指向一个 <code>branch</code> 时，commit 发生时，<code>HEAD</code> 会带着它所指向的<code>branch</code> 一起移动。</li>
+<li><code>master</code> 是 Git 中的默认 branch，它和其它 branch 的区别在于：<ol>
+<li>新建的仓库中的第一个 commit 会被 <code>master</code> 自动指向；</li>
+<li>在 <code>git clone</code> 时，会自动 <code>checkout</code> 出 <code>master</code>。</li>
+</ol>
+</li>
+<li>branch 的创建、切换和删除：<ol>
+<li>创建 branch 的方式是 git branch 名称 或 git checkout -b 名称（创建后自动切换）；</li>
+<li>切换的方式是 git checkout 名称；</li>
+<li>删除的方式是 git branch -d 名称。</li>
+</ol>
+</li>
+</ol>
+<h1 id="push-的本质"><a href="#push-的本质" class="headerlink" title="push 的本质"></a>push 的本质</h1><p>实质上，<code>push</code> 做的事是：把当前 <code>branch</code> 的位置（即它指向哪个 <code>commit</code>）上传到远端仓库，并把它的路径上的 <code>commit</code>s 一并上传。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout feature1</div><div class="line">git push origin feature1</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的 git push 和之前有点不同：多了 origin feature1 这两个参数。其中 origin 是远程仓库的别名，是你在 git clone 的时候 Git 自动帮你起的；feature1 是远程仓库中目标 branch 的名字。这两个参数合起来指定了你要 push 到的目标仓库和目标分支，意思是「我要 push 到 origin 这个仓库的 feature1 分支」。</p>
+<p>在 Git 中（2.0 及它之后的版本），默认情况下，你用不加参数的 git push 只能上传那些之前从远端 clone 下来或者 pull 下来的分支，而如果需要 push 你本地的自己创建的分支，则需要手动指定目标仓库和目标分支（并且目标分支的名称必须和本地分支完全相同），就像上面这样。</p>
+<p>你可以通过 git config 指令来设置 push.default 的值来改变 push 的行为逻辑，例如可以设置为「所有分支都可以用 git push 来直接 push，目标自动指向 origin 仓库的同名分支」（对应的 push.default 值：current），或者别的什么行为逻辑，你甚至可以设置为每次执行 git push 时就自动把所有本地分支全部同步到远程仓库（虽然这可能有点耗时和危险）。如果希望详细了解，你可以到<a href="https://git-scm.com/docs/git-config#git-config-pushdefault" target="_blank" rel="external">这里</a>看看。</p>
+</blockquote>
+<p>细心的人可能会发现，在 feature1 被 push 时，远程仓库的 HEAD 并没有和本地仓库的 HEAD 一样指向 feature1。这是因为，push 的时候只会上传当前的 branch 的指向，并不会把本地的 HEAD 的指向也一起上传到远程仓库。事实上，远程仓库的 HEAD 是永远指向它的默认分支（即 master，如果不修改它的名称的话），并会随着默认分支的移动而移动的。</p>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><p>这一节介绍了 push 这个指令的本质。总结一下关键点：</p>
+<ol>
+<li>push 是把当前的分支上传到远程仓库，并把这个 branch 的路径上的所有 commits 也一并上传。</li>
+<li>push 的时候，如果当前分支是一个本地创建的分支，需要指定远程仓库名和分支名，用 git push origin branch_name 的格式，而不能只用 git push；或者可以通过 git config 修改 push.default 来改变 push 时的行为逻辑。</li>
+<li>push 的时候之后上传当前分支，并不会上传 HEAD；远程仓库的 HEAD 是永远指向默认分支（即 master）的。</li>
+</ol>
+<h1 id="merge-合并-commit"><a href="#merge-合并-commit" class="headerlink" title="merge 合并 commit"></a>merge 合并 commit</h1><p>前面说到，<code>pull</code> 的内部操作其实是把远程仓库取到本地后（使用的是 <code>fetch</code>），再用一次 <code>merge</code> 来把远端仓库的新 <code>commits</code> 合并到本地。这一节就说一下，<code>merge</code> 到底是什么。</p>
+<p><code>merge</code> 的意思是「合并」，它做的事也是合并：指定一个 commit，把它合并到当前的 commit 来。具体来讲，merge 做的事是：</p>
+<p><strong>从目标 commit 和当前 commit （即 HEAD 所指向的 commit）分叉的位置起，把目标 commit 的路径上的所有 commit 的内容一并应用到当前 commit，然后自动生成一个新的 commit。</strong></p>
+<h2 id="特殊情况1：冲突"><a href="#特殊情况1：冲突" class="headerlink" title="特殊情况1：冲突"></a>特殊情况1：冲突</h2><p><code>merge</code> 在做合并的时候，是有一定的自动合并能力的：如果一个分支改了 A 文件，另一个分支改了 B 文件，那么合并后就是既改 A 也改 B，这个动作会自动完成；如果两个分支都改了同一个文件，但一个改的是第 1 行，另一个改的是第 2 行，那么合并后就是第 1 行和第 2 行都改，也是自动完成。</p>
+<p>但，如果两个分支修改了同一部分内容，<code>merge</code> 的自动算法就搞不定了。这种情况 Git 称之为：冲突（Conflict）。</p>
+<p>直白点说就是，你的两个分支改了相同的内容，Git 不知道应该以哪个为准。如果在 <code>merge</code> 的时候发生了这种情况，Git 就会把问题交给你来决定。具体地，它会告诉你 <code>merge</code> 失败，以及失败的原因</p>
+<ol>
+<li>解决冲突</li>
+</ol>
+<p>Git 虽然没有帮你完成自动 merge，但它对文件还是做了一些工作：它把两个分支冲突的内容放在了一起，并用符号标记出了它们的边界以及它们的出处。上面图中表示，HEAD 中的内容是 移动硬盘（已买），而 feature1 中的内容则是 移动硬盘（不买了）。这两个改动 Git 不知道应该怎样合并，于是把它们放在一起，由你来决定。假设你决定保留 HEAD 的修改，那么只要删除掉 feature1 的修改，再把 Git 添加的那三行 &lt;&lt;&lt; === &gt;&gt;&gt; 辅助文字也删掉，保存文件退出，所谓的「解决掉冲突」就完成了。</p>
+<ol>
+<li><p>手动提交</p>
+<p>解决完冲突以后，就可以进行第二步—— <code>commit</code> 了。</p>
+</li>
+</ol>
+<p><strong>放弃解决冲突，取消 merge？</strong><br>同理，由于现在 Git 仓库处于冲突待解决的中间状态，所以如果你最终决定放弃这次 merge，也需要执行一次 merge –abort 来手动取消它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git merge --abort</div></pre></td></tr></table></figure>
+<p>输入这行代码，你的 Git 仓库就会回到 merge 前的状态。( abort[əˈbɔ:rt] 流产 )</p>
+<h2 id="特殊情况2-：HEAD-领先目标-commit"><a href="#特殊情况2-：HEAD-领先目标-commit" class="headerlink" title="特殊情况2 ：HEAD 领先目标 commit"></a>特殊情况2 ：HEAD 领先目标 commit</h2><p>如果 <code>merge</code> 时的目标 <code>commit</code> 和 <code>HEAD</code> 处的 <code>commit</code> 并不存在分叉，而是 <code>HEAD</code> 领先于目标 <code>commit</code></p>
+<p>那么 <code>merge</code> 就没必要再创建一个新的 <code>commit</code> 来进行合并操作，因为并没有什么需要合并的。在这种情况下， Git 什么也不会做，<code>merge</code> 是一个空操作。</p>
+<h2 id="特殊情况3-：HEAD-落后于-目标-commit——last-forward"><a href="#特殊情况3-：HEAD-落后于-目标-commit——last-forward" class="headerlink" title="特殊情况3 ：HEAD 落后于 目标 commit——last-forward"></a>特殊情况3 ：HEAD 落后于 目标 commit——last-forward</h2><p>而另一种情况：如果 <code>HEAD</code> 和目标 <code>commit</code> 依然是不存在分叉，但 <code>HEAD</code> 不是领先于目标 <code>commit</code>，而是落后于目标 <code>commit</code></p>
+<p>那么 Git 会直接把 <code>HEAD</code>（以及它所指向的 <code>branch</code>，如果有的话）移动到目标 <code>commit</code></p>
+<p>这种操作有一个专有称谓，叫做 “fast-forward”（快速前移）。</p>
+<h2 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h2><p>本节对 merge 进行了介绍，内容大概有这么几点：</p>
+<ol>
+<li>merge 的含义：从两个 commit「分叉」的位置起，把目标 commit 的内容应用到当前 commit（HEAD 所指向的 commit），并生成一个新的 commit；</li>
+<li>merge 的适用场景：<ol>
+<li>单独开发的 branch 用完了以后，合并回原先的 branch；</li>
+<li>git pull 的内部自动操作。</li>
+</ol>
+</li>
+<li>merge 的三种特殊情况：<ol>
+<li>冲突<ol>
+<li>原因：当前分支和目标分支修改了同一部分内容，Git 无法确定应该怎样合并；</li>
+<li>应对方法：解决冲突后手动 commit。</li>
+</ol>
+</li>
+<li>HEAD 领先于目标 commit：Git 什么也不做，空操作；</li>
+<li>HEAD 落后于目标 commit：fast-forward。</li>
+</ol>
+</li>
+</ol>
+<h1 id="Feature-Branching：最流行的工作流"><a href="#Feature-Branching：最流行的工作流" class="headerlink" title="Feature Branching：最流行的工作流"></a>Feature Branching：最流行的工作流</h1><p>这种工作流的核心内容可以总结为两点：</p>
+<ol>
+<li>任何新的功能（feature）或 bug 修复全都新建一个 <code>branch</code> 来写；</li>
+<li><code>branch</code> 写完后，合并到 <code>master</code>，然后删掉这个 <code>branch</code>。</li>
+</ol>
+<p><code>Pull Request</code> 并不是 Git 的内容，而是一些 Git 仓库服务提供方（例如 GitHub）所提供的一种便捷功能，它可以让团队的成员方便地讨论一个 <code>branch</code> ，并在讨论结束后一键合并这个 <code>branch</code> 到 <code>master</code>。</p>
+<p>这一节介绍了 Feature Branching 这种工作流。它的概念很简单：</p>
+<ol>
+<li>每个新功能都新建一个 branch 来写；</li>
+<li>写完以后，把代码分享给同事看；写的过程中，也可以分享给同事讨论。另外，借助 GitHub 等服务提供方的 Pull Request 功能，可以让代码分享变得更加方便；</li>
+<li>分支确定可以合并后，把分支合并到 master ，并删除分支。</li>
+</ol>
+<p>这种工作流由于功能强大，而且概念和使用方式都很简单，所以很受欢迎。再加上 GitHub 等平台提供了 Pull Request 的支持，目前这种工作流是商业项目开发中最为流行的工作流。</p>
+<h1 id="关于-add"><a href="#关于-add" class="headerlink" title="关于 add"></a>关于 add</h1><p> <strong>add 后面加个点 “.”：全部暂存</strong></p>
+<p><strong>add 添加的是文件改动，而不是文件名。</strong></p>
+<p>通过 <code>add</code> 添加进暂存区的不是文件名，而是具体的文件改动内容。你在 <code>add</code> 时的改动都被添加进了暂存区，但在 <code>add</code> 之后的新改动并不会自动被添加进暂存区。这是如果你提交： <code>git commit</code> ,那么你的新改动是不会被提交的。</p>
+<p>这种逻辑也许会让新学 Git 的人有点困惑和感到麻烦，但当你使用 Git 一段时间后，你会发现这种设计很巧妙，而且不但不麻烦，还很方便。具体的原因我就不长篇大论地说了，你以后慢慢体会吧。</p>
+<h1 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h1><p><code>git log</code> 可以查看历史记录。事实上，如果你希望看到更多细节，比如你想看看每条 <code>commit</code> 具体都有那些改动，也是可以的。</p>
+<p><code>git log -p</code> 查看详细历史。</p>
+<p><code>-p</code> 是 <code>--patch</code> 的缩写，通过 <code>-p</code> 参数，你可以看到具体每个 <code>commit</code> 的改动细节。<code>log -p</code> 可以看到每一个 <code>commit</code> 的每一行改动，所以很适合用于代码 review。</p>
+<p><code>git log --stat</code>  查看简要统计。</p>
+<p>如果你想看某个具体的 <code>commit</code> 的改动内容，可以用 <code>git show</code>。查看当前 commit，直接输入<code>git show</code>, 看任意一个 commit：在 <code>show</code> 后面加上这个 <code>commit</code> 的引用（branch 或 HEAD 标记）或它的 <code>SHA-1</code> 码。</p>
+<p>看指定的 <code>commit</code> 中的指定文件：在 <code>commit</code> 的引用或 <code>SHA-1</code> 后输入文件名。</p>
+<p>如果你想看未提交的内容，可以用 <code>diff</code>。</p>
+<p><strong>对比暂存区和上一条提交</strong></p>
+<p>使用 <code>git diff --staged</code> 可以显示暂存区和上一条提交之间的不同。换句话说，这条指令可以让你看到「 如果你立即输入 <code>git commit</code>，你将会提交什么 」</p>
+<p><strong>对比工作目录和暂存区</strong></p>
+<p>使用 <code>git diff</code> （不加选项参数）可以显示工作目录和暂存区之间的不同。换句话说，这条指令可以让你看到「如果你现在把所有文件都 <code>add</code>，你会向暂存区中增加哪些内容」</p>
+<p><strong>对比工作目录和上一条提交</strong></p>
+<p>使用 <code>git diff HEAD</code>可以显示工作目录和上一条提交之间的不同，它是上面这二者的内容相加。换句话说，这条指令可以让你看到「如果你现在把所有文件都 <code>add</code> 然后 <code>git commit</code>，你将会提交什么」（不过需要注意，没有被 Git 记录在案的文件（即从来没有被 <code>add</code> 过 的文件，<code>untracked files</code> 并不会显示出来。为什么？因为对 Git 来说它并不存在啊）。</p>
+<p>实质上，如果你把 <code>HEAD</code> 换成别的 <code>commit</code>，也可以显示当前工作目录和这条 <code>commit</code> 的区别。</p>
+<p>这一节介绍了一些查看改动内容的方法，大致有这么几类：</p>
+<ol>
+<li>查看历史中的多个 commit：log<ol>
+<li>查看详细改动： git log -p</li>
+<li>查看大致改动：git log –stat</li>
+</ol>
+</li>
+<li>查看具体某个 commit：show<ol>
+<li>要看最新 commit ，直接输入 git show ；要看指定 commit ，输入 git show commit的引用或SHA-1</li>
+<li>如果还要指定文件，在 git show 的最后加上文件名</li>
+</ol>
+</li>
+<li>查看未提交的内容：diff<ol>
+<li>查看暂存区和上一条 commit 的区别：git diff –staged（或 –cached）</li>
+<li>查看工作目录和暂存区的区别：git diff 不加选项参数</li>
+<li>查看工作目录和上一条 commit 的区别：git diff HEAD</li>
+</ol>
+</li>
+</ol>
+<h1 id="不喜欢-merge-的分叉-用rebase-吧"><a href="#不喜欢-merge-的分叉-用rebase-吧" class="headerlink" title="不喜欢 merge 的分叉 , 用rebase 吧"></a>不喜欢 merge 的分叉 , 用rebase 吧</h1><p>有些人不喜欢 <code>merge</code>，因为在 <code>merge</code> 之后，<code>commit</code> 历史就会出现分叉，这种分叉再汇合的结构会让有些人觉得混乱而难以管理。如果你不希望 <code>commit</code> 历史出现分叉，可以用 <code>rebase</code> 来代替 <code>merge</code>。</p>
+<p><code>rebase</code> 即变基。意思是，给你的 <code>commit</code> 序列重新设置基础点（也就是父 <code>commit</code>）。展开来说就是，把你指定的 <code>commit</code> 以及它所在的 <code>commit</code> 串，以指定的目标 <code>commit</code> 为基础，依次重新提交一次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout branch1</div><div class="line">git rebase master</div></pre></td></tr></table></figure>
+<p><strong>另外，在 <code>rebase</code> 之后，记得切回 <code>master</code> 再 <code>merge</code> 一下，把 <code>master</code> 移到最新的 <code>commit</code></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git merge branch1</div></pre></td></tr></table></figure>
+<p>本节介绍的是 <code>rebase</code> 指令，它可以改变 <code>commit</code> 序列的基础点。它的使用方式很简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase 目标基础点</div></pre></td></tr></table></figure>
+<h1 id="刚刚提交的代码，发现写错了怎么办"><a href="#刚刚提交的代码，发现写错了怎么办" class="headerlink" title="刚刚提交的代码，发现写错了怎么办"></a>刚刚提交的代码，发现写错了怎么办</h1><p><code>commit --amend</code></p>
+<p><code>amend</code> 意思是 修正。在提交时，如果加上<code>--amend</code> 参数，Git 不会在当前 commit 上增加 commit，而是会把当前 commit 里的内容和暂存区（stageing area）里的内容合并起来后创建一个新的 commit，用这个新的 commit 把当前 commit 替换掉。所以<code>commit --amend</code>做的事就是它的字面意思：对最新一条 commit 进行修正。</p>
+<h1 id="写错的不是最新提交，而是倒数第二条提交"><a href="#写错的不是最新提交，而是倒数第二条提交" class="headerlink" title="写错的不是最新提交，而是倒数第二条提交"></a>写错的不是最新提交，而是倒数第二条提交</h1><p><code>commit --amend</code> 可以修复最新 <code>commit</code> 的错误，但如果是倒数第二个 <code>commit</code> 写错了，怎么办？</p>
+<h3 id="rebase-i-交互式-rebase"><a href="#rebase-i-交互式-rebase" class="headerlink" title="rebase -i : 交互式 rebase"></a>rebase -i : 交互式 rebase</h3><p>如果不是最新的 <code>commit</code> 写错，就不能用 <code>commit --amend</code> 来修复了，而是要用 <code>rebase</code>。不过需要给 <code>rebase</code> 也加一个参数：<code>-i</code>。</p>
+<p><code>rebase -i</code> 是 <code>rebase -interactive</code> 的缩写形式。意为 “交互式 rebase”</p>
+<p>所谓「交互式 rebase」，就是在 <code>rebase</code> 的操作执行之前，你可以指定要 <code>rebase</code> 的 <code>commit</code> 链中的每一个 <code>commit</code> 是否需要进一步修改。</p>
+<h3 id="开启交互式-rebase-过程"><a href="#开启交互式-rebase-过程" class="headerlink" title="开启交互式 rebase 过程"></a>开启交互式 rebase 过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase -i HEAD^^</div></pre></td></tr></table></figure>
+<blockquote>
+<p>说明：在 Git 中，有两个「偏移符号」： ^ 和 ~。</p>
+<p>^ 的用法：在 commit 的后面加一个或多个 ^ 号，可以把 commit 往回偏移，偏移的数量是 ^ 的数量。例如：master^ 表示 master 指向的 commit 之前的那个 commit； HEAD^^ 表示 HEAD 所指向的 commit 往前数两个 commit。</p>
+<p>~ 的用法：在 commit 的后面加上 ~ 号和一个数，可以把 commit 往回偏移，偏移的数量是 ~ 号后面的数。例如：HEAD~5 表示 HEAD 指向的 commit往前数 5 个 commit。</p>
+</blockquote>
+<h3 id="编辑界面：-选择-commit-和对应的操作"><a href="#编辑界面：-选择-commit-和对应的操作" class="headerlink" title="编辑界面： 选择 commit 和对应的操作"></a>编辑界面： 选择 commit 和对应的操作</h3><p>这个编辑界面的最顶部，列出了将要「被 rebase」的所有 <code>commit</code>s，</p>
+<p>所以你需要把它的操作指令从 <code>pick</code> 改成 <code>edit</code></p>
+<h3 id="修改写错的-commit"><a href="#修改写错的-commit" class="headerlink" title="修改写错的 commit"></a>修改写错的 commit</h3><p>修改完成之后，和上节里的方法一样，用 <code>commit --amend</code> 来把修正应用到当前最新的 <code>commit</code></p>
+<h3 id="继续-rebase-过程"><a href="#继续-rebase-过程" class="headerlink" title="继续 rebase 过程"></a>继续 rebase 过程</h3><p>在修复完成之后，就可以用 <code>rebase --continue</code> 来继续 <code>rebase</code> 过程，把后面的 <code>commit</code> 直接应用上去。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase --continue</div></pre></td></tr></table></figure>
+<p>然后，这次交互式 <code>rebase</code> 的过程就完美结束了</p>
+<h3 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h3><p>这节介绍了交互式 rebase，它可以在 rebase 开始之前指定一些额外操作。交互式 rebase 最常用的场景是修改写错的 commit，但也可以用作其他用途。它的大致用法：</p>
+<ol>
+<li>使用方式是 <code>git rebase -i 目标commit</code>；</li>
+<li>在编辑界面中指定需要操作的 <code>commit</code>s 以及<code>操作类型</code>；</li>
+<li>操作完成之后用<code>git rebase --continue</code>来继续 <code>rebase</code> 过程。</li>
+</ol>
+<h1 id="直接丢弃刚才的提交"><a href="#直接丢弃刚才的提交" class="headerlink" title="直接丢弃刚才的提交"></a>直接丢弃刚才的提交</h1><p><code>reset --hard</code> 丢弃最新的提交。如： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard HEAD^</div></pre></td></tr></table></figure>
+<p>你被撤销的那条提交并没有消失，只是你不再用到它了。如果你在撤销它之前记下了它的 <code>SHA-1</code> 码，那么你还可以通过 <code>SHA-1</code> 来找到他它。</p>
+<h1 id="想丢弃的不是刚刚的提交"><a href="#想丢弃的不是刚刚的提交" class="headerlink" title="想丢弃的不是刚刚的提交"></a>想丢弃的不是刚刚的提交</h1><p><strong>用交互式 rebase 撤销提交</strong></p>
+<p>例如删除倒数第二次提交:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase -i HEAD^^</div></pre></td></tr></table></figure>
+<p>直接用 dd 删除第二次提交（commit）的message</p>
+<p><strong>用 rebase –onto 撤销提交</strong></p>
+<p>除了用交互式 <code>rebase</code> ，你还可以用 <code>rebase --onto</code> 来更简便地撤销提交。</p>
+<p><code>rebase</code> 加上<code>--onto</code> 选项之后，可以指定 <code>rebase</code> 的「起点」。一般的<code>rebase</code>，告诉 Git 的是「我要把当前 <code>commit</code> 以及它之前的 <code>commit</code>s 重新提交到目标 <code>commit</code> 上去，这其中，<code>rebase</code> 的「起点」是自动判定的：选取当前 <code>commit</code> 和目标 <code>commit</code> 在历史上的交叉点作为起点。</p>
+<p>而 <code>--onto</code> 参数，就可以额外给 rebase 指定它的起点。</p>
+<p><code>--onto</code> 参数后面有三个附加参数：目标 <code>commit</code>、起点 <code>commit</code>（注意：rebase 的时候会把起点排除在外）、终点 <code>commit</code>。</p>
+<h3 id="小结-4"><a href="#小结-4" class="headerlink" title="小结"></a>小结</h3><p>这节的内容是「撤销过往的提交」。方法有两种：</p>
+<ol>
+<li>用 git rebase -i 在编辑界面中删除想撤销的 commits</li>
+<li>用 git rebase –onto 在 rebase 命令中直接剔除想撤销的 commits</li>
+</ol>
+<p>方法有两种，理念是一样的：在 rebase 的过程中去掉想撤销的 commit，让他它消失在历史中</p>
+<h1 id="代码已经-push-上去才发现错误"><a href="#代码已经-push-上去才发现错误" class="headerlink" title="代码已经 push 上去才发现错误"></a>代码已经 push 上去才发现错误</h1><h2 id="1-出错的内容在你自己的-branch"><a href="#1-出错的内容在你自己的-branch" class="headerlink" title="1. 出错的内容在你自己的 branch"></a>1. 出错的内容在你自己的 branch</h2><p>假如是某个你自己独立开发的 <code>branch</code> 出错了，不会影响到其他人，那没关系用前面几节讲的方法把写错的 <code>commit</code> 修改或者删除掉，然后再 <code>push</code> 上去就好了。</p>
+<p>不过，由于你在本地对已有的 commit 做了修改，这时你再 push 就会失败，因为中央仓库包含本地没有的 commits。但这个和前面讲过的情况不同，这次的冲突不是因为同事 push 了新的提交，而是因为你刻意修改了一些内容，这个冲突是你预料到的，你本来就希望用本地的内容覆盖掉中央仓库的内容。那么这时就不要乖乖听话，按照提示去先 pull 一下再 push 了，而是要选择「强行」push</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin branch1 -f</div></pre></td></tr></table></figure>
+<p><code>-f</code> 是 <code>--force</code> 的缩写，意为「忽略冲突，强制 <code>push</code>」</p>
+<p>这样，在本地修改了错误的 <code>commit</code>s，然后强制 <code>push</code> 上去，问题就解决了。</p>
+<h2 id="2-出错的内容已经合并到-master"><a href="#2-出错的内容已经合并到-master" class="headerlink" title="2. 出错的内容已经合并到 master"></a>2. 出错的内容已经合并到 master</h2><p>这就不能用上面那招了。同事的工作都在 <code>master</code> 上，你永远不知道你的一次<code>强制 push</code> 会不会洗掉同事刚发上去的新提交。所以除非你是人员数量和行为都完全可控的超小团队，可以和同事做到无死角的完美沟通，不然一定别在 <code>master</code> 上<code>强制 push</code>。</p>
+<p>在这种时候，你只能退一步，选用另一种策略：<strong>增加一个新的提交，把之前提交的内容抹掉</strong>。例如之前你增加了一行代码，你希望撤销它，那么你就做一个删掉这行代码的提交；如果你删掉了一行代码，你希望撤销它，那么你就做一个把这行代码还原回来的提交。这种事做起来也不算麻烦，因为 Git 有一个对应的指令：revert。</p>
+<p>它的用法很简单，你希望撤销哪个 commit，就把它填在后面：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git revert HEAD^</div></pre></td></tr></table></figure>
+<p>上面这行代码就会增加一条新的 commit，它的内容和倒数第二个 commit 是相反的，从而和倒数第二个 commit 相互抵消，达到撤销的效果。</p>
+<p>在 <code>revert</code> 完成之后，把新的 commit 再 push 上去，这个 commit 的内容就被撤销了。它和前面所介绍的撤销方式相比，最主要的区别是，这次改动只是被「反转」了，并没有在历史中消失掉，你的历史中会存在两条 commit ：一个原始 commit ，一个对它的反转 commit。</p>
+<h2 id="小结-5"><a href="#小结-5" class="headerlink" title="小结"></a>小结</h2><p>这节的内容是讲当错误的 commit 已经被 push 上去时的解决方案。具体的方案有两类：</p>
+<ol>
+<li>如果出错内容在私有 branch：在本地把内容修正后，强制 push (push -f）一次就可以解决；</li>
+<li>如果出错内容在 master：不要强制 push，而要用 revert 把写错的 commit 撤销。</li>
+</ol>
+<h1 id="reset-的本质——不仅可以撤销提交"><a href="#reset-的本质——不仅可以撤销提交" class="headerlink" title="reset 的本质——不仅可以撤销提交"></a>reset 的本质——不仅可以撤销提交</h1><p>前面讲到，在最新的 <code>commit</code> 写错时，可以用 <code>reset --hard</code> 来把 <code>commit</code> 撤销：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard HEAD^</div></pre></td></tr></table></figure>
+<blockquote>
+<p>用这行代码可以撤销当前 commit</p>
+</blockquote>
+<h2 id="reset-的本质：-移动-HEAD-及其它所指向的-branch"><a href="#reset-的本质：-移动-HEAD-及其它所指向的-branch" class="headerlink" title="reset 的本质： 移动 HEAD 及其它所指向的 branch"></a>reset 的本质： 移动 HEAD 及其它所指向的 branch</h2><p>实质上，<code>reset</code> 这个指令虽然可以用来撤销 commit ，但它的实质行为并不是撤销，而是移动 HEAD ，并且「捎带」上 HEAD 所指向的 branch（如果有的话）。也就是说，reset 这个指令的行为其实和它的字面意思 “reset”（重置）十分相符：它是用来重置 HEAD 以及它所指向的 branch 的位置的。</p>
+<p>而 <code>reset --hard HEAD^</code>之所以起到了撤销 commit 的效果，是因为它把 HEAD 和它所指向的 branch 一起移动到了当前 commit 的父 commit 上，从而起到了「撤销」的效果。</p>
+<p>所以同理，<code>reset --hard</code> 不仅可以撤销提交，还可以用来把 <code>HEAD</code> 和 <code>branch</code> 移动到其他的任何地方。</p>
+<p><code>reset</code> 指令可以重置 <code>HEAD</code> 和 <code>branch</code> 的位置，不过在重置它们的同时，对工作目录可以选择不同的操作，而对工作目录的操作的不同，就是通过 <code>reset</code> 后面跟的参数来确定的。</p>
+<h2 id="reset-–hard-重置工作目录"><a href="#reset-–hard-重置工作目录" class="headerlink" title="reset –hard : 重置工作目录"></a>reset –hard : 重置工作目录</h2><p><code>reset --hard</code> 会在重置 <code>HEAD</code> 和 <code>branch</code> 的同时，重置工作目录里的内容。当你在 <code>reset</code> 后面加了 <code>--hard</code> 参数时，你的工作目录里的内容会被完全重置为和 <code>HEAD</code> 的新位置相同的内容。换句话说，就是你的未提交的修改会被全部擦掉。</p>
+<h2 id="reset-–soft-保留工作目录"><a href="#reset-–soft-保留工作目录" class="headerlink" title="reset –soft: 保留工作目录"></a>reset –soft: 保留工作目录</h2><p><code>reset --soft</code> 会在重置 <code>HEAD</code> 和 <code>branch</code> 时，保留工作目录和暂存区中的内容，并把重置 <code>HEAD</code> 所带来的新的差异放进暂存区。</p>
+<p>什么是「重置 <code>HEAD</code> 所带来的新的差异」？</p>
+<p>由于 HEAD 从 4 移动到了 3，而且在 reset 的过程中工作目录的内容没有被清理掉，所以 4 中的改动在 reset 后就也成了工作目录新增的「工作目录和 HEAD 的差异」。这就是上面一段中所说的「重置 HEAD 所带来的差异」。</p>
+<h2 id="reset-不加参数：保留工作目录，并清空暂存区"><a href="#reset-不加参数：保留工作目录，并清空暂存区" class="headerlink" title="reset 不加参数：保留工作目录，并清空暂存区"></a>reset 不加参数：保留工作目录，并清空暂存区</h2><p><code>reset</code> 如果不加参数，那么默认使用 <code>--mixed</code> 参数。它的行为是：保留工作目录，并且清空暂存区。也就是说，工作目录的修改、暂存区的内容以及由 <code>reset</code> 所导致的新的文件差异，都会被放进工作目录。简而言之，就是「把所有差异都混合（mixed）放在工作目录中」。</p>
+<p>本节内容讲了 reset 指令的本质：重置 HEAD 以及它所指向的 branch 的位置。同时，介绍了 reset 的三种参数：</p>
+<ol>
+<li>–hard：重置位置的同时，清空工作目录的所有改动；</li>
+<li>–soft：重置位置的同时，保留工作目录和暂存区的内容，并把重置 HEAD 的位置所导致的新的文件差异放进暂存区。</li>
+<li>–mixed（默认）：重置位置的同时，保留工作目录的内容，并清空暂存区。</li>
+</ol>
+<h1 id="checkout-的本质"><a href="#checkout-的本质" class="headerlink" title="checkout 的本质"></a>checkout 的本质</h1><p>在前面的 <code>branch</code> 的部分，我说到 <code>checkout</code> 可以用来切换 <code>branch</code>。</p>
+<p>不过实质上，<code>checkout</code> 并不止可以切换 <code>branch</code>。<code>checkout</code> 本质上的功能其实是：签出（ checkout ）指定的 <code>commit</code>。</p>
+<p><code>git checkout branch名</code>的本质，其实是把 <code>HEAD</code> 指向指定的 <code>branch</code>，然后签出这个 <code>branch</code> 所对应的 <code>commit</code> 的工作目录。所以同样的，checkout 的目标也可以不是 <code>branch</code>，而直接指定某个 <code>commit</code>。</p>
+<p>另外，如果你留心的话可能会发现，在 <code>git status</code> 的提示语中，Git 会告诉你可以用 <code>checkout -- 文件名</code> 的格式，通过「签出」的方式来撤销指定文件的修改.</p>
+<p><code>checkout</code> 的本质是签出指定的 <code>commit</code>，所以你不止可以切换 <code>branch</code>，也可以直接指定 <code>commit</code> 作为参数，来把 <code>HEAD</code> 移动到指定的 <code>commit</code>。</p>
+<h2 id="checkout-与-reset-的区别"><a href="#checkout-与-reset-的区别" class="headerlink" title="checkout 与 reset 的区别"></a>checkout 与 reset 的区别</h2><p><code>checkout</code> 和 <code>reset</code> 都可以切换 <code>HEAD</code> 的位置，它们除了有许多细节的差异外，最大的区别在于：<code>reset</code> 在移动 <code>HEAD</code> 时会带着它所指向的 <code>branch</code> 一起移动，而 <code>checkout</code> 不会。当你用 <code>checkout</code> 指向其他地方的时候，<code>HEAD</code> 和 它所指向的 <code>branch</code> 就自动脱离了。</p>
+<p>事实上，<code>checkout</code> 有一个专门用来只让 <code>HEAD</code> 和 <code>branch</code> 脱离而不移动 <code>HEAD</code> 的用法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout --detach</div></pre></td></tr></table></figure>
+<p>执行这行代码，Git 就会把 <code>HEAD</code> 和 <code>branch</code> 脱离，直接指向当前 <code>commit</code></p>
+<h1 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h1><p>你没时间、也没必要当场慌慌张张把文件的所有改动做个临时的 commit 然后去救同事的火，救完火再重新把 commit 撤销回来。这时候你只要先把所有文件一股脑扔在一边就可以去给同事打包了，打完包再把刚才扔到一边的文件重新取过来就好。</p>
+<p>这一「扔」一「取」，用的是 Git 的 stash 指令。</p>
+<p>stash：临时存放工作目录的改动</p>
+<p>“stash” 这个词，和它意思比较接近的中文翻译是「藏匿」，是「把东西放在一个秘密的地方以备未来使用」的意思。在 Git 中，stash 指令可以帮你把工作目录的内容全部放在你本地的一个独立的地方，它不会被提交，也不会被删除，你把东西放起来之后就可以去做你的临时工作了，做完以后再来取走，就可以继续之前手头的事了。</p>
+<p>具体说来，stash 的用法很简单。当你手头有一件临时工作要做，需要把工作目录暂时清理干净，那么你可以:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git stash</div></pre></td></tr></table></figure>
+<p>就这么简单，你的工作目录的改动就被清空了，所有改动都被存了起来。</p>
+<p>然后你就可以从你当前的工作分支切到 <code>master</code> 去给你的同事打包了……</p>
+<p>打完包，切回你的分支，然后：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git stash pop</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：没有被 track 的文件（即从来没有被 add 过的文件不会被 stash 起来，因为 Git 会忽略它们。如果想把这些文件也一起 stash，可以加上 <code>-u</code> 参数，它是 <code>--include-untracked</code> 的简写。</p>
+</blockquote>
+<h1 id="branch-删除了才想起有用"><a href="#branch-删除了才想起有用" class="headerlink" title="branch 删除了才想起有用"></a>branch 删除了才想起有用</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reflog</div></pre></td></tr></table></figure>
+<p>reflog 是 “reference log” 的缩写，使用它可以查看 Git 仓库中的引用的移动记录。如果不指定引用，它会显示 HEAD 的移动记录。假如你误删了 branch1 这个 branch，那么你可以查看一下 HEAD 的移动历史。</p>
+<p>HEAD 的最后一次移动行为是「从 branch1 移动到 master」。而在这之后，branch1 就被删除了。所以它之前的那个 commit 就是 branch1 被删除之前的位置了，也就是第二行的 c08de9a。</p>
+<p>所以现在就可以切换回 c08de9a，然后重新创建 branch1。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout c08de9a</div><div class="line">git checkout -b branch1</div></pre></td></tr></table></figure>
+<p>这样，你刚删除的 <code>branch1</code> 就找回来了。</p>
+<blockquote>
+<p>注意：不再被引用直接或间接指向的 <code>commit</code>s 会在一定时间后被 Git 回收，所以使用 <code>reflog</code>来找回删除的 <code>branch</code> 的操作一定要及时，不然有可能会由于 <code>commit</code> 被回收而再也找不回来。</p>
+</blockquote>
+<p><code>reflog</code> 默认查看 <code>HEAD</code> 的移动历史，除此之外，也可以手动加上名称来查看其他引用的移动历史，例如某个 <code>branch</code>.</p>
+<h1 id="gitignore-排除不想管理的目录和文件"><a href="#gitignore-排除不想管理的目录和文件" class="headerlink" title=".gitignore 排除不想管理的目录和文件"></a>.gitignore 排除不想管理的目录和文件</h1><p>在 Git 中有一个特殊的文本文件：.gitignore。这个文本文件记录了所有你希望被 Git 忽略的目录和文件。</p>
+<p>如果你是在 GitHub 上创建仓库，你可以在创建仓库的界面中就通过选项来让 GitHub 帮你创建好一个符合项目类型的 .gitignore 文件，你就不用再自己麻烦去写一大堆的配置了。不过如果你不是在 GitHub 上创建的项目，或者你对 GitHub 帮你创建的 .gitignore 文件有一些额外的补充，那么你可以自己来编辑这个文件。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/15/webpack入门/" rel="next" title="webpack入门">
+                <i class="fa fa-chevron-left"></i> webpack入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="Ak-lee" />
+          
+            <p class="site-author-name" itemprop="name">Ak-lee</p>
+            <p class="site-description motion-element" itemprop="description">start from zero</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是分布式版本控制系统-VCS"><span class="nav-number">1.</span> <span class="nav-text">什么是分布式版本控制系统 VCS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#版本控制：-最基本的功能"><span class="nav-number">1.0.1.</span> <span class="nav-text">版本控制： 最基本的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主动提交：程序代码和普通文本的区别"><span class="nav-number">1.0.2.</span> <span class="nav-text">主动提交：程序代码和普通文本的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多人合作的同步需求：中央仓库"><span class="nav-number">1.0.3.</span> <span class="nav-text">多人合作的同步需求：中央仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式版本控制系统"><span class="nav-number">1.1.</span> <span class="nav-text">分布式版本控制系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作模型"><span class="nav-number">1.1.1.</span> <span class="nav-text">工作模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式-VCS-的优点："><span class="nav-number">1.1.2.</span> <span class="nav-text">分布式 VCS 的优点：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上手-Git"><span class="nav-number">2.</span> <span class="nav-text">上手 Git</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#多人合作的基本工作流程"><span class="nav-number">2.1.</span> <span class="nav-text">多人合作的基本工作流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HEAD、master-与-branch"><span class="nav-number">3.</span> <span class="nav-text">HEAD、master 与 branch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HEAD-指向当前-commit-的引用"><span class="nav-number">3.1.</span> <span class="nav-text">HEAD 指向当前 commit 的引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#branch"><span class="nav-number">3.2.</span> <span class="nav-text">branch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#master-默认分支"><span class="nav-number">3.3.</span> <span class="nav-text">master 默认分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#branch-的通俗化理解"><span class="nav-number">3.4.</span> <span class="nav-text">branch 的通俗化理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#branch-的创建、切换和删除"><span class="nav-number">3.5.</span> <span class="nav-text">branch 的创建、切换和删除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-branch"><span class="nav-number">3.5.1.</span> <span class="nav-text">创建 branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切换-branch"><span class="nav-number">3.5.2.</span> <span class="nav-text">切换 branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除-branch"><span class="nav-number">3.5.3.</span> <span class="nav-text">删除 branch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#「引用」的本质"><span class="nav-number">3.6.</span> <span class="nav-text">「引用」的本质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.7.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#push-的本质"><span class="nav-number">4.</span> <span class="nav-text">push 的本质</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#小结-1"><span class="nav-number">4.1.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#merge-合并-commit"><span class="nav-number">5.</span> <span class="nav-text">merge 合并 commit</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊情况1：冲突"><span class="nav-number">5.1.</span> <span class="nav-text">特殊情况1：冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊情况2-：HEAD-领先目标-commit"><span class="nav-number">5.2.</span> <span class="nav-text">特殊情况2 ：HEAD 领先目标 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊情况3-：HEAD-落后于-目标-commit——last-forward"><span class="nav-number">5.3.</span> <span class="nav-text">特殊情况3 ：HEAD 落后于 目标 commit——last-forward</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结-2"><span class="nav-number">5.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Feature-Branching：最流行的工作流"><span class="nav-number">6.</span> <span class="nav-text">Feature Branching：最流行的工作流</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于-add"><span class="nav-number">7.</span> <span class="nav-text">关于 add</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git-log"><span class="nav-number">8.</span> <span class="nav-text">git log</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不喜欢-merge-的分叉-用rebase-吧"><span class="nav-number">9.</span> <span class="nav-text">不喜欢 merge 的分叉 , 用rebase 吧</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#刚刚提交的代码，发现写错了怎么办"><span class="nav-number">10.</span> <span class="nav-text">刚刚提交的代码，发现写错了怎么办</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写错的不是最新提交，而是倒数第二条提交"><span class="nav-number">11.</span> <span class="nav-text">写错的不是最新提交，而是倒数第二条提交</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rebase-i-交互式-rebase"><span class="nav-number">11.0.1.</span> <span class="nav-text">rebase -i : 交互式 rebase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启交互式-rebase-过程"><span class="nav-number">11.0.2.</span> <span class="nav-text">开启交互式 rebase 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑界面：-选择-commit-和对应的操作"><span class="nav-number">11.0.3.</span> <span class="nav-text">编辑界面： 选择 commit 和对应的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改写错的-commit"><span class="nav-number">11.0.4.</span> <span class="nav-text">修改写错的 commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继续-rebase-过程"><span class="nav-number">11.0.5.</span> <span class="nav-text">继续 rebase 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-3"><span class="nav-number">11.0.6.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#直接丢弃刚才的提交"><span class="nav-number">12.</span> <span class="nav-text">直接丢弃刚才的提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#想丢弃的不是刚刚的提交"><span class="nav-number">13.</span> <span class="nav-text">想丢弃的不是刚刚的提交</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-4"><span class="nav-number">13.0.1.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码已经-push-上去才发现错误"><span class="nav-number">14.</span> <span class="nav-text">代码已经 push 上去才发现错误</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-出错的内容在你自己的-branch"><span class="nav-number">14.1.</span> <span class="nav-text">1. 出错的内容在你自己的 branch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-出错的内容已经合并到-master"><span class="nav-number">14.2.</span> <span class="nav-text">2. 出错的内容已经合并到 master</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结-5"><span class="nav-number">14.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reset-的本质——不仅可以撤销提交"><span class="nav-number">15.</span> <span class="nav-text">reset 的本质——不仅可以撤销提交</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#reset-的本质：-移动-HEAD-及其它所指向的-branch"><span class="nav-number">15.1.</span> <span class="nav-text">reset 的本质： 移动 HEAD 及其它所指向的 branch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reset-–hard-重置工作目录"><span class="nav-number">15.2.</span> <span class="nav-text">reset –hard : 重置工作目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reset-–soft-保留工作目录"><span class="nav-number">15.3.</span> <span class="nav-text">reset –soft: 保留工作目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reset-不加参数：保留工作目录，并清空暂存区"><span class="nav-number">15.4.</span> <span class="nav-text">reset 不加参数：保留工作目录，并清空暂存区</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#checkout-的本质"><span class="nav-number">16.</span> <span class="nav-text">checkout 的本质</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#checkout-与-reset-的区别"><span class="nav-number">16.1.</span> <span class="nav-text">checkout 与 reset 的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#stash"><span class="nav-number">17.</span> <span class="nav-text">stash</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#branch-删除了才想起有用"><span class="nav-number">18.</span> <span class="nav-text">branch 删除了才想起有用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gitignore-排除不想管理的目录和文件"><span class="nav-number">19.</span> <span class="nav-text">.gitignore 排除不想管理的目录和文件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ak-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    |  您是本站第 <span id="busuanzi_value_site_pv"></span> 位访问者
+</span>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

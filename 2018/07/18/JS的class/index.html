@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="JS Class 详解JavaScript 语言中，生成实例对象的传统方法是通过构造函数。 这种写法跟传统的面向对象语言差异很大，很容易让新学习这门语言的程序员感到困惑。 ES6 提供了更接近传统语言的写法，引入了 Class    ( 类 ) 这个概念，作为对象的模板。通过 class 关键字，可以定义类。 基本上， ES6 的 class 可以看做只是一个语法糖，它的绝大部分功能，ES5 都可">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS的class">
+<meta property="og:url" content="http://yoursite.com/2018/07/18/JS的class/index.html">
+<meta property="og:site_name" content="Ak-lee">
+<meta property="og:description" content="JS Class 详解JavaScript 语言中，生成实例对象的传统方法是通过构造函数。 这种写法跟传统的面向对象语言差异很大，很容易让新学习这门语言的程序员感到困惑。 ES6 提供了更接近传统语言的写法，引入了 Class    ( 类 ) 这个概念，作为对象的模板。通过 class 关键字，可以定义类。 基本上， ES6 的 class 可以看做只是一个语法糖，它的绝大部分功能，ES5 都可">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-18T09:42:13.227Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS的class">
+<meta name="twitter:description" content="JS Class 详解JavaScript 语言中，生成实例对象的传统方法是通过构造函数。 这种写法跟传统的面向对象语言差异很大，很容易让新学习这门语言的程序员感到困惑。 ES6 提供了更接近传统语言的写法，引入了 Class    ( 类 ) 这个概念，作为对象的模板。通过 class 关键字，可以定义类。 基本上， ES6 的 class 可以看做只是一个语法糖，它的绝大部分功能，ES5 都可">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/18/JS的class/"/>
+
+
+
+
+
+  <title>JS的class | Ak-lee</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ak-lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端修炼中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            Über
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/18/JS的class/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ak-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ak-lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS的class</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-18T17:37:55+08:00">
+                2018-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="JS-Class-详解"><a href="#JS-Class-详解" class="headerlink" title="JS Class 详解"></a>JS <code>Class</code> 详解</h1><p>JavaScript 语言中，生成实例对象的传统方法是通过构造函数。</p>
+<p>这种写法跟传统的面向对象语言差异很大，很容易让新学习这门语言的程序员感到困惑。</p>
+<p>ES6 提供了更接近传统语言的写法，引入了 <code>Class</code>    ( 类 ) 这个概念，作为对象的模板。通过 <code>class</code> 关键字，可以定义类。</p>
+<p>基本上， ES6 的 <code>class</code> 可以看做只是一个语法糖，它的绝大部分功能，ES5 都可以做到。如下面的两种写法是等价的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Point</span>(<span class="params">x,y</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.x = x;</div><div class="line">    <span class="keyword">this</span>.y = y;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Point.prototype.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">'('</span> + <span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y + <span class="string">')'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Point(<span class="number">1</span>,<span class="number">2</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(x, y)&#123;</div><div class="line">        <span class="keyword">this</span>.x = x;</div><div class="line">        <span class="keyword">this</span>.y = y;</div><div class="line">    &#125;</div><div class="line">    toString() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">'('</span> + <span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y + <span class="string">')'</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码定义了一个 “ 类 ” ，可以看到里面有一个 <code>constructor</code> 方法，这就是构造方法， 而 <code>this</code> 关键字则代表实例对象。也就是说， ES5 的构造函数 <code>Point</code> ，对应 ES6 类的构造方法。</p>
+<p><code>Point</code> 类除了构造方法，还定义了一个 <code>toString</code> 方法。注意，定义 “ 类 ” 的方法的时候， 前面不需要加上 <code>function</code> 这个关键字，而直接把函数定义放进去了就可以了。另外，<strong>方法之间不需要逗号分隔，加了会报错</strong>。</p>
+<p>ES6 的类，完全可以看做构造函数的另一种写法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">typeof</span> Point <span class="comment">// " function "</span></div><div class="line">Point === Point.prototype.constructor <span class="comment">// ture</span></div></pre></td></tr></table></figure>
+<p>上面的代码表明，类的数据类型就是函数，类本身就指向构造函数。</p>
+<p>使用的时候，也是直接对类使用 <code>new</code> 命令，跟构造函数的用法完全一致。</p>
+<p><strong>构造函数的 <code>prototype</code> 属性，在 ES6 的 “ 类 ” 上面继续存在。事实上，类的所有方法都定义在类的 <code>prototype</code> 属性上面。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>() &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">    toString() &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">    toValue() &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 等同于</span></div><div class="line">Point.prototype = &#123;</div><div class="line">    <span class="keyword">constructor</span>() &#123;&#125;,</div><div class="line">    toString() &#123;&#125;,</div><div class="line">    toValue() &#123;&#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在类的实例上面调用方法，其实就是调用原型上的方法。</p>
+<p>另外，类的内部所有定义的方法，都是不可枚举的（non-enumerable）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(x,y) &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">    toString() &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.keys(Point.prototype)	<span class="comment">// []</span></div><div class="line"><span class="built_in">Object</span>.getOwnPropertyNames(Point.prototype)	</div><div class="line"><span class="comment">// ["constructor","toString"]</span></div></pre></td></tr></table></figure>
+<h3 id="constructor-方法"><a href="#constructor-方法" class="headerlink" title="constructor 方法"></a>constructor 方法</h3><p><code>constructor</code> 方法是类的默认方法，通过 <code>new</code> 命令生成对象实例时，自动调用该方法。一个类必须有 <code>constructor</code> 方法，如果没有显式定义，一个空的 <code>constructor</code> 方法就会被默认添加。</p>
+<p>类必须使用 <code>new</code> 调用，否则会报错。这是它跟普通构造函数的一个主要区别，后者不用 <code>new</code> 也可以执行。</p>
+<blockquote>
+<p><code>__proto__</code> 并不是语言本身的特性，这是各大厂商具体实现时加载的私有属性，虽然目前很多现代浏览器的 JS 引擎都提供了这个私有属性，但依旧不建议在生产环境中使用该属性，避免对环境产生依赖。生产环境中，我们可以使用 <code>Object.getPrototypeOf</code> 方法来获取实例对象的原型，然后再来为原型添加方法/属性。</p>
+</blockquote>
+<h3 id="Class-表达式"><a href="#Class-表达式" class="headerlink" title="Class 表达式"></a>Class 表达式</h3><p>与函数一样，类也可以使用表达式的形式定义。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> MyClass = <span class="class"><span class="keyword">class</span> <span class="title">Me</span> </span>&#123;</div><div class="line">    getClassName() &#123;</div><div class="line">        <span class="keyword">return</span> Me.name;	<span class="comment">// 拿到函数名，即 "me"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码使用表达式定义了一个类。需要注意的是，这个类的名字是 <code>MyClass</code> 而不是 <code>Me</code> ，<code>Me</code> 只在 Class 的内部可用，指代当前类。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> inst = <span class="keyword">new</span> MyClass()</div><div class="line">inst.getClassName()	<span class="comment">// Me</span></div><div class="line">Me.name	<span class="comment">// ReferenceError: Me is not defined</span></div></pre></td></tr></table></figure>
+<p>采用 Class 表达式，可使写出立即执行的 Class。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> <span class="class"><span class="keyword">class</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(name) &#123;</div><div class="line">        <span class="keyword">this</span>.name = name</div><div class="line">    &#125;</div><div class="line">    sayName() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</div><div class="line">    &#125;</div><div class="line">&#125;(<span class="string">'张三'</span>)</div><div class="line"></div><div class="line">person.sayName(); 	<span class="comment">// "张三"</span></div></pre></td></tr></table></figure>
+<p>上面代码中，<code>person</code> 是一个立即执行的类的实例。</p>
+<h3 id="不存在变量提升"><a href="#不存在变量提升" class="headerlink" title="不存在变量提升"></a>不存在变量提升</h3><p>类不存在变量提升 （hoist）, 这一点与 ES5 完全不同。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Foo();	<span class="comment">// ReferenceError</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;&#125;</div></pre></td></tr></table></figure>
+<p><strong>ES6 不会把类的声明提升到代码头部</strong>。这种规定的原因与下文要提到的继承有关，必须保证子类在父类之后定义。</p>
+<h2 id="Class-继承"><a href="#Class-继承" class="headerlink" title="Class 继承"></a>Class 继承</h2><p>Class 可以通过 <code>extends</code> 关键字实现继承，这比 ES5 的通过修改原型链实现继承，要清晰和方便很多。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;   </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ColorPoint</span> <span class="keyword">extends</span> <span class="title">Point</span> </span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码定义了一个 <code>ColorPoint</code> 类， 该类通过 <code>extends</code> 关键字，继承了 <code>Point</code> 类所有的属性和方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class ColorPoint extends Point &#123;</div><div class="line">    constructor(x, y, color) &#123;</div><div class="line">        super(x, y);	// 调用父类的 constructor(x,y)</div><div class="line">        this.color = color;</div><div class="line">    &#125;</div><div class="line">    toString() &#123;</div><div class="line">        return this.color + &apos; &apos; + super.toString()	</div><div class="line">        // 调用父类的 toString()</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，<code>constructor</code> 方法和<code>toString</code> 方法之中，都出现了 <code>super</code> 关键字，它在这里表示父类的构造函数，用来新建父类的 <code>this</code> 对象。</p>
+<p>子类必须在 <code>constructor</code> 方法中调用 <code>super</code> 方法，否则新建实例时会报错。这是因为子类自己的 <code>this</code> 对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后在对其进行加工，加上子类自己的实例属性和方法。如果不调用 <code>super</code> 方法，子类就得不到 <code>this</code> 对象。</p>
+<blockquote>
+<p>ES5 的继承，实质是先创造子类的实例对象 <code>this</code> ，然后在将父类的方法添加到 <code>this</code> 上面。</p>
+<p>ES6 的继承机制完全不同。实质上是先将父类实例对象的属性和方法，加到 <code>this</code> 上面（所以必须先调用 <code>super</code> 方法） ，然后再用子类的狗仔函数修改 <code>this</code></p>
+</blockquote>
+<p>如果子类没有定义 <code>constructor</code> 方法，这个方法会被默认添加，代码如下。也就是说，不管有没有显式定义，任何一个子类都有 <code>constructor</code> 方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ColorPoint</span> <span class="keyword">extends</span> <span class="title">Point</span> </span>&#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 等同于</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ColorPoint</span> <span class="keyword">extends</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(...args) &#123;</div><div class="line">        <span class="keyword">super</span>(..args)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>另一个需要注意的地方是，在子类的构造函数中，只用调用 <code>super</code> 之后，才可以使用 <code>this</code> 关键字，否则会报错。这是因为子类实例的构建，基于父类实例，只有 <code>super</code> 方法才能调用父类实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> cp = <span class="keyword">new</span> ColorPoint(<span class="number">25</span>, <span class="number">8</span>, <span class="string">'green'</span>);</div><div class="line"></div><div class="line">cp <span class="keyword">instanceof</span> ColorPoint <span class="comment">// true</span></div><div class="line">cp <span class="keyword">instanceof</span> Point <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面代码中，实例对象<code>cp</code> 同时是 <code>ColorPoint</code> 和 <code>Point</code> 两个类的实例，这与 ES5 的行为完全一致。</p>
+<p><strong><code>Object.getPrototypeOf()</code> 方法可以用来从子类上获取父类</strong>。因此，可以使用这个方法判断，一个类是否继承了另一个类。</p>
+<h3 id="super-关键字"><a href="#super-关键字" class="headerlink" title="super 关键字"></a>super 关键字</h3><p><code>super</code> 这个关键字，既可以当作函数使用，也可以当作对象使用。在这两种情况下，它的用法完全不同。</p>
+<p>第一种情况，<code>super</code> 作为函数调用时，代表父类的构造函数。ES6 要求，子类的构造函数必须执行一次 <code>super</code> 函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>() &#123;</div><div class="line">        <span class="keyword">super</span>();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意，<code>super</code> 虽然代表了父类 <code>A</code> 的构造函数，但是返回的是子类<code>B</code> 的实例，即 <code>super</code> 内部的 <code>this</code> 指的是 <code>B</code>  这个类，因此 <code>super()</code> 在这里相当于： </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">A.prototype.constructor.call(<span class="keyword">this</span>)</div></pre></td></tr></table></figure>
+<p>作为函数时，<code>super()</code> 只能用在子类的构造函数之中，用在其他地方就会报错。</p>
+<p>第二种情况，<code>super</code> 作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。</p>
+<p>ES6 规定，在子类普通方法中通过 <code>super</code> 调用父类的方法时，方法内部的<code>this</code>指向当前的子类实例。</p>
+<h3 id="类的-prototype-属性和-proto-属性"><a href="#类的-prototype-属性和-proto-属性" class="headerlink" title="类的 prototype 属性和 __proto__ 属性"></a>类的 prototype 属性和 <code>__proto__</code> 属性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;   </div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123; </div><div class="line">&#125;</div><div class="line"></div><div class="line">B.__proto__ === A <span class="comment">// true</span></div><div class="line">B.prototype.__proto__ === A.prototype <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>这样的结果是因为，类的继承是按照下面的模式实现的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// B 的实例继承 A 的实例</span></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(B.prototype, A.prototype)</div><div class="line"><span class="comment">// B 继承 A 的静态属性</span></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(B, A);</div><div class="line"></div><div class="line"><span class="keyword">const</span> b = <span class="keyword">new</span> B();</div></pre></td></tr></table></figure>
+<p><code>Object.setPrototypeOf</code> 的实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.setPrototypeOf = <span class="function"><span class="keyword">function</span> (<span class="params">obj, proto</span>) </span>&#123;</div><div class="line">    obj.__proto__ = proto;</div><div class="line">    <span class="keyword">return</span> obj</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这两条继承链，可以这样理解： 作为一个对象，子类（<code>B</code>）的原型（<code>__proto__</code> 属性）是父类（<code>A</code>）; 作为一个构造函数， 子类（<code>B</code>）的原型对象（<code>prototype</code> 属性）是父类的原型对象（<code>prototype</code> 属性）的实例。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/16/git原理详解/" rel="next" title="git原理详解">
+                <i class="fa fa-chevron-left"></i> git原理详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/18/vim相关/" rel="prev" title="vim相关">
+                vim相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="Ak-lee" />
+          
+            <p class="site-author-name" itemprop="name">Ak-lee</p>
+            <p class="site-description motion-element" itemprop="description">start from zero</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JS-Class-详解"><span class="nav-number">1.</span> <span class="nav-text">JS Class 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-方法"><span class="nav-number">1.0.1.</span> <span class="nav-text">constructor 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class-表达式"><span class="nav-number">1.0.2.</span> <span class="nav-text">Class 表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不存在变量提升"><span class="nav-number">1.0.3.</span> <span class="nav-text">不存在变量提升</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class-继承"><span class="nav-number">1.1.</span> <span class="nav-text">Class 继承</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#super-关键字"><span class="nav-number">1.1.1.</span> <span class="nav-text">super 关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类的-prototype-属性和-proto-属性"><span class="nav-number">1.1.2.</span> <span class="nav-text">类的 prototype 属性和 __proto__ 属性</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ak-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    |  您是本站第 <span id="busuanzi_value_site_pv"></span> 位访问者
+</span>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

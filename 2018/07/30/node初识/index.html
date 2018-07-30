@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Node简介Node.js 不是一门语言也不是框架，它只是基于 Google V8 引擎的 JavaScript 运行时环境，同时结合了 Libuv 扩展了 JavaScript 功能，使之支持 io 、fs 等只有语言才有的特性，使得 JavaScript 能够同时具有 DOM 操作（浏览器） 和 I / O 、文件读写、操作数据库（服务器端）等能力，是目前最简单的全栈式语言。 目前 Node.">
+<meta name="keywords" content="node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node初识">
+<meta property="og:url" content="http://yoursite.com/2018/07/30/node初识/index.html">
+<meta property="og:site_name" content="Ak-lee">
+<meta property="og:description" content="Node简介Node.js 不是一门语言也不是框架，它只是基于 Google V8 引擎的 JavaScript 运行时环境，同时结合了 Libuv 扩展了 JavaScript 功能，使之支持 io 、fs 等只有语言才有的特性，使得 JavaScript 能够同时具有 DOM 操作（浏览器） 和 I / O 、文件读写、操作数据库（服务器端）等能力，是目前最简单的全栈式语言。 目前 Node.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-30T13:26:23.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node初识">
+<meta name="twitter:description" content="Node简介Node.js 不是一门语言也不是框架，它只是基于 Google V8 引擎的 JavaScript 运行时环境，同时结合了 Libuv 扩展了 JavaScript 功能，使之支持 io 、fs 等只有语言才有的特性，使得 JavaScript 能够同时具有 DOM 操作（浏览器） 和 I / O 、文件读写、操作数据库（服务器端）等能力，是目前最简单的全栈式语言。 目前 Node.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/30/node初识/"/>
+
+
+
+
+
+  <title>node初识 | Ak-lee</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ak-lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端修炼中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/node初识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ak-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ak-lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">node初识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-30T21:25:25+08:00">
+                2018-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>Node.js</code> 不是一门语言也不是框架，它只是基于 <code>Google V8</code> 引擎的 JavaScript 运行时环境，同时结合了 <code>Libuv</code> 扩展了 JavaScript 功能，使之支持 io 、fs 等只有语言才有的特性，使得 JavaScript 能够同时具有 DOM 操作（浏览器） 和 I / O 、文件读写、操作数据库（服务器端）等能力，是目前最简单的全栈式语言。</p>
+<p>目前 Node.js 在大部分领域都占有一席之地，尤其是 I / O 密集的，比如 Web 开发，微服务，前端构建等。不少大型网站都是使用 Node.js 作为后端开发语言的，用的最多的就是使用 Node.js 做前端渲染和架构优化。</p>
+<p>当然了，Node.js 也有一些缺点。</p>
+<ul>
+<li>回调太多难于控制</li>
+<li>不能胜任 CPU 密集任务处理</li>
+</ul>
+<p>在解决并发的问题上，异步是最好的解决方案，可以拿排队和叫号机来理解：</p>
+<ul>
+<li>排队：在排队的时候，你除了等之外什么都干不了</li>
+<li>叫号机： 你要做的就是先取号码，等要轮到你的时候，系统会先通知你。在中间，你可以做任何你想做的事情。</li>
+</ul>
+<p>Node.js 其实就是帮我们构建类似的机制。我们在写代码的时候，实际上就是取号的过程，由 Event Loop 来接受处理。而真正执行操作的是具体的线程池里的 I / O 任务。之所以说 Node.js 是单线程，就是因为它在接受任务的时候是单线程的，它无需进程 / 线程切换上下文成本，非常高效，但它在执行具体任务的时候是多线程的。</p>
+<h3 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h3><p>显然 TypeScript 会越来越好，TypeScript 的强大之处是要用过才知道的。</p>
+<ul>
+<li>规模化编程，像 Java 那种，静态类型，面向对象，前端只有 TypeScript 能做到。</li>
+<li>亲爹是微软的 安德斯•海尔斯伯格</li>
+<li>开源，未来很好</li>
+<li>组合拳： TypeScript + VSCode = 神器</li>
+</ul>
+<p>js 是脚本语言，解释即可执行。所以它的最大的缺点是没有类型系统，这在规模化编程里是非常危险的。一个函数，传参就能玩死人。于是现在流行使用 <code>flow</code> 和 <code>typescript</code> 来做类型校验。<code>flow</code> 只是工具，比较轻量级。而 <code>typescript</code> 则是es6的超集，给es6补充了类型系统和更完善的面向对象机制，所以大部分人都会对 ts 有好感，很可能是未来的趋势。</p>
+<p>学 <code>typescript</code> 最好是有面向对象的基础，如掌握Java、C#等。</p>
+<h3 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h3><p>npm 基本命令</p>
+<blockquote>
+<ul>
+<li>npm install xxx    安装xxx模块，但不记录到package.json文件里。简写：npm i xxx</li>
+<li>npm install –save xxx   安装xxx模块，并且记录到package.json文件里，字段对应 dependency, 是产品环境必须依赖的模块。简写： npm i -s xxx</li>
+<li>npm install –save-dev xxx   安装xxx模块，并且记录到package.json文件里，字段对应 dev-dependency, 是开发环境必须依赖的模块，比如测试类的。简写： npm i -D xxx</li>
+<li>npm install -global xxx    全局安装 xxx 模块，但不记录到package.json 里，如果模块里package.json 有 bin 配置，会自动链接。作为 cli 命令</li>
+</ul>
+</blockquote>
+<h3 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h3><ul>
+<li>oh my zsh 是很好用的shell，在终端下非常好用</li>
+<li>VSCode 尤其是在 nodejs （调试）和typescript、go上支持好。</li>
+</ul>
+<h3 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h3><p><strong>Node.js SDK 里 callback 写法</strong>： </p>
+<ul>
+<li><p>api写法：Error-first Callback 和 EventEmitter</p>
+<ul>
+<li><p>Error-first Callback  回调约定</p>
+<blockquote>
+<p>回调函数的第一个参数返回的 error 对象，如果 error 发生了，它会作为第一个 err 参数返回，如果没有，一般做法是返回 null</p>
+<p>回调函数的第二个参数返回的是任何成功响应的结果数据。如果结果正常，没有 error 发生，err会被置为null，并在第二个参数就出返回成功的结果数据。</p>
+</blockquote>
+<p>node.js 文档里最常采用下面这样的回调方式：</p>
+</li>
+<li><p>EventEmitter</p>
+<p>事件模块是 Node.js 内置的对 观察者模式 “发布 / 订阅（publish / subcribe） ”  的实现，通过 <code>EventEmitter</code> 属性，提供了一个构造函数。该构造函数的实例具有<code>on</code> 方法，可以用来监听指定事件，并触发回调函数。任何对象都可以发布事件，被 <code>EventEmitter</code> 实例的 <code>on</code> 方法监听到。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>)</div><div class="line"><span class="keyword">var</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> MyEmitter = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line">util.inherits(MyEmitter, EventEmitter)	<span class="comment">// node 继承</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter();</div><div class="line"></div><div class="line">myEmitter.on(<span class="string">'event'</span>, (a, b) =&gt; &#123;</div><div class="line">    <span class="built_in">console</span>.log(a, b, <span class="keyword">this</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">myEmitter.emit(<span class="string">'emit'</span>,<span class="string">'a'</span>,<span class="string">'b'</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="BlueBird"><a href="#BlueBird" class="headerlink" title="BlueBird"></a>BlueBird</h3><p>BlueBird 是 Node.js 世界里性能最好的 Promise/a+ 规范实现模块，api非常齐全，功能强大，是原生 Promise 外的不二选择。</p>
+<h3 id="使用严格模式"><a href="#使用严格模式" class="headerlink" title="使用严格模式"></a>使用严格模式</h3><p>如果在JavaScript文件开头写上<code>&#39;use strict&#39;;</code>，那么Node在执行该JavaScript时将使用严格模式。但是，在服务器环境下，如果有很多JavaScript文件，每个文件都写上<code>&#39;use strict&#39;;</code>很麻烦。我们可以给Nodejs传递一个参数，让Node直接为所有js文件开启严格模式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node --use_strict calc.js</div></pre></td></tr></table></figure>
+<h3 id="node-模块化原理"><a href="#node-模块化原理" class="headerlink" title="node 模块化原理"></a>node 模块化原理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 准备 module 对象</span></div><div class="line"><span class="keyword">var</span> <span class="built_in">module</span> = &#123;</div><div class="line">    id: <span class="string">'hello'</span>,</div><div class="line">    exports: &#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> load = <span class="function"><span class="keyword">function</span>(<span class="params">module</span>) </span>&#123;</div><div class="line">    <span class="comment">// 读取 hello.js 代码</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello, '</span> + name + <span class="string">'!'</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">module</span>.exports = hello</div><div class="line">    <span class="comment">// hello.js 代码结束</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">module</span>.exports</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> exported = load(<span class="built_in">module</span>)</div><div class="line"></div><div class="line"><span class="comment">// 保存 module</span></div><div class="line">save(<span class="built_in">module</span>, exported)</div></pre></td></tr></table></figure>
+<p>可见，变量<code>module</code>是Node在加载js文件前准备的一个变量，并将其传入加载函数，我们在<code>hello.js</code>中可以直接使用变量<code>module</code>原因就在于它实际上是函数的一个参数。</p>
+<p>通过把参数<code>module</code>传递给<code>load()</code>函数，<code>hello.js</code>就顺利地把一个变量传递给了Node执行环境，Node会把<code>module</code>变量保存到某个地方。</p>
+<p>由于Node保存了所有导入的<code>module</code>，当我们用<code>require()</code>获取module时，Node找到对应的<code>module</code>，把这个<code>module</code>的<code>exports</code>变量返回，这样，另一个模块就顺利拿到了模块的输出</p>
+<p><code>exports</code> 是 <code>module.exports</code> 的一个复制。<code>load</code> 在加载时，<code>exports</code> 和 <code>module.exports</code> 指向同一个空对象。向 <code>exports</code> 对象上添加属性和直接在 <code>module.exports</code> 上添加属性，效果是完全相同的。<code>load</code> 函数最终返回的是<code>module.exports</code>，如果要返回的是一个函数，就不能写<code>exports = () =&gt; {}</code> ，这样<code>module.exports</code> 和 <code>exports</code> 指向的不是同一块内存。正确的方式是：<code>module.exports = () =&gt; {}</code></p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>如果要输出一个键值对象<code>{}</code>，可以利用<code>exports</code>这个已存在的空对象<code>{}</code>，并继续在上面添加新的键值；</p>
+<p>如果要输出一个函数或数组，必须直接对<code>module.exports</code>对象赋值。</p>
+<p>所以我们可以得出结论：直接对<code>module.exports</code>赋值，可以应对任何情况。</p>
+<h2 id="基本模块"><a href="#基本模块" class="headerlink" title="基本模块"></a>基本模块</h2><p><code>global</code> 对象是一个全局对象。类似于浏览器环境下的 <code>window</code> 对象。</p>
+<p><code>process</code> 对象，代表当前 Node.js 进程。通过 <code>process</code> 对象可以拿到很多有用的信息： </p>
+<p>JavaScript程序是由事件驱动执行的单线程模型，Node.js也不例外。Node.js不断执行响应事件的JavaScript函数，直到没有任何响应事件的函数可以执行时，Node.js就退出了。</p>
+<p>如果我们想要在下一次事件响应中执行代码，可以调用<code>process.nextTick()</code></p>
+<h3 id="fs-模块"><a href="#fs-模块" class="headerlink" title="fs 模块"></a>fs 模块</h3><p>Node.js 内置的 <code>fs</code> 模块就是文件系统模块，负责读写文件。</p>
+<p>和所有其他 <code>JavaScript</code> 模块不同的是，<code>fs</code> 模块同时提供了异步和同步的方法。</p>
+<h4 id="异步读取文件"><a href="#异步读取文件" class="headerlink" title="异步读取文件"></a>异步读取文件</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"></div><div class="line">fs.readFile(<span class="string">'sample.txt'</span>,<span class="string">'utf-8'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(err) &#123;</div><div class="line">        <span class="built_in">console</span>.log(err)</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(data)</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>读取一张图片</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line">fs.readFile(<span class="string">'sample.png'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) &#123;</div><div class="line">        <span class="built_in">console</span>.log(err);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">console</span>.log(data);</div><div class="line">        <span class="built_in">console</span>.log(data.length + <span class="string">' bytes'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>当读取二进制文件时，不传入文件编码时，回调函数的<code>data</code>参数将返回一个<code>Buffer</code>对象</strong>。在Node.js中，<code>Buffer</code>对象就是一个包含零个或任意个字节的数组（注意和Array不同）。 </p>
+<p><code>Buffer</code>对象可以和String作转换。</p>
+<h4 id="同步读文件"><a href="#同步读文件" class="headerlink" title="同步读文件"></a>同步读文件</h4><p>除了标准的异步读取模式外，<code>fs</code>也提供相应的同步读取函数。同步读取的函数和异步函数相比，多了一个<code>Sync</code>后缀，并且不接收回调函数，函数直接返回结果。 </p>
+<p>如果同步读取文件发生错误，则需要用<code>try...catch</code>捕获该错误：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">var</span> data = fs.readFileSync(<span class="string">'sample.txt'</span>, <span class="string">'utf-8'</span>);</div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125; <span class="keyword">catch</span> (err) &#123;</div><div class="line">    <span class="comment">// 出错了</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h4><p>将数据写入文件是通过 <code>fs.writeFile()</code> 来实现的。</p>
+<p>和<code>readFile()</code>类似，<code>writeFile()</code>也有一个同步方法，叫<code>writeFileSync()</code> </p>
+<h4 id="stat"><a href="#stat" class="headerlink" title="stat"></a>stat</h4><p>如果我们要获取文件大小，创建时间等信息，可以使用<code>fs.stat()</code>，它返回一个<code>Stat</code>对象，能告诉我们文件或目录的详细信息。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line">fs.stat(<span class="string">'sample.txt'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, stat</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) &#123;</div><div class="line">        <span class="built_in">console</span>.log(err);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// 是否是文件:</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'isFile: '</span> + stat.isFile());</div><div class="line">        <span class="comment">// 是否是目录:</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'isDirectory: '</span> + stat.isDirectory());</div><div class="line">        <span class="keyword">if</span> (stat.isFile()) &#123;</div><div class="line">            <span class="comment">// 文件大小:</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'size: '</span> + stat.size);</div><div class="line">            <span class="comment">// 创建时间, Date对象:</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'birth time: '</span> + stat.birthtime);</div><div class="line">            <span class="comment">// 修改时间, Date对象:</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'modified time: '</span> + stat.mtime);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="stream-模块"><a href="#stream-模块" class="headerlink" title="stream 模块"></a>stream 模块</h3><p><code>stream</code> 是 Node.js 提供的一个仅在服务端可用的模块。目的是支持 “ 流 ” 这种数据结构。</p>
+<p>什么是流？流是一种抽象的数据结构。想象水流，当在水管中流动时，就可以从某个地方（例如自来水厂）源源不断地到达另一个地方（比如你家的洗手池）。我们也可以把数据看成是数据流，比如你敲键盘的时候，就可以把每个字符依次连起来，看成字符流。这个流是从键盘输入到应用程序，实际上它还对应着一个名字：标准输入流（stdin）。 </p>
+<p>如果应用程序把字符一个一个输出到显示器上，这也可以看成是一个流，这个流也有名字：标准输出流（stdout）。流的特点是数据是有序的，而且必须依次读取，或者依次写入，不能像Array那样随机定位。 </p>
+<p>在Node.js中，流也是一个对象，我们只需要响应流的事件就可以了：<code>data</code>事件表示流的数据已经可以读取了，<code>end</code>事件表示这个流已经到末尾了，没有数据可以读取了，<code>error</code>事件表示出错了。 </p>
+<p>下面是一个从文件流读取文本内容的示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"></div><div class="line"><span class="comment">// 打开一个流</span></div><div class="line"><span class="keyword">var</span> rs = fs.createReadStream(<span class="string">'sample.txt'</span>,<span class="string">'utf-8'</span>)</div><div class="line"></div><div class="line">rs.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">chunk</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'DATA'</span>)</div><div class="line">    <span class="built_in">console</span>.log(chunk)</div><div class="line">&#125;)</div><div class="line">rs.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'END'</span>)</div><div class="line">&#125;)</div><div class="line">re.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'ERROR: '</span> + err)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>要注意，<code>data</code>事件可能会有多次，每次传递的<code>chunk</code>是流的一部分数据。 </p>
+<p>所有可以读取数据的流都继承自<code>stream.Readable</code>，所有可以写入的流都继承自<code>stream.Writable</code>。 </p>
+<h4 id="pipe"><a href="#pipe" class="headerlink" title="pipe"></a>pipe</h4><p>就像可以把两个水管串成一个更长的水管一样，两个流也可以串起来。一个<code>Readable</code>流和一个<code>Writable</code>流串起来后，所有的数据自动从<code>Readable</code>流进入<code>Writable</code>流，这种操作叫<code>pipe</code>。 </p>
+<p>复制一个文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"><span class="keyword">var</span> rs = fs.createReadStream(<span class="string">'sample.txt'</span>)</div><div class="line"><span class="keyword">var</span> ws = fs.createWriteStream(<span class="string">'copied.txt'</span>)</div><div class="line"></div><div class="line">rs.pipe(ws)</div></pre></td></tr></table></figure>
+<h3 id="http-模块"><a href="#http-模块" class="headerlink" title="http 模块"></a>http 模块</h3><p><code>request</code> 对象封装了 HTTP 请求，我们调用 <code>request</code> 对象的属性和方法就可以拿到所有HTTP请求的信息。</p>
+<p><code>response</code> 对象封装了 HTTP 响应，我们操作 <code>response</code> 对象的方法，就可以把 HTTP 响应返回给浏览器。</p>
+<p>用 Node.js 实现一个 HTTP 服务器程序非常简单。我们来实现一个最简单的 web 程序 <code>hello.js</code> 。它对所有的请求都返回 <code>hello world!</code> :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span></div><div class="line"></div><div class="line"><span class="comment">// 导入 http 模块</span></div><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"></div><div class="line"><span class="comment">// 创建 http server，并传入回调函数</span></div><div class="line"><span class="keyword">var</span> server = http.createSever(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</div><div class="line">    <span class="comment">// 函数接收 request 和 response 对象</span></div><div class="line">    <span class="comment">// 获得 http 请求的 method 和 url</span></div><div class="line">    <span class="built_in">console</span>.log(request.method + <span class="string">':'</span> + request.url)</div><div class="line">    <span class="comment">// 将 http 响应200写入response，同时设置'content-type'： 'text/html'</span></div><div class="line">    response.writeHead(<span class="number">200</span>,&#123;<span class="string">'content-type'</span>, <span class="string">'text/html'</span>&#125;)</div><div class="line">    <span class="comment">// 将HTTP响应的HTML内容写入response:</span></div><div class="line">    response.end(<span class="string">'&lt;h1&gt;hello world!&lt;/h1&gt;'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 让服务器监听8080端口</span></div><div class="line">server.listen(<span class="number">8080</span>)</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Server is running at http://127.0.0.1:8080/'</span>);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/30/react/" rel="next" title="react相关">
+                <i class="fa fa-chevron-left"></i> react相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="Ak-lee" />
+          
+            <p class="site-author-name" itemprop="name">Ak-lee</p>
+            <p class="site-description motion-element" itemprop="description">start from zero</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Node"><span class="nav-number">1.</span> <span class="nav-text">Node</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeScript"><span class="nav-number">1.1.1.</span> <span class="nav-text">TypeScript</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#npm"><span class="nav-number">1.1.2.</span> <span class="nav-text">npm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用软件"><span class="nav-number">1.1.3.</span> <span class="nav-text">常用软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回调"><span class="nav-number">1.1.4.</span> <span class="nav-text">回调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BlueBird"><span class="nav-number">1.1.5.</span> <span class="nav-text">BlueBird</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用严格模式"><span class="nav-number">1.1.6.</span> <span class="nav-text">使用严格模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node-模块化原理"><span class="nav-number">1.1.7.</span> <span class="nav-text">node 模块化原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#结论"><span class="nav-number">1.1.7.1.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本模块"><span class="nav-number">1.2.</span> <span class="nav-text">基本模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fs-模块"><span class="nav-number">1.2.1.</span> <span class="nav-text">fs 模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#异步读取文件"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">异步读取文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步读文件"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">同步读文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写文件"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">写文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stat"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">stat</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stream-模块"><span class="nav-number">1.2.2.</span> <span class="nav-text">stream 模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pipe"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">pipe</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http-模块"><span class="nav-number">1.2.3.</span> <span class="nav-text">http 模块</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ak-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    |  您是本站第 <span id="busuanzi_value_site_pv"></span> 位访问者
+</span>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

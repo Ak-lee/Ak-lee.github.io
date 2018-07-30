@@ -176,7 +176,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -186,7 +186,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            Über
+            About
           </a>
         </li>
       
@@ -206,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -270,7 +270,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-30T09:03:45+08:00">
                 2018-07-30
@@ -314,12 +314,12 @@
 <p><code>PWA</code> progressive web application.</p>
 <p><code>registerServiceWorker</code> 可以帮助我们借助网页去写手机应用。</p>
 <h3 id="组件的定义"><a href="#组件的定义" class="headerlink" title="组件的定义"></a>组件的定义</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">        	&lt;div&gt;</div><div class="line">            	hello world</div><div class="line">            &lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp">        )</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">export default App</span></div></pre></td></tr></table></figure>
-<h3 id="组件的引入"><a href="#组件的引入" class="headerlink" title="组件的引入"></a>组件的引入</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> ReactDom <span class="keyword">from</span> <span class="string">'react-dom'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>;</div><div class="line"></div><div class="line">ReactDom.render(&lt;App /&gt;, document.getElementById('root'));</div></pre></td></tr></table></figure>
+<h3 id="组件的引入"><a href="#组件的引入" class="headerlink" title="组件的引入"></a>组件的引入</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> ReactDom <span class="keyword">from</span> <span class="string">'react-dom'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>;</div><div class="line"></div><div class="line">ReactDom.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, document.getElementById('root'));</span></div></pre></td></tr></table></figure>
 <p>如果你在代码中使用了 <code>JSX</code> 语法，那么你一定要在文件的顶部引入 <code>react</code>. 不引入 <code>react</code> 是没有办法编译 <code>JSX</code> 语法的。</p>
 <h3 id="最基本的-JSX-语法"><a href="#最基本的-JSX-语法" class="headerlink" title="最基本的 JSX 语法"></a>最基本的 <code>JSX</code> 语法</h3><p>在 javascript 中写 html 语法就是 <code>JSX</code> . 在 React 中必须使用 <code>JSX</code> 语法。</p>
 <p><strong>自定义的组件名必须以大写字母开头。</strong></p>
 <p><code>render</code> 函数返回的html代码最外层必须是只有一个元素。这一点和  <code>Vue</code> 的 <code>template</code><br>很像。不过不想最外层有一个包裹器，可以这样做：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123;Component, Fragment&#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TodoList</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">        	&lt;Fragment&gt;</div><div class="line">            	&lt;div&gt;&lt;input /&gt; &lt;button&gt;提交&lt;/button&gt;&lt;/div&gt;</div><div class="line">            	&lt;ul&gt;</div><div class="line">            		&lt;li&gt;吃饭&lt;<span class="regexp">/li&gt;</span></div><div class="line"><span class="regexp">            		&lt;li&gt;睡觉&lt;/</span>li&gt;</div><div class="line">           			&lt;li&gt;打豆豆&lt;<span class="regexp">/li&gt;</span></div><div class="line"><span class="regexp">            	&lt;/u</span>l&gt;</div><div class="line">            &lt;<span class="regexp">/Fragment&gt;</span></div><div class="line"><span class="regexp">        )</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123;Component, Fragment&#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TodoList</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">        	&lt;Fragment&gt;</div><div class="line">            	&lt;div&gt;<span class="xml"><span class="tag">&lt;<span class="name">input</span> /&gt;</span> <span class="tag">&lt;<span class="name">button</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">            	&lt;ul&gt;</div><div class="line">            		&lt;li&gt;吃饭&lt;<span class="regexp">/li&gt;</span></div><div class="line"><span class="regexp">            		&lt;li&gt;睡觉&lt;/</span>li&gt;</div><div class="line">           			&lt;li&gt;打豆豆&lt;<span class="regexp">/li&gt;</span></div><div class="line"><span class="regexp">            	&lt;/u</span>l&gt;</div><div class="line">            &lt;<span class="regexp">/Fragment&gt;</span></div><div class="line"><span class="regexp">        )</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div></pre></td></tr></table></figure>
 <h3 id="React-中的响应式设计思想和事件绑定"><a href="#React-中的响应式设计思想和事件绑定" class="headerlink" title="React 中的响应式设计思想和事件绑定"></a><code>React</code> 中的响应式设计思想和事件绑定</h3><p>react 中的组件的数据</p>
 <p>react 不允许我们直接修改 <code>state</code> 中的内容。必须使用 <code>this.setState</code> 来修改。<code>state</code> 中的数据不允许修改，只能重置。</p>
 <h3 id="JSX-语法细节点"><a href="#JSX-语法细节点" class="headerlink" title="JSX 语法细节点"></a>JSX 语法细节点</h3><p>写注释：</p>
@@ -493,7 +493,7 @@
 <h3 id="react-loadable"><a href="#react-loadable" class="headerlink" title="react-loadable"></a>react-loadable</h3><p>实现单页应用，只有在进入某个页面的时候，才加载这个页面对应的代码。</p>
 <p>这样可以首页加载时把这个应用的文件全部加载进来。<code>react-loadable</code> 的使用可以大大的减少首屏的加载时间。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yarn add react-loadable</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> Loadable <span class="keyword">from</span> <span class="string">'react-loadable'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> LoadableComponent = Loadable(&#123;</div><div class="line">    loader: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./index.js'</span>)	<span class="comment">// 真正要加载的组件</span></div><div class="line">    loading:() &#123;</div><div class="line">        <span class="keyword">return</span> &lt;div&gt;正在加载&lt;/div&gt;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> () =&gt; &lt;LoadableComponent&gt;&lt;/LoadableComponent&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> Loadable <span class="keyword">from</span> <span class="string">'react-loadable'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> LoadableComponent = Loadable(&#123;</div><div class="line">    loader: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./index.js'</span>)	<span class="comment">// 真正要加载的组件</span></div><div class="line">    loading:() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>正在加载<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> () =&gt; <span class="xml"><span class="tag">&lt;<span class="name">LoadableComponent</span>&gt;</span><span class="tag">&lt;/<span class="name">LoadableComponent</span>&gt;</span></span></div></pre></td></tr></table></figure>
 <p>这样就把以前的普通组件，变成了异步组件。实际要加载的组件被包装成了 <code>LoadableComponent</code> 组件。路由跳转时对应的组件应该变成 包装后的组件<code>LoadableComponent</code> 。不过这也可能导致原来的路由id, 即 <code>this.props.match.params.id</code> ，<code>LoadableComponent</code> 组件可以拿到，而真正被包装的组件拿不到。可以通过 <code>withRouter</code> 来解决这个问题。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; withRouter &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"><span class="comment">/*</span></div><div class="line"><span class="comment">	定义组件xxx</span></div><div class="line"><span class="comment">*/</span></div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapState, mapDispatch)(withRouter（xxx组件）)</div></pre></td></tr></table></figure>
 
@@ -535,6 +535,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/30/node初识/" rel="prev" title="node初识">
+                node初识 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -588,10 +592,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -614,8 +618,8 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">21</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -627,8 +631,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -692,7 +696,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 

@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="node 实战一个最简单的服务器 12345678const http = require(&apos;http&apos;)var server = http.createServer(function(req, res) &amp;#123;    res.write(&apos;&amp;lt;h1&amp;gt;first page&amp;lt;/h1&amp;gt;&apos;)    res.end()&amp;#125;)server.listen(8080) 在 h">
+<meta name="keywords" content="node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node实战">
+<meta property="og:url" content="http://yoursite.com/2018/08/07/node实战/index.html">
+<meta property="og:site_name" content="Ak-lee">
+<meta property="og:description" content="node 实战一个最简单的服务器 12345678const http = require(&apos;http&apos;)var server = http.createServer(function(req, res) &amp;#123;    res.write(&apos;&amp;lt;h1&amp;gt;first page&amp;lt;/h1&amp;gt;&apos;)    res.end()&amp;#125;)server.listen(8080) 在 h">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-07T14:08:10.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node实战">
+<meta name="twitter:description" content="node 实战一个最简单的服务器 12345678const http = require(&apos;http&apos;)var server = http.createServer(function(req, res) &amp;#123;    res.write(&apos;&amp;lt;h1&amp;gt;first page&amp;lt;/h1&amp;gt;&apos;)    res.end()&amp;#125;)server.listen(8080) 在 h">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/07/node实战/"/>
+
+
+
+
+
+  <title>node实战 | Ak-lee</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ak-lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端修炼中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            Über
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/node实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ak-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ak-lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">node实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-07T22:06:42+08:00">
+                2018-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="node-实战"><a href="#node-实战" class="headerlink" title="node 实战"></a>node 实战</h1><p>一个最简单的服务器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    res.write(<span class="string">'&lt;h1&gt;first page&lt;/h1&gt;'</span>)</div><div class="line">    res.end()</div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen(<span class="number">8080</span>)</div></pre></td></tr></table></figure>
+<p>在 <code>http.createServer()</code> 中传入的回调函数，每当有请求时都会执行这个回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">fs.readFile(文件名，<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123; &#125;)</div><div class="line">fs.writeFile(文件名，内容， <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123; &#125;)</div></pre></td></tr></table></figure>
+<p>根据路径来读取相应的文件并返回。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> file_name = <span class="string">'./www'</span> + req.url;</div><div class="line">    fs.readFile(file_name, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span>(err)&#123;</div><div class="line">            res.write(<span class="string">'404'</span>)</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            res.write(data)</div><div class="line">        &#125;</div><div class="line">        res.end()</div><div class="line">    &#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen(<span class="number">8080</span>)</div></pre></td></tr></table></figure>
+<h2 id="区分对文件的访问和对接口的访问"><a href="#区分对文件的访问和对接口的访问" class="headerlink" title="区分对文件的访问和对接口的访问"></a>区分对文件的访问和对接口的访问</h2><p>访问文件和访问接口都是以不同的路径来区分。但拿到一个路径，要把它视为一个文件还是一个接口呢？</p>
+<h2 id="常用系统模块"><a href="#常用系统模块" class="headerlink" title="常用系统模块"></a>常用系统模块</h2><blockquote>
+<p>Crypto     加密</p>
+<p>Events     事件</p>
+<p>Net         网络操作</p>
+<p>OS        操作系统信息</p>
+<p>Path    处理文件路径</p>
+<p>Stream    流操作</p>
+<p>Timers    定时器</p>
+<p>ZLIB     压缩</p>
+</blockquote>
+<h2 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = express()	<span class="comment">// 创建服务</span></div><div class="line"></div><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;	<span class="comment">// 添加一个响应</span></div><div class="line">    res.send(<span class="string">'abc'</span>)</div><div class="line">    res.end()</div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen(<span class="number">8080</span>)</div></pre></td></tr></table></figure>
+<p>这里的 <code>req</code> 和 <code>res</code>  在以前原生的基础上添加了很多的属性。原生的那些属性都还在。在原生的基础上添加了一些新的属性。</p>
+<p><code>res.write()</code> 只能写字符串。而 <code>res.send()</code> 除了写字符串，还可以传对象，数组等。</p>
+<p>三种方法接受用户的网络请求：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;&#125;)	<span class="comment">// 接受 get 请求</span></div><div class="line">server.post(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;&#125;)	<span class="comment">// 接受 post 请求</span></div><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;&#125;)	<span class="comment">// 通吃各种请求</span></div></pre></td></tr></table></figure>
+<h3 id="Express-静态服务器"><a href="#Express-静态服务器" class="headerlink" title="Express 静态服务器"></a>Express 静态服务器</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">const</span> expressStatic = <span class="built_in">require</span>(<span class="string">'express-static'</span>)	<span class="comment">// 读静态文件</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line">server.listen(<span class="number">8080</span>)</div><div class="line"></div><div class="line">server.use(expressStatic(<span class="string">'./www'</span>))</div></pre></td></tr></table></figure>
+<p>新版：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">const</span> bodyParser <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line">server.listen(<span class="number">8080</span>)</div><div class="line"></div><div class="line">server.use(bodyParser.urlencoded(&#123;</div><div class="line">    extended: <span class="literal">true</span>	 <span class="comment">// 是否开启扩展模式</span></div><div class="line">    limit： <span class="number">2</span>*<span class="number">1024</span>*<span class="number">1024</span>		<span class="comment">// 对我接受的 POST 数据大小的限制。不能上传一个G我都接受。单位 B。上面的 2*1024*1024 表示 2MB</span></div><div class="line">&#125;));</div><div class="line"></div><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(req.body)	<span class="comment">// 打印 req post上来的数据</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><code>body-parser</code> 就是一个中间件。用于解析 <code>Post</code> 上来的数据，即解析 <code>http</code> 请求的第四部分。</p>
+<p><code>res.query</code> 用来装 get带上来的查询参数，如表单的methods是get。 <code>res.body</code> 用来装 post 带上来的http请求的第四部分。如表单的methods是post。<code>res.body</code> 需<code>body-parser</code>  这个中间件的支持。</p>
+<h3 id="链式操作"><a href="#链式操作" class="headerlink" title="链式操作"></a>链式操作</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line">server.listen()</div><div class="line"></div><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> req, res, next </span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'a'</span>)</div><div class="line">    next()</div><div class="line">&#125;)</div><div class="line">server.user(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.lolg(<span class="string">'b'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>当客户端请求 ‘ / ‘ 时，node后台的控制台就会先打印出 ‘ a ‘ , 后打印出 ‘ b ’</p>
+<h3 id="中间件示例"><a href="#中间件示例" class="headerlink" title="中间件示例"></a>中间件示例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line">server.listen(<span class="number">8080</span>)</div><div class="line"></div><div class="line">server.use(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">    req.a = <span class="string">'aaa'</span>;</div><div class="line">    next()</div><div class="line">&#125;)</div><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(req.a)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><code>server.use(function(req,res,next){})</code> 这个 <code>use</code> 是针对所有的请求都会使用的。</p>
+<p><code>server.use(&#39;/&#39;, function(res,res,next){})</code> 这个 <code>use</code> 只会针对 <code>\</code> 路径的请求才会走这个 <code>use</code> 。通用的 <code>use</code> 对 <code>req</code>  加工之后，后面的 <code>use</code> 中回调函数拿到的 <code>req</code> 就是经过加工之后的。这就是所谓的链式操作。根据这个原理，上面的代码中会打印出 <code>aaa</code></p>
+<h3 id="Cookie、Session"><a href="#Cookie、Session" class="headerlink" title="Cookie、Session"></a>Cookie、Session</h3><p><code>http</code> 协议是无状态的。所以需要 <code>cookie</code></p>
+<p><code>cookie</code> 一旦被后台设置一会，浏览器每次访问该网站，<code>http</code> 请求中都会有一个字段带上<code>cookie</code>。<code>cookie</code> 很容易被前端修改：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.cookie = <span class="string">'name = " Jack " '</span></div></pre></td></tr></table></figure>
+<p>用户可以轻易的查看并修改 <code>cookie</code> ，所以 <code>cookie</code> 并不安全。</p>
+<p><code>session</code> 保存在服务端，<code>session</code> 相比 <code>cookie</code> 安全很多。<code>session</code> 是基于 <code>cookie</code> 的。<code>cookie</code> 中保存的是一个指向 <code>session</code> 的指针，即 <code>cookie</code> 中保存的是一个 <code>session_id</code> 。服务器利用这个<code>session_id</code> 来找到对应的 <code>session</code></p>
+<p>隐患： <code>session</code> 劫持。别人把你的 <code>session_id</code> 拷贝了，就可以以你的身份来发请求。</p>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><p>后台如何读取 <code>Cookie</code> 以及如何设置 <code>Cookie</code> 。</p>
+<p><strong>设置cookie</strong>： 用到一个 <code>express</code> 中间件 —— <code>cookie-parser</code> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line"></div><div class="line">server.use(<span class="string">'/aaa/a.html'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    res.cookie(<span class="string">'user'</span>, <span class="string">'zhangsan'</span>, &#123;</div><div class="line">        path: <span class="string">'/aaa'</span>,</div><div class="line">        maxAge: <span class="number">30</span>*<span class="number">24</span>*<span class="number">3600</span>*<span class="number">1000</span></div><div class="line">    &#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen()</div></pre></td></tr></table></figure>
+<p><code>path</code> 指的是只有在我设置的这个 <code>path</code> 路径下才能读取的<code>cookie</code></p>
+<p><code>cookie</code> 的路径： 顶层路径可以访问底层路径设置的 <code>cookie</code>。若一个路径不是另一个路径的祖先路径，则这个顶层的路径不能访问那个路径设置的 <code>cookie</code>。</p>
+<p><strong>读取Cookie</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">const</span> cookieParser = <span class="built_in">require</span>(<span class="string">'cookie-parser'</span>)</div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line"></div><div class="line">server.use(cookieParser())</div><div class="line"></div><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(req.cookies)</div><div class="line">    res.send(<span class="string">'ok'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen(<span class="number">8080</span>)</div></pre></td></tr></table></figure>
+<p><strong>cookie 设置签名</strong></p>
+<p>签名不能给 <code>cookie</code> 加密，但可以防止修改，即一旦签名被修改，我马上能发现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">  req.secret = <span class="string">'aefdvdsgrfdfvas'</span>	<span class="comment">// 你的一串密钥</span></div><div class="line">  res.cookie(<span class="string">'name'</span>, <span class="string">'zhangsan'</span>, &#123;<span class="attr">signed</span>: <span class="literal">true</span>&#125;)</div><div class="line">    </div><div class="line">  res.send(<span class="string">'ok'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>签名</strong> 的使用增加了 <code>cookie</code> 空间的使用。</p>
+<p><strong>读取签名 cookie</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">const</span> cookieParser = <span class="built_in">require</span>(<span class="string">'cookie-parser'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line"></div><div class="line">server.use(cookieParser(<span class="string">'aefdvdsgrfdfvas'</span>))	<span class="comment">// 你的一串密钥</span></div><div class="line"></div><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'签名的cookie：'</span>, req.signedCookie)</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'无签名的cookie：'</span>, req.cookie)</div><div class="line">    </div><div class="line">    res.send(<span class="string">'ok'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen(<span class="number">8080</span>)</div></pre></td></tr></table></figure>
+<p><strong>删除 cookie</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">res.clearCookie(名字)</div></pre></td></tr></table></figure>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>需要使用到一个 <code>cookie-session</code> 中间件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express)</span></div><div class="line"><span class="string">const cookieParser = require('</span>cookie-parser<span class="string">')</span></div><div class="line"><span class="string">const cookieSession require('</span>cookie-session<span class="string">')</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">var server = express()</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">server.use(cookieParser())</span></div><div class="line"><span class="string">server.use(cookieSession(&#123;</span></div><div class="line"><span class="string">    keys：['</span>aaa<span class="string">','</span>bbb<span class="string">','</span>ccc<span class="string">']	// 循环的使用数组中的元素来做密钥</span></div><div class="line"><span class="string">&#125;))</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">server.use('</span>/<span class="string">', function(req, res) &#123;</span></div><div class="line"><span class="string">    console.log(req.session) 	// 打印 session</span></div><div class="line"><span class="string">    res.send('</span>ok<span class="string">')</span></div><div class="line"><span class="string">&#125;)</span></div><div class="line"><span class="string">server.listen(8080)</span></div></pre></td></tr></table></figure>
+<p>如，后台记录你是第几次访问该网站：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">server.use(cookieParser())</div><div class="line">server.use(cookieSession(&#123;</div><div class="line">    name: <span class="string">'xxx'</span></div><div class="line">    keys：[<span class="string">'aaa'</span>,<span class="string">'bbb'</span>,<span class="string">'ccc'</span>],	<span class="comment">// 循环的使用数组中的元素来做密钥，密钥越多越长越好</span></div><div class="line">    maxAge: <span class="number">20</span>*<span class="number">3600</span>*<span class="number">1000</span>;	<span class="comment">// maxAge 设置为 20 分钟</span></div><div class="line">&#125;))</div><div class="line"></div><div class="line">server.use(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(req.session[<span class="string">'count'</span>] == <span class="literal">null</span>)&#123;</div><div class="line">        req.session[<span class="string">'count'</span>] = <span class="number">0</span>  <span class="comment">// 第一次访问 session['count'] 置 0</span></div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        req.session[<span class="string">'count'</span>] ++</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>使用 <code>session</code> ，在浏览器端可以看到，一共设置了两个字段的 <code>cookie</code>： <code>session</code> 和 <code>session_sig</code></p>
+<p><code>session</code> 在刷新的时候不会改变，而 <code>session_sig</code> 是一个签名，会随着 <code>cookeSession</code> 中不同的 <code>keys</code> 来做一些复杂的变化。</p>
+<h2 id="模板库"><a href="#模板库" class="headerlink" title="模板库"></a>模板库</h2><h3 id="jade-模板库"><a href="#jade-模板库" class="headerlink" title="jade 模板库"></a>jade 模板库</h3><p><code>jade</code> 是一个破坏式、侵入式、强依赖的模板引擎。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> jade = <span class="built_in">require</span>(<span class="string">'jade'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> str = jade.render(<span class="string">'html'</span>)</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(str)	<span class="comment">// 打印结果为： &lt;html&gt;&lt;/html&gt;</span></div></pre></td></tr></table></figure>
+<p>1.jade 文件： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">html</div><div class="line">	head</div><div class="line">		style</div><div class="line">		script</div><div class="line">    body</div><div class="line">    	ul</div><div class="line">    		li</div><div class="line">    		li</div></pre></td></tr></table></figure>
+<p>渲染：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> jade = <span class="built_in">require</span>(<span class="string">'jade'</span>)</div><div class="line"><span class="keyword">var</span> str = jade.renderFile(<span class="string">'./1.jade'</span>, &#123;<span class="attr">pretty</span>: <span class="literal">true</span>&#125;)</div><div class="line"><span class="built_in">console</span>.log(str)</div></pre></td></tr></table></figure>
+<p>str 打印出的结果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span>	</div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>特点：</p>
+<ul>
+<li><p><code>jade</code> 根据缩进来确定 html 层级。</p>
+</li>
+<li><p><code>jade</code> 中属性的书写更方便。多个属性在括号中用逗号分隔</p>
+<blockquote>
+<script src="a.js"></script>
+
+<p>等价于：<br>script(src=”a.js”)</p>
+</blockquote>
+<p>有两个特殊的属性：<code>class</code> 和 <code>style</code>。其中 <code>class</code> 可以用数组的方式来写，<code>style</code> 可以用对象的方式来写。</p>
+</li>
+<li><p>内容：</p>
+<blockquote>
+<p><code>&lt;a href=&quot;www.baidu.com&quot;&gt;百度&lt;/a&gt;</code></p>
+<p>在 jade 中等价于 <code>a(href=&quot;www.baidu.com&quot;)  百度</code> 在括号后面空一格写内容。</p>
+</blockquote>
+</li>
+<li><p>简写</p>
+<blockquote>
+<p>div.box 等价与 <div class="box"></div></p>
+<p>div#div1 等价于 <div id="”div1“"></div></p>
+<p>div&amp;attributes({title: ‘aaa’, id: ‘bbb’})    等价于  <div title="aaa" id="bbb"></div></p>
+</blockquote>
+</li>
+<li><p>| 原样输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">script</div><div class="line">	|window.onload = function() &#123;</div><div class="line">	|  var btn = document.getElementById(&apos;btn1&apos;)</div><div class="line">	|  btn.onClick = function() &#123;</div><div class="line">	|  	  alert(&apos;aaa&apos;)   </div><div class="line">	|  &#125;</div><div class="line">	|&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>. 元素内部内容原样输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">script.</div><div class="line">	window.onload = function() &#123;</div><div class="line">        var btn = document.getElementById(&apos;btn1)</div><div class="line">        btn.onClick = function() &#123;</div><div class="line">            alert(&apos;aaa&apos;)</div><div class="line">        &#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>include: 可以用来引入外部文件</p>
+</li>
+<li><p>变量的使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">1.jade文件：</div><div class="line">html</div><div class="line">	head</div><div class="line">	body</div><div class="line">		div 我的名字: #&#123;name&#125;</div><div class="line">1.js 文件</div><div class="line">const jade = require(&apos;jade&apos;)</div><div class="line">console.log(jade.renderFile(&apos;./1.jade&apos;，&#123;pretty: true, name: &apos;jack&apos;&#125;))</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>-</code> 表示一段代码，不会输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body</div><div class="line">	-var a = 12</div><div class="line">	-var b = 5</div><div class="line">	div 结果是：#&#123;a+b&#125;	// 最终会计算得到结果为17</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>=</code> 等号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">span #&#123;a&#125;</div><div class="line">等价于：</div><div class="line">span = a	// a 在render是作为变量传了进来。</div></pre></td></tr></table></figure>
+</li>
+<li><p>循环生成列表项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">body</div><div class="line">	- for(var i=0; i&lt; arr.length; i++)</div><div class="line">		div=arr[i]</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>!=</code> 相关符号原样输出，不转义成html实体。</p>
+</li>
+<li><p>if 语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">body </div><div class="line"> - var a = 12</div><div class="line"> - if(a%2 == 0)</div><div class="line"> 	div(style=&#123;background: &apos;red&apos;&#125;) 偶数</div><div class="line"> - else</div><div class="line">  	div(style=&#123;background: &apos;green&apos;&#125;) 奇数</div></pre></td></tr></table></figure>
+</li>
+<li><p>switch case 语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">body</div><div class="line">	- var a = 3;</div><div class="line">	case a</div><div class="line">		when 1</div><div class="line">			div 111</div><div class="line">         when 2</div><div class="line">         	 div 222</div><div class="line">         when 3</div><div class="line">         	 div 333</div><div class="line">         default</div><div class="line">         	 | 都不是</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="ejs-模板库"><a href="#ejs-模板库" class="headerlink" title="ejs 模板库"></a>ejs 模板库</h3><p><code>ejs</code> 是一个非破坏式，非侵入式的引擎。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> ejs = <span class="built_in">require</span>(<span class="string">'ejs'</span>)</div><div class="line">ejs.renderFile(<span class="string">'./1.ejs'</span>, &#123;<span class="attr">name</span>: <span class="string">'Jack'</span>&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(data)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">	&lt;%= name =&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">// 编译后会变成</div><div class="line">&lt;div&gt;</div><div class="line">	Jack</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>输出一个变量： <code>&lt;%= name %&gt;</code>  <code>&lt;%= json.arr[0] %&gt;</code></p>
+</li>
+<li><p><code>&lt;%= 12 + 5%&gt;</code></p>
+</li>
+<li><p>循环：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;% for(var i=0; i&lt;json.arr.length; i++) %&gt;</div><div class="line">	&lt;div&gt;用户名： &lt;%= json.arr[i].user %&gt;&lt;/div&gt;</div><div class="line">&lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>不转为html实体的输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	var str = &apos;&lt;div&gt;&lt;/div&gt;&apos;</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;%- str %&gt;	// 输出 &lt;div&gt;&lt;/div&gt;.</div></pre></td></tr></table></figure>
+<p>即等号是转义输出，而减号是不转义输出。</p>
+</li>
+<li><p>引入外部文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;% include ./a.txt %&gt;</div></pre></td></tr></table></figure>
+<p><code>include</code> 不是 js 语句，所以必须单独包起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;% if(type === &apos;admin&apos;) &#123; %&gt;</div><div class="line">	&lt;% include ./admin.css %&gt;</div><div class="line">&lt;% &#125;else&#123; %&gt;</div><div class="line">	&lt;% include ./user.css %&gt;</div><div class="line">&lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
+<p><code>include</code> 后面不能跟变量。</p>
+<h3 id="multer"><a href="#multer" class="headerlink" title="multer"></a>multer</h3><blockquote>
+<p><code>body-parser</code> 并不好用，因为它只能解析数据类型的<code>POST</code> ， 如表单post上来的一些字段，不能处理文件上传的这种 <code>POST</code> 数据。</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- enctype 即编解码方式  --&gt;</span></div><div class="line"><span class="comment">&lt;!-- enctype="application/x-www-urlencoded" 即我们平时见到的 ?a=1&amp;b=2 , 只能上传一些值，对于 input type='file'则只上传文件名 --&gt;</span> </div><div class="line"><span class="comment">&lt;!-- enctype="multipart/form-data"  可以分段上传，支持文件上传 --&gt;</span></div><div class="line"><span class="comment">&lt;!-- enctypel="text/plain"  实际中几乎不用 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://localhost:8080/"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">'application/x-www-form-urlencoded'</span>&gt;</span><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>由于 <code>body-parser</code> 并不好用，不能处理文件上传，故我们改用 <code>multer</code></p>
+<p><code>multer</code> 为处理 <code>multipart/form-data</code> 而生的中间件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>) </div><div class="line"><span class="keyword">const</span> multer = <span class="built_in">require</span>(<span class="string">'multer'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> objMulter = multer(&#123;</div><div class="line">    dest: <span class="string">'./upload'</span> <span class="comment">// 把上传的文件直接写到给定目录下，即接受到的文件不要存在内存中了，直接写入到磁盘中</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line"></div><div class="line"><span class="comment">// server.use(objMulter.single('f1'))	// 表示我只接受 name 为 f1 这个文件</span></div><div class="line">server.use(objMulter.any())	<span class="comment">// 表示我接受任意的文件</span></div><div class="line"></div><div class="line">server.post(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(req.files)</div><div class="line">    res.send(<span class="string">'ok'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen(<span class="number">8080</span>)</div></pre></td></tr></table></figure>
+<p>不过 <code>multer</code> 接受到并存在磁盘中的上传文件一般都是没有后缀名的，我们一般用 <code>fs</code> 模块来修改名字以添加扩展名。</p>
+<p>rename</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"></div><div class="line">fs.rename(<span class="string">'a.txt'</span>,<span class="string">'b.txt'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(err)</div><div class="line">&#125;)</div><div class="line"><span class="comment">// a.txt 是原始名字，b.txt 是修改后的名字，由于这个操作是异步的，故会有一个回调函数。</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>) </div><div class="line"><span class="keyword">const</span> multer = <span class="built_in">require</span>(<span class="string">'multer'</span>)</div><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"><span class="keyword">const</span> Path = <span class="built_in">require</span>(<span class="string">'path'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> objMulter = multer(&#123;</div><div class="line">    dest: <span class="string">'./upload'</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line"></div><div class="line">server.use(objMulter.any())	</div><div class="line"></div><div class="line">server.post(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> newName = req.files[<span class="number">0</span>].path + Path.parse(req.files[<span class="number">0</span>].originalName).ext;</div><div class="line">    fs.rename(req.files[<span class="number">0</span>].path, newName, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span>(err) &#123;</div><div class="line">            res.send(<span class="string">'上传失败'</span>)</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            res.send(<span class="string">'上传成功'</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen(<span class="number">8080</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>body-parser</th>
+<th>解析 post 数据</th>
+<th>application/x-www-form-urlencoded</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>multer</td>
+<td>解析 post 文件</td>
+<td>multipart/form-data</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">server.use(bodyParser.urlencoded(&#123;<span class="attr">extended</span>: <span class="literal">false</span>&#125;</div><div class="line">server.use(multer(&#123;<span class="attr">dest</span>: <span class="string">'./www/upload'</span>&#125;.any))</div></pre></td></tr></table></figure>
+<h3 id="consolidate"><a href="#consolidate" class="headerlink" title="consolidate"></a>consolidate</h3><p><code>consolidate</code> 是一个 adapter 适配器。帮助 Express 适配不同的模板引擎。</p>
+<p>通过 <code>consolidate</code> 各种模板引擎可以得到整合，对 Express 提供统一的接口。</p>
+<p>配置模板引擎至少要做以下几件事：</p>
+<blockquote>
+<ol>
+<li>输出什么格式文件，html？xml？pdf?</li>
+<li>模板文件目录在哪里</li>
+<li>使用何种模板引擎</li>
+</ol>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> consolidate = <span class="built_in">require</span>(<span class="string">'consolidate'</span>)</div><div class="line"></div><div class="line">server.set(<span class="string">'view engine'</span>, <span class="string">'html'</span>)	<span class="comment">// 输出什么格式</span></div><div class="line">server.set(<span class="string">'views'</span>,<span class="string">'./views'</span>;)		<span class="comment">// 模板文件目录在哪里</span></div><div class="line">server.engine(<span class="string">'html'</span>, <span class="string">'consolidate.ejs'</span>) 	<span class="comment">// 如果输出 html, 则使用 consolidate.ejs 模板引擎</span></div><div class="line"></div><div class="line"><span class="comment">// 接受用户请求</span></div><div class="line">server.get(<span class="string">'/index'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    res.render(<span class="string">'1.ejs'</span>, &#123;<span class="attr">name</span>: <span class="string">'Jack'</span>&#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 1.ejs</span></div><div class="line">&lt;div&gt;</div><div class="line">    我的名字叫: <span class="xml"><span class="tag">&lt;<span class="name">%=</span> <span class="attr">name</span> %&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<p><code>server.render()</code> 和 <code>server.send()</code> 很像，<code>server.render()</code> 把一个模板编译后发送，而 <code>server.send()</code> 则是直接发送数据。</p>
+<h3 id="router-路由"><a href="#router-路由" class="headerlink" title="router - 路由"></a>router - 路由</h3><p>路由，即把不同的请求路径，对应到不同的模块。子路径最好能对应子模块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">var</span> server = express()</div><div class="line"></div><div class="line"><span class="comment">// 路由1: /user/</span></div><div class="line"><span class="keyword">var</span> routeUser = express.Router();</div><div class="line">routeUser.get(<span class="string">'1.html'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    res.send(<span class="string">'user1'</span>)	<span class="comment">// http://localhost:8080/user/1.html</span></div><div class="line">&#125;)</div><div class="line">routeUser.get(<span class="string">'2.html'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    res.send(<span class="string">'user2'</span>)	<span class="comment">// http://localhost:8080/user/2.html</span></div><div class="line">&#125;)</div><div class="line">server.use(<span class="string">'/user'</span>, routeUser)</div><div class="line"></div><div class="line"><span class="comment">// 路由2： /article/</span></div><div class="line"><span class="keyword">var</span> articleRouter = express.Router()</div><div class="line">server.use(<span class="string">'/article'</span>, articleRouter)</div><div class="line">articleRouter.get(<span class="string">'1.html'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    res.send(<span class="string">'article1'</span>)	<span class="comment">// http://localhost:8080/article/1.html</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line">server.listen(<span class="number">8080</span>)</div></pre></td></tr></table></figure>
+<p><code>router</code> 就像一个迷你server, 专门用来处理子路由。<code>router</code>  帮助我们拆分路由。</p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>关系型数据库</p>
+<blockquote>
+<ul>
+<li>MySQL:  免费、中小网站首选、性能好。缺点：集群、容灾方面稍弱</li>
+<li>Oracle:  挺贵，适合大型应用。性能高，集群、容灾好。缺点：贵</li>
+</ul>
+</blockquote>
+<p>文件型数据库：</p>
+<p><code>sqlite</code>、<code>mongodb</code></p>
+<h4 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h4><p><code>Server</code> 端： 数据存在这里。</p>
+<p><code>Client</code> 端： 管理工具，如<code>Navicat for MySQL</code>等。</p>
+<h4 id="数据库基本概念"><a href="#数据库基本概念" class="headerlink" title="数据库基本概念"></a>数据库基本概念</h4><p>两种单位： <code>库</code> 和 <code>表</code></p>
+<p><code>库</code> 类似与平常的文件夹, 本身没办法存数据，用来管理表。</p>
+<p><code>表</code> 类似于平常的文件，用来存数据，放在 <code>库</code> 中。很像 Excel。行，就是一条数据。列也叫字段或域，一个数据项。</p>
+<p>主键： 一条数据的唯一标识符。必须是唯一的，主键的查找数据的性能很高。</p>
+<p>Node.JS 不支持 mysql 。故需要安装插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install mysql</div></pre></td></tr></table></figure>
+<p>这个 mysql 插件帮助我们连接 MySQL 数据库。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> mysql = <span class="built_in">require</span>(<span class="string">'mysql'</span>)</div><div class="line"></div><div class="line"><span class="comment">// 1. 连接数据库</span></div><div class="line"><span class="comment">// createConnection(哪台服务器，用户名，密码，哪个库)</span></div><div class="line"><span class="keyword">var</span> db = mysql.createConnection(&#123;</div><div class="line">    host: <span class="string">'localhost'</span>,</div><div class="line">    user: <span class="string">'root'</span>,</div><div class="line">    password: <span class="string">'laklc295'</span>,</div><div class="line">    database: <span class="string">'20180806'</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 2. 查询数据库</span></div><div class="line"><span class="comment">// 服务器和客户端是通过网络来交互的，故增删改查都是异步操作</span></div><div class="line"><span class="comment">// query(增删改查操作哪些数据，回调函数)</span></div><div class="line"><span class="comment">// query 的第一个参数得是sql结构化查询语句</span></div><div class="line">db.query(<span class="string">"SELECT * FROM `user_table`"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(err)&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'出错了，'</span>， err)</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'成功了，'</span>， data)</div><div class="line">    &#125;</div><div class="line">&#125;)；</div></pre></td></tr></table></figure>
+<p><code>SQL</code> 四大查询语句： 增删改查。</p>
+<p>增 – INSERT</p>
+<p>​    INSERT INTO 表 （字段列表） VALUES（值列表）</p>
+<p>​    规范： 关键字大写，表名，字段名用反单引号括起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT INTO `user_table` (`ID`, `username`, `password`) VALUES (0, &apos;xiaoming&apos;, &apos;mima12345&apos;);</div></pre></td></tr></table></figure>
+<p>删 – DELETE</p>
+<p>改 – UPDATE</p>
+<p>查 – SELECT</p>
+<p>​    SELECT 查什么  FROM 从那个表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM `user_table` // 从 user_table 里面查所有的数据</div></pre></td></tr></table></figure></p>
+<h4 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> mysql = <span class="built_in">require</span>(<span class="string">'mysql'</span>)</div><div class="line"><span class="keyword">const</span> db = mysql.createPool(&#123;</div><div class="line">    host: <span class="string">'localhost'</span>,</div><div class="line">    user: <span class="string">'root'</span>,</div><div class="line">    password: <span class="string">'laklc295'</span>,</div><div class="line">    database: <span class="string">'blog'</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 接受用户请求</span></div><div class="line">server.get(<span class="string">'/'</span>, (req, res) =&gt; &#123;</div><div class="line">    db.query(<span class="string">'SELECT * FROM banner_table'</span>, (err, data) =&gt; &#123;</div><div class="line">        <span class="keyword">if</span>(err)&#123;</div><div class="line">            res.status(<span class="number">500</span>).send(<span class="string">'database error'</span>).end()</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            res.render(<span class="string">'index.ejs'</span>, &#123;<span class="attr">banners</span>: data&#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h4 id="数据库四大操作语句-——-增删改查"><a href="#数据库四大操作语句-——-增删改查" class="headerlink" title="数据库四大操作语句 —— 增删改查"></a>数据库四大操作语句 —— 增删改查</h4><ol>
+<li><p>删    DELETE</p>
+<p>DELETE FROM 表名 WHERE 条件</p>
+</li>
+<li><p>增    INSERT</p>
+<p>INSERT INTO 表名 (字段列表) VALUES (值列表)</p>
+</li>
+<li><p>改    UPDATE</p>
+<p>UPDATE 表名 SET 字段1 = 值1， 字段2=值2… WHERE 条件</p>
+</li>
+<li><p>查    SELECT</p>
+<p>SELECT * FROM 表名 WHERE 条件</p>
+</li>
+</ol>
+<p><strong>子句</strong></p>
+<p>where 条件</p>
+<p>order by 用于排序： <code>order by price ASC</code> 按价格升序排</p>
+<p><code>GROUP</code> 聚类 —— 合并相同的。例如统计班级人数。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">class</span>, <span class="keyword">COUNT</span>(<span class="keyword">class</span>) <span class="keyword">FROM</span> student_table <span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">class</span></div></pre></td></tr></table></figure>
+<p><code>LIMIT</code> 限制输出</p>
+<p><code>LIMIT 10</code>  前10条</p>
+<p><code>LIMIT 5, 8</code> 从 5 开始，要 8 个</p>
+<p><strong>子句</strong> 的书写要注意顺序：WHERE &gt; GROUP &gt; ORDER &gt; LIMIT</p>
+<p>​                       筛选              合并         排序         限制</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/30/node初识/" rel="next" title="node初识">
+                <i class="fa fa-chevron-left"></i> node初识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="Ak-lee" />
+          
+            <p class="site-author-name" itemprop="name">Ak-lee</p>
+            <p class="site-description motion-element" itemprop="description">start from zero</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#node-实战"><span class="nav-number">1.</span> <span class="nav-text">node 实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#区分对文件的访问和对接口的访问"><span class="nav-number">1.1.</span> <span class="nav-text">区分对文件的访问和对接口的访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用系统模块"><span class="nav-number">1.2.</span> <span class="nav-text">常用系统模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Express"><span class="nav-number">1.3.</span> <span class="nav-text">Express</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Express-静态服务器"><span class="nav-number">1.3.1.</span> <span class="nav-text">Express 静态服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链式操作"><span class="nav-number">1.3.2.</span> <span class="nav-text">链式操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中间件示例"><span class="nav-number">1.3.3.</span> <span class="nav-text">中间件示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie、Session"><span class="nav-number">1.3.4.</span> <span class="nav-text">Cookie、Session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cookie"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">Session</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板库"><span class="nav-number">1.4.</span> <span class="nav-text">模板库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jade-模板库"><span class="nav-number">1.4.1.</span> <span class="nav-text">jade 模板库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ejs-模板库"><span class="nav-number">1.4.2.</span> <span class="nav-text">ejs 模板库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multer"><span class="nav-number">1.4.3.</span> <span class="nav-text">multer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#consolidate"><span class="nav-number">1.4.4.</span> <span class="nav-text">consolidate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#router-路由"><span class="nav-number">1.4.5.</span> <span class="nav-text">router - 路由</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库"><span class="nav-number">1.5.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库基本概念"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">数据库基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库连接池"><span class="nav-number">1.5.0.3.</span> <span class="nav-text">数据库连接池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库四大操作语句-——-增删改查"><span class="nav-number">1.5.0.4.</span> <span class="nav-text">数据库四大操作语句 —— 增删改查</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ak-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    |  您是本站第 <span id="busuanzi_value_site_pv"></span> 位访问者
+</span>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

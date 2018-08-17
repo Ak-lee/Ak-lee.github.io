@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="nodenode 在处理高并发、I/O 密集场景性能优势明显。 I/O 密集： 文件操作、网络操作、数据库操作。  单线程只是针对主进程、I/O 操作系统底层多线程调度 node 单线程并不是单进程  global.process 代表当前的进程 CommonJS 规范：  每个文件是一个模块，有自己的作用域 在模块内部 module 变量代表模块本身 module.exports 属性代表模块对">
+<meta name="keywords" content="node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node相关">
+<meta property="og:url" content="http://yoursite.com/2018/08/17/node相关/index.html">
+<meta property="og:site_name" content="Ak-lee">
+<meta property="og:description" content="nodenode 在处理高并发、I/O 密集场景性能优势明显。 I/O 密集： 文件操作、网络操作、数据库操作。  单线程只是针对主进程、I/O 操作系统底层多线程调度 node 单线程并不是单进程  global.process 代表当前的进程 CommonJS 规范：  每个文件是一个模块，有自己的作用域 在模块内部 module 变量代表模块本身 module.exports 属性代表模块对">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-17T10:59:41.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node相关">
+<meta name="twitter:description" content="nodenode 在处理高并发、I/O 密集场景性能优势明显。 I/O 密集： 文件操作、网络操作、数据库操作。  单线程只是针对主进程、I/O 操作系统底层多线程调度 node 单线程并不是单进程  global.process 代表当前的进程 CommonJS 规范：  每个文件是一个模块，有自己的作用域 在模块内部 module 变量代表模块本身 module.exports 属性代表模块对">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/17/node相关/"/>
+
+
+
+
+
+  <title>node相关 | Ak-lee</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ak-lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端修炼中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            Über
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/17/node相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ak-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ak-lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">node相关</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-17T18:58:57+08:00">
+                2018-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="node"><a href="#node" class="headerlink" title="node"></a>node</h1><p>node 在处理高并发、I/O 密集场景性能优势明显。</p>
+<p>I/O 密集： 文件操作、网络操作、数据库操作。</p>
+<ul>
+<li>单线程只是针对主进程、I/O 操作系统底层多线程调度</li>
+<li>node 单线程并不是单进程</li>
+</ul>
+<p><code>global.process</code> 代表当前的进程</p>
+<h4 id="CommonJS-规范："><a href="#CommonJS-规范：" class="headerlink" title="CommonJS 规范："></a>CommonJS 规范：</h4><blockquote>
+<ul>
+<li>每个文件是一个模块，有自己的作用域</li>
+<li>在模块内部 module 变量代表模块本身</li>
+<li>module.exports 属性代表模块对外的接口</li>
+</ul>
+</blockquote>
+<p>####require  特性</p>
+<blockquote>
+<ul>
+<li>module 被加载的时候执行，加载后缓存</li>
+<li>一旦出现某个模块被循环加载，就只输出已经执行的部分，未执行的部分不会输出</li>
+</ul>
+</blockquote>
+<p>一个模块在被 <code>require</code> 的时候，会自动被 node 在外层包裹一层函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> exports = <span class="built_in">module</span>.exports</div><div class="line">(</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">exports, require, module, __filename, __dirname</span>) </span>&#123;</div><div class="line">        <span class="comment">// 这里是你定义的模块代码</span></div><div class="line">    &#125;</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>模块的输出永远是 <code>module.exports</code> ，<code>exports</code> 只是指向 <code>module.exports</code> ，永远不要改变<code>exports</code> 的指向，例如 <code>exports = {a: 1}</code></p>
+<p>输出一个对象只能用 <code>module.exports</code> :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    a: <span class="number">1</span>,</div><div class="line">    b: <span class="number">2</span>,</div><div class="line">    test: <span class="number">100</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="process"><a href="#process" class="headerlink" title="process"></a>process</h4><p><code>process</code> 对象中保存了当前脚本执行进程相关的信息。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">const</span> &#123; argv, argv0, execArgv, execPath&#125; <span class="keyword">from</span> path</div><div class="line"> </div><div class="line"> node --inspect test.js --test a=<span class="number">1</span> b=<span class="number">2</span></div><div class="line"> <span class="comment">// argv 保存了脚本启动时，node命令所在目录；脚本所在目录；脚本通过命令行启动时带的参数</span></div><div class="line"> <span class="comment">// 上面例子中argv最后一部分内容是 [..., '--test', 'a=1', 'b=2']</span></div><div class="line"> <span class="comment">// argv0 是 argv[0] 的一个指向。很少用</span></div><div class="line"> <span class="comment">// execArgv	上面例子中 execArgv 是 '--inspect' ，即被执行脚本名前面的参数。execArgv 是不被计入 argv的。这是给node调用传入的参数，而不是给脚本内部使用的参数</span></div><div class="line"><span class="comment">// execPath 代表 node 命令的目录</span></div></pre></td></tr></table></figure>
+<p><strong>环境</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123; env &#125; = process</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(env)	<span class="comment">// env 即环境</span></div></pre></td></tr></table></figure>
+<p><code>env</code> 里面包含当前环境的很多信息。例如： <code>PWD</code> 当前目录；<code>PATH</code> 当前电脑的PATH环境变量；<code>HOME</code> 当前电脑的用户名。<code>shell</code> 当前用的 shell 名（win电脑没有）。总之有各种各样的环境信息。</p>
+<p><code>process.cwd()</code> 打印出当前脚本的路径</p>
+<p><strong>setImmediate（（）=&gt; {}）</strong> 下一个事件队列到的时候执行。</p>
+<p><strong>process.nextTick( ( ) =&gt; {} )</strong>  <code>process.nextTick()</code> 执行的要比 <code>setImmediate()</code> 早。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">setImmediate (<span class="function"><span class="params">()</span> =&gt;</span> &#123;	<span class="comment">// 放到下一个事件队列的第一个</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'setImmediate'</span>)</div><div class="line">&#125;) </div><div class="line">setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;		<span class="comment">// setTimout(() =&gt; &#123;&#125;, 0) 放在 setImmediate 和 process.nextTick 之间</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'timeout'</span>)</div><div class="line">&#125;)</div><div class="line">process.nextTick( <span class="function"><span class="params">()</span> =&gt;</span> &#123;	<span class="comment">// 放到当前事件队列的最后一个</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'nextTick'</span>) </div><div class="line">&#125; )</div><div class="line"></div><div class="line"><span class="comment">// 最终打印的顺序是： nextTick timeout setImmediate</span></div><div class="line"><span class="comment">// 普通应用最好选 setImmediate</span></div></pre></td></tr></table></figure>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><p>用 Chrome浏览器来调试：</p>
+<blockquote>
+<ol>
+<li>安装插件： NIM ( Node Inspector Manager )</li>
+<li>node –inspect-brk 文件名</li>
+<li>在 Chrome浏览器中打开 <code>chrome://inspect</code></li>
+<li>在 Chrome 浏览器提供的调试器来打断点</li>
+</ol>
+</blockquote>
+<p>用 VSCode 来调试。用 VSCode 调试很方便，而且支持条件断点，即我循环到特定次数，满足一定条件时中断。例如一个bug在循环到第10次的时候才出现。这种情况用条件断点就很合适。</p>
+<h2 id="Node基础-API"><a href="#Node基础-API" class="headerlink" title="Node基础 API"></a>Node基础 API</h2><h3 id="path"><a href="#path" class="headerlink" title="path"></a>path</h3><p>path 模块用来处理一切和路径有关的操作。</p>
+<ul>
+<li><p><code>path.normalize()</code> 帮助我们整理路径的书写</p>
+</li>
+<li><p><code>path.join()</code> 用于路径的拼接。在拼接的过程中也会调用 <code>normalize</code> 来整理路径。</p>
+</li>
+<li><p><code>path.resolve()</code> 用于把相对路径解析成绝对路径</p>
+</li>
+<li><p><code>path.basename()</code>  用于拿到路径中的文件名</p>
+</li>
+<li><p><code>path.dirname()</code> 用于拿到路径中文件所在的路径</p>
+</li>
+<li><p><code>path.extname()</code> 用于拿到路径中文件名中扩展名的部分。<code>path.extname()</code> 方法返回 <code>path</code> 的扩展名，即从 <code>path</code> 的最后一部分中的最后一个 <code>.</code>（句号）字符到字符串结束。 如果 <code>path</code> 的最后一部分没有 <code>.</code>或 <code>path</code> 的文件名（见 <code>path.basename()</code>）的第一个字符是 <code>.</code>，则返回一个空字符串。 </p>
+</li>
+<li><p><code>path.parse()</code> 解析一个字符串形式的路径。返回的结果是一个对象。</p>
+</li>
+<li><p><code>path.format()</code> 作用与 <code>path.parse()</code> 相反。把 <code>path.parse()</code> 接受的对象变成一个字符串形式的路径。使用场景：例如我只想改变路径中的文件扩展名，则 var object = path.parse(‘路径字符串’) 解析后，写改其中的 object.ext 之后，用 <code>path.format()</code> 还原回去。</p>
+</li>
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123;</div><div class="line">    sep,	<span class="comment">// 路径分隔符。win电脑和linux是不同的</span></div><div class="line">    delimiter, <span class="comment">// 环境变量 PATH(即 process.env.PATH) 的分隔符。在Linux上是冒号，在win上是分号</span></div><div class="line">    win32,</div><div class="line">    posix</div><div class="line">&#125; = <span class="built_in">require</span>(<span class="string">'path'</span>)</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(sep)</div><div class="line"><span class="built_in">console</span>.log(win32.sep)</div><div class="line"><span class="built_in">console</span>.log(posix.sep)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>模块包裹函数传进来的 <code>__dirname</code> 、<code>__filename</code> 总是返回被执行脚本文件的绝对路径</li>
+<li><code>process.cwd()</code> 总是返回执行 node 命令所在的文件夹。我可以在上级目录中用node命令执行当前目录中的某个脚本文件。即这个node进程是在哪里启动的。</li>
+</ul>
+</blockquote>
+<p>相对路径 <code>./</code></p>
+<blockquote>
+<ul>
+<li>在 <code>require</code> 中总是相对于当前文件所在的文件夹</li>
+<li><code>./</code>  在其他地方使用和 <code>process.cwd()</code> 一样，相对于 node 的启动文件夹。即 node 命令执行的那个文件夹。</li>
+</ul>
+</blockquote>
+<h3 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h3><p>在 ES6 引入 <code>typedArray</code> 之前，JavaScript 语言并没有读取或操作二进制数据流的机制。<code>Buffer</code> 类被引入作为 Node.JS API 的一部分，使其可以在 TCP 流或文件系统操作等场景中处理二进制数据流。</p>
+<blockquote>
+<ul>
+<li>Buffer 用于处理二进制数据流</li>
+<li>实例类似整数数组，<strong>大小固定</strong>。</li>
+<li>Buffer 在底层由 C++ 在 V8 引擎堆外分配物理内存。Buffer 的大小在创建时被确定，且无法调整。</li>
+</ul>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 创建一个长度为10, 且用 0x1 来填充</span></div><div class="line"><span class="keyword">const</span> buf = Buffer.alloc(<span class="number">10</span>, <span class="number">1</span>)</div><div class="line"></div><div class="line"><span class="comment">// 申请一个Buffer实例，但没有初始化。速度更快。因此需要`fill()` 或 `write()` 来重写</span></div><div class="line"><span class="keyword">const</span> buf2 = Buffer.allocUnsafe(<span class="number">10</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> buf3 = Buffer.from([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</div><div class="line"><span class="keyword">const</span> buf4 = Buffer.from(<span class="string">'test'</span>) <span class="comment">// 默认使用 utf-8 编码</span></div><div class="line"><span class="keyword">const</span> buf5 = Buffer.from(<span class="string">'test1'</span>,<span class="string">'base65'</span>)	<span class="comment">// 指定使用 base64 编码</span></div></pre></td></tr></table></figure>
+<p><strong>Buffer的属性和方法</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Buffer.byteLength() 测试字符串所占的字节数</span></div><div class="line">Buffer.byteLength(<span class="string">'test'</span>)	<span class="comment">// 4</span></div><div class="line">Buffer.byteLength(<span class="string">'测试'</span>)    <span class="comment">// 6</span></div><div class="line"></div><div class="line">Buffer.isBuffer() <span class="comment">// 测试一个对象是否为 Buffer 对象</span></div><div class="line"></div><div class="line">Buffer.concat()	<span class="comment">// 拼接 Buffer</span></div><div class="line"><span class="keyword">const</span> buf1 = Buffer.from(<span class="string">'hello '</span>)</div><div class="line"><span class="keyword">const</span> buf2 = Buffer.from(<span class="string">'world'</span>)</div><div class="line"><span class="keyword">const</span> buf = Buffer.concat([buf1, buf2])</div><div class="line"><span class="built_in">console</span>.log(buf.toString())	<span class="comment">// hello world</span></div></pre></td></tr></table></figure>
+<p><strong>实例属性</strong></p>
+<ul>
+<li><p>buf.length( ):  buf 实例的长度。即这个buf所占的字节空间。<code>alloc</code> 多少，buf.length 就是多少</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> buf = Buffer.alloc(<span class="number">10</span>)</div><div class="line">buf[<span class="number">0</span>] = <span class="number">2</span></div><div class="line"><span class="built_in">console</span>.log(buf.length)</div></pre></td></tr></table></figure>
+</li>
+<li><p>buf.toString( ) 输出 buf 实例对应的字符串。可以传一个编码格式字符串。如 <code>utf8</code>, <code>base64</code></p>
+</li>
+<li><p>buf.fill( )： 填充buf</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> buf = Buffer.alloc(<span class="number">10</span>)</div><div class="line"><span class="built_in">console</span>.log(buf) <span class="comment">// 一串随机数</span></div><div class="line">buf.fill(<span class="number">10</span>, <span class="number">0</span>, <span class="number">9</span>) <span class="comment">// 用10来填充对应位置。0表示其实位置。9表示结束位置</span></div><div class="line"><span class="comment">// 0a 0a 0a 0a 0a 0a 0a 0a 0a 00 不包含结束位置</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>buf.equals( ) 判断两个 buf 的内容是否相同。</p>
+</li>
+<li><p>buf.indexOf( )   找到字符串的起始位置</p>
+</li>
+<li><p>buf.copy( )  把自己的内容拷贝到第一个元素里。第 2 3 个参数表示起止位置</p>
+<p>stringDecoder 解决Buffer 中文汉字乱码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> StringDecoder = <span class="built_in">require</span>(<span class="string">'string_decoder'</span>).StringDecoder</div><div class="line"><span class="keyword">const</span> decoder = <span class="keyword">new</span> StringDecoder(<span class="string">'utf8'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> buf = Buffer.from(<span class="string">'中文字符串'</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> ( <span class="keyword">let</span> i = <span class="number">0</span>; i &lt; buf.length; i = i + <span class="number">5</span> )&#123;</div><div class="line">    <span class="keyword">const</span> b = Buffer.allocUnsafe(<span class="number">5</span>)</div><div class="line">    buf.copy(b，<span class="number">0</span>，i)</div><div class="line">    <span class="built_in">console</span>.log(decoder.write(b))	<span class="comment">// 当剩余字节不足以输出汉字时，自动缓存，等到下一次有新的自己时和之前缓存的字节拼接起来输出</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="events-事件"><a href="#events-事件" class="headerlink" title="events 事件"></a>events 事件</h1><p>一个绑定了一个监听器的 <code>EventEmitter</code> 实例。<code>eventEmitter.on()</code> 方法用于注册监听器。<code>eventEmitter.emit()</code> 用于触发事件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEmitter</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myEmitter = <span class="keyword">new</span> MyEmitter()</div><div class="line">myEmitter.on(<span class="string">'event'</span>, () =&gt; &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'触发了一个事件！'</span>)</div><div class="line">&#125;)</div><div class="line">myEmitter.emit(<span class="string">'event'</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomEvent</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> ce = <span class="keyword">new</span> CustomEvent()</div><div class="line"></div><div class="line">ce.on(<span class="string">'error'</span>, (err, date) =&gt; &#123;</div><div class="line">	<span class="built_in">console</span>.log(err)</div><div class="line">    <span class="built_in">console</span>.log(date)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">ce.emit(<span class="string">'error'</span>, <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'oops!'</span>), <span class="keyword">new</span> <span class="built_in">Date</span>())</div></pre></td></tr></table></figure>
+<h3 id="fs-文件系统模块"><a href="#fs-文件系统模块" class="headerlink" title="fs 文件系统模块"></a>fs 文件系统模块</h3><p>文件 I/O 是由简单封装的标准 POSIX 提供。 通过 <code>require(&#39;fs&#39;)</code> 使用该模块。所有方法都有同步和异步的形式。</p>
+<p>删除文件： <code>fs.unlink(文件路径，回调函数)</code></p>
+<p>读文件夹： </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fs.readdir(<span class="string">'../'</span>, (err, files) =&gt; &#123;</div><div class="line">    <span class="keyword">if</span>(err) <span class="keyword">throw</span> err;</div><div class="line">    <span class="built_in">console</span>.log(files)	<span class="comment">// files 是一个数组</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>创建文件夹： </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fs.mkdir(<span class="string">'test'</span>, (err) =&gt; &#123;&#125;)</div></pre></td></tr></table></figure>
+<p>删除文件夹:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fs.rmdir(<span class="string">'test'</span>, (err) =&gt; &#123;&#125;)</div></pre></td></tr></table></figure>
+<p>监视文件/文件夹的变化：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">fs.watch(<span class="string">'./'</span>, &#123;</div><div class="line">    recursive: <span class="literal">true</span>,	<span class="comment">// 递归，子文件夹的子孙也监视</span></div><div class="line">&#125;, (eventType, fileName) =&gt; &#123;</div><div class="line">    <span class="built_in">console</span>.log(eventType)</div><div class="line">    <span class="built_in">console</span>.log(fileName)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="流"><a href="#流" class="headerlink" title="流"></a>流</h3><p><code>流</code> 就是有方向的数据。从一个设备（文件）流向另一个设备（文件）。</p>
+<blockquote>
+<ul>
+<li>流有方向</li>
+<li>流运送数据</li>
+</ul>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"><span class="keyword">const</span> rs = fs.createReadStream(<span class="string">'./text.txt'</span>)</div><div class="line"></div><div class="line"><span class="comment">// rs.pipe()  这股流往哪里走</span></div><div class="line">rs.pipe(process.stdout); 	<span class="comment">// 把流在控制台上打印出来</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 往文件里写1-10</span></div><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"><span class="keyword">const</span> ws = fs.createWriteStream(<span class="string">'./test.txt'</span>) <span class="comment">// 流只能是一个buffer或字符串</span></div><div class="line"><span class="keyword">var</span> num = <span class="number">1</span>	</div><div class="line"><span class="keyword">const</span> timer = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;	<span class="comment">// 每个两秒写一个数字</span></div><div class="line">    <span class="keyword">if</span>(num &lt;= <span class="number">10</span>)&#123;</div><div class="line">        ws.write(num.toString() + <span class="string">'\n'</span>)</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        clearInterval(timer)</div><div class="line">        ws.end()</div><div class="line">    &#125;</div><div class="line">&#125;, <span class="number">2000</span>)	</div><div class="line"></div><div class="line">ws.on(<span class="string">'finish'</span>, () =&gt; &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'finished'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"><span class="keyword">const</span> promisify = <span class="built_in">require</span>(<span class="string">'util'</span>).promisify</div><div class="line"></div><div class="line"><span class="keyword">const</span> read = promisify(fs.readFile)	<span class="comment">// 把异步操作改造成promise</span></div><div class="line"></div><div class="line">read(<span class="string">'./text.txt'</span>).then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(data.toString())</div><div class="line">&#125;).catch( <span class="function"><span class="params">ex</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(ex)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="async-await"><a href="#async-await" class="headerlink" title="async await"></a>async await</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line"><span class="keyword">const</span> promisify = <span class="built_in">require</span>(<span class="string">'util'</span>).promisify</div><div class="line"><span class="keyword">const</span> read = promisify(fs.readFile)	<span class="comment">// 把异步操作改造成promise</span></div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">try</span>&#123;</div><div class="line">        <span class="comment">// await 后面跟的应该是一个 promise</span></div><div class="line">        <span class="keyword">const</span> content = <span class="keyword">await</span> read(<span class="string">'./text.txt'</span>)</div><div class="line">   	    <span class="built_in">console</span>.log(content.toString)</div><div class="line">    &#125;<span class="keyword">catch</span>(ex)&#123;</div><div class="line">        <span class="built_in">console</span>.log(ex)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">test()</div></pre></td></tr></table></figure>
+<h2 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h2><blockquote>
+<ul>
+<li>匹配模式前 <code>/</code> 代表项目根目录</li>
+<li>匹配模式最后加 <code>/</code> 代表是目录而不是文件</li>
+<li>匹配模式前加 <code>!</code> 代表取反</li>
+<li><code>*</code> 代表任意个字符</li>
+<li><code>?</code> 代表任意一个字符</li>
+<li><code>**</code> 匹配多级目录，即任意级的目录都可以匹配</li>
+<li><code>#</code> 后面是注释内容</li>
+</ul>
+</blockquote>
+<h2 id="ESLint"><a href="#ESLint" class="headerlink" title="ESLint"></a>ESLint</h2><p><code>.eslintrc.js</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    <span class="string">"extends"</span>: [<span class="string">"eslint: recommended"</span>], <span class="comment">// 使用推荐配置</span></div><div class="line">    <span class="comment">// 以下的配置用来覆盖推荐配置</span></div><div class="line">    <span class="string">"root"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"parser"</span>: <span class="string">"babel-eslint"</span>,	<span class="comment">// 指定使用的 parser</span></div><div class="line">    <span class="string">"rules"</span>: &#123;</div><div class="line">        <span class="string">"no-console"</span>: [<span class="string">"error"</span>, &#123; <span class="comment">// "error" 是规则级别。</span></div><div class="line">            <span class="string">"allow"</span>: [<span class="string">"warn"</span>, <span class="string">"error"</span>, <span class="string">"info"</span>]	<span class="comment">// 本规则的特殊豁免项</span></div><div class="line">        &#125;]</div><div class="line">    &#125;,</div><div class="line">    <span class="string">"parserOptions"</span>: &#123;</div><div class="line">        <span class="string">"ecmaVersion"</span> <span class="number">6</span>,</div><div class="line">        <span class="string">"sourceType"</span>: <span class="string">"script"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="string">"global"</span>: &#123;	<span class="comment">// 指定一些全局变量。即单文件中用了window变量检测时请不要报错</span></div><div class="line">        <span class="comment">// "window": true</span></div><div class="line">    &#125;</div><div class="line">    <span class="string">"env"</span>: &#123;	<span class="comment">// 环境</span></div><div class="line">    	<span class="string">"browser"</span>: <span class="literal">false</span>,</div><div class="line">    	<span class="string">"node"</span>: <span class="literal">true</span>,</div><div class="line">    	<span class="string">"es6"</span>: <span class="literal">true</span>,</div><div class="line">    	<span class="string">"mocha"</span>: <span class="literal">true</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 指定环境可使得 <code>ESLint</code> 少误报很多错误。</p>
+<p>ESLint 附带有大量的规则。你可以使用注释或配置文件修改你项目中要使用哪些规则。改变一个规则设置，你必须设置规则 ID 等于这些值之一： </p>
+<blockquote>
+<ul>
+<li>“off”  或 0 ：关闭规则</li>
+<li>“warn” 或 1：开启规则，使用警告级别的错误：warn不会导致程序退出</li>
+<li>“error” 或 2：开启规则如，使用错误级别的错误：error当被触发的时候，程序会退出</li>
+</ul>
+</blockquote>
+<p>你可以在你的文件中使用以下格式的块注释来临时进制规则出现警告：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* eslint-disable no-alert */</span></div><div class="line">alert(<span class="string">'foo'</span>)</div><div class="line"><span class="comment">/* eslint-enable */</span></div></pre></td></tr></table></figure>
+<p>如果在整个文件范围内禁止出现警告，将 <code>/* eslint-disable */</code> 块注释放在文件顶部即可。</p>
+<p>类似的注释还有： <code>//eslint-disable-line</code> 在特定的行禁用所有的规则。<code>//eslint-disable-next-line</code> 在下一行上禁用所有的规则。</p>
+<p>默认情况下，ESLint会在所有父级目录里寻找配置文件，一直到根目录。如果你想要所有的项目都遵循一个特定的约定时，这将会很有用，但有时候会导致意想不到的结果。为了将 ESLint 限制到一个特定的项目，你在项目的配置文件中加一句<code>&quot;root&quot;: true</code></p>
+<p><strong>git 仓库提交前强制要求通过ESLint检测</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev pre-commit</div></pre></td></tr></table></figure>
+<p>package.json 文件中做如下的配置( 用来做代码强约束 )：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">"script": &#123;</div><div class="line">    "lint": "eslint .",</div><div class="line">    "fix": "eslint --fix ."</div><div class="line">&#125;</div><div class="line">"pre-commit": [</div><div class="line">    "fix",</div><div class="line">    <span class="string">"lint"</span></div><div class="line">]</div></pre></td></tr></table></figure>
+<h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><p><code>compress.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123; createGzip, createDeflate &#125; = <span class="built_in">require</span>(<span class="string">'zlib'</span>)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">readStream, req, res</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> acceptEncoding = req.headers[<span class="string">'accept-encoding'</span>]</div><div class="line">    <span class="keyword">if</span>(!acceptEncoding || !acceptEncoding.match(<span class="regexp">/\b(gzip||deflate)\b/</span>)) &#123;</div><div class="line">        <span class="keyword">return</span> readStream</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(acceptEncoding.match(<span class="regexp">/\bgzip\b/</span>)) &#123;</div><div class="line">    	res.setHeader(<span class="string">'Content-Encoding'</span>, <span class="string">'gzip'</span>) </div><div class="line">        <span class="keyword">return</span> readStream.pipe(createGzip())</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(acceptEncoding.match(<span class="regexp">/\bdeflate\b/</span>)) &#123;</div><div class="line">    	res.setHeader(<span class="string">'Content-Encoding'</span>, <span class="string">'defalte'</span>)</div><div class="line">        <span class="keyword">return</span> readStream.pipe(createDeflate())</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rs = fs.createReadStream(filePath)</div><div class="line">rs = compress(rs)</div><div class="line">rs.pipe(res)</div></pre></td></tr></table></figure>
+<h2 id="range-范围请求"><a href="#range-范围请求" class="headerlink" title="range 范围请求"></a>range 范围请求</h2><p>HTTP 协议<strong>范围请求</strong>允许服务器只发送 HTTP 消息的一部分到客户端。范围请求在传送大的媒体文件，或者与文件下载的断点续传功能搭配使用时非常有用。</p>
+<p>实现这个功能只需 3 个步骤：</p>
+<blockquote>
+<ul>
+<li>在发出的 http 请求中添加一个 <code>range</code> 字段。<code>range: bytes=[start]-[end]</code> 。表明浏览器端希望接受的字节是哪个范围</li>
+<li>在给出的 http 响应中添加一个 <code>Accept-Ranges： bytes</code> 字段。表示我接受的 <code>bytes</code> 格式。</li>
+<li>在给出的 http 响应中添加一个 <code>Content-Range: bytes start-end/total</code>。表示我给你返回的是字节格式，从哪里开始，到哪里结束。</li>
+</ul>
+</blockquote>
+<h3 id="检测服务器是否支持范围请求"><a href="#检测服务器是否支持范围请求" class="headerlink" title="检测服务器是否支持范围请求"></a>检测服务器是否支持范围请求</h3><p>假如在响应中存在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Accept-Ranges" target="_blank" rel="external"><code>Accept-Ranges</code></a> 首部（并且它的值不为 “none”），那么表示该服务器支持范围请求。</p>
+<p><code>Accept-Ranges: bytes</code> 表示界定范围的单位是 bytes 。 </p>
+<p>如果站点未发送 <code>Accept-Ranges</code> 首部，那么它们有可能不支持范围请求。一些站点会明确将其值设置为 “none”，以此来表明不支持。在这种情况下，某些应用的下载管理器会将暂停按钮禁用。 </p>
+<h3 id="从服务器端请求特定的范围"><a href="#从服务器端请求特定的范围" class="headerlink" title="从服务器端请求特定的范围"></a>从服务器端请求特定的范围</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl http://i.imgur.com/z4d4kWk.jpg -i -H "Range: bytes=0-1023"</div></pre></td></tr></table></figure>
+<p>上面代码生成的请求如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">GET /z4d4kWk.jpg HTTP/1.1</div><div class="line">Host: i.imgur.com</div><div class="line">Range: bytes=0-1023</div></pre></td></tr></table></figure>
+<p>服务器端会返回状态码为 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/206" target="_blank" rel="external"><code>206</code></a> <code>Partial Content</code> 的响应： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 206 Partial Content</div><div class="line">Content-Range: bytes 0-1023/146515</div><div class="line">Content-Length: 1024</div><div class="line">...</div><div class="line">(binary content)</div></pre></td></tr></table></figure>
+<p>在这里，<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Length" target="_blank" rel="external"><code>Content-Length</code></a> 首部现在用来表示先前请求范围的大小（而不是整张图片的大小）。<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Range" target="_blank" rel="external"><code>Content-Range</code></a> 响应首部则表示这一部分内容在整个资源中所处的位置。 </p>
+<p>例子：</p>
+<p>range.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">totalSize, req, res</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">const</span> range = req.headers[<span class="string">'range'</span>]</div><div class="line">    <span class="keyword">if</span>(!range) &#123;</div><div class="line">        <span class="keyword">return</span> &#123;<span class="attr">code</span>: <span class="number">200</span>&#125; <span class="comment">// 表示我这个函数处理不了,交给外部处理</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">const</span> sizes = range.match(<span class="regexp">/bytes=(\d*)-(\d*)/</span>)</div><div class="line">    <span class="keyword">const</span> end = size[<span class="number">2</span>] || totalSize <span class="number">-1</span>;</div><div class="line">    <span class="keyword">const</span> start = sizes[<span class="number">1</span>] || <span class="number">0</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span>(start &gt; end || end &gt; totalSize || start &lt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> &#123;<span class="attr">code</span>: <span class="number">200</span>&#125;	 <span class="comment">// 表示我这个函数处理不了,交给外部处理</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    res.setHeader(<span class="string">'Accept-Ranges'</span>, <span class="string">'bytes'</span>)</div><div class="line">    res.setHeader(<span class="string">'Content-Range'</span>, <span class="string">`bytes <span class="subst">$&#123;start&#125;</span>-<span class="subst">$&#123;end&#125;</span>/<span class="subst">$&#123;totalSize&#125;</span>`</span> )</div><div class="line">    res.setHeader(<span class="string">'Content-Length'</span>, end-start)</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        code: <span class="number">206</span>,</div><div class="line">        start: <span class="built_in">parseInt</span>(start),</div><div class="line">        end: <span class="built_in">parseInt</span>(end)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用 <code>range.js</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> range = <span class="built_in">require</span>(<span class="string">'./range'</span>)</div><div class="line"></div><div class="line"><span class="keyword">let</span> rs;</div><div class="line"><span class="keyword">const</span> &#123;code, start, end&#125; = range(stats.size, req, res)</div><div class="line"><span class="keyword">if</span>( code === <span class="number">200</span> )&#123;</div><div class="line">     rs = fs.createReadStream(filePath)</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    rs = fs.createReadStream(filePath, &#123;</div><div class="line">        start,</div><div class="line">        end,</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line">rs.pipe(res)</div></pre></td></tr></table></figure>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><ul>
+<li>用户发请求，本地没有缓存，浏览器向服务器请求资源。服务器协商缓存，返回响应。</li>
+<li>用户发请求，本地有缓存，浏览器检查缓存是否过期。如没有过期，则浏览器不会发请求，直接返回本地缓存。</li>
+<li>用户发请求，本地有缓存，浏览器检查缓存是否过期。如缓存过期了，带上目前缓存文件的hash码向服务器再问一次，服务器端比对一下缓存hash码和服务器端的hash码是否一致。如果不一致，则返回新的文件（包含新的hash码），更新缓存时间。如果服务器端的hash码和缓存的hash码一致，则不返回新的文件，只更新缓存时间，返回的状态码为 304</li>
+</ul>
+<p>经常在新闻网站中的logo图片，在多个页面中都要使用到。这种情况下就要充分的利用缓存。经常把这种图片直接设置10年的缓存。这10年的时间内如果想更换logo，直接修改html中引用图片的地址，自然就不会使用原先的缓存了。不过导致了原先的缓存没了用，但还继续占用着空间。</p>
+<h3 id="缓存相关的-header"><a href="#缓存相关的-header" class="headerlink" title="缓存相关的 header"></a>缓存相关的 header</h3><ul>
+<li><p>Cache-Control, 返回一个相对时间。即多少秒过期</p>
+</li>
+<li><p>If-Modified-Since / Last-Modified  </p>
+<blockquote>
+<ul>
+<li>Last-Modified 由服务器返回，最新的更新时间</li>
+<li>If-Modified-Since, 在浏览器的请求头中，浏览器的请求带上上次拿到的 “最新时间”</li>
+</ul>
+</blockquote>
+</li>
+<li><p>If-None-Match / ETag ( 使用 hash 来比对文件是否改变 )</p>
+<blockquote>
+<ul>
+<li>ETag: 服务器每次在 response 头中都会加上 ETag 头，表示最新的 hash 码。</li>
+<li>If-None-Match: 浏览器每次发起请求时都会带上之前得到的 hash 码。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">refreshRes</span>(<span class="params">stats, res</span>) </span>&#123;</div><div class="line">    res.setHeader(<span class="string">'Cache-Control'</span>, <span class="string">`public, max-age=<span class="subst">$&#123;maxAge&#125;</span>`</span>)</div><div class="line">    res.setHeader(<span class="string">'Last-Modified'</span>, stats.mtime.toUTCString())</div><div class="line">    res.setHeader(<span class="string">'ETag'</span>,<span class="string">`<span class="subst">$&#123;stats.size&#125;</span>`</span>)</div><div class="line">    <span class="comment">// 生成 ETag 的包很多</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFresh</span>(<span class="params">stats, req, res</span>) </span>&#123;</div><div class="line">    refreshRes(stats, res)</div><div class="line">    <span class="keyword">const</span> lastModified = req.headers[<span class="string">'if-modified-since'</span>]</div><div class="line">    <span class="keyword">const</span> etag = req.headers[<span class="string">'if-none-match'</span>]</div><div class="line">    <span class="keyword">if</span>(!lastModified &amp;&amp; !etag) &#123;</div><div class="line">        <span class="comment">// 第一次请求</span></div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(lastModified &amp;&amp; lastModified !== res.getHeader（<span class="string">'Last-Modified'</span>）) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(etag &amp;&amp; etag !== res.getHeader（<span class="string">'ETag'</span>）) &#123;</div><div class="line">       <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// server 中</span></div><div class="line"><span class="keyword">if</span>(isFresh(stats, req, res)) &#123;</div><div class="line">    res.statusCode = <span class="number">304</span></div><div class="line">    res.end()</div><div class="line">    <span class="keyword">return</span></div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="comment">// 正常返回</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/09/正则/" rel="next" title="正则">
+                <i class="fa fa-chevron-left"></i> 正则
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="Ak-lee" />
+          
+            <p class="site-author-name" itemprop="name">Ak-lee</p>
+            <p class="site-description motion-element" itemprop="description">start from zero</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#node"><span class="nav-number">1.</span> <span class="nav-text">node</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CommonJS-规范："><span class="nav-number">1.0.0.1.</span> <span class="nav-text">CommonJS 规范：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#process"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">process</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调试"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">调试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node基础-API"><span class="nav-number">1.1.</span> <span class="nav-text">Node基础 API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#path"><span class="nav-number">1.1.1.</span> <span class="nav-text">path</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Buffer"><span class="nav-number">1.1.2.</span> <span class="nav-text">Buffer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#events-事件"><span class="nav-number">2.</span> <span class="nav-text">events 事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fs-文件系统模块"><span class="nav-number">2.0.1.</span> <span class="nav-text">fs 文件系统模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流"><span class="nav-number">2.0.2.</span> <span class="nav-text">流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise"><span class="nav-number">2.0.3.</span> <span class="nav-text">Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#async-await"><span class="nav-number">2.0.4.</span> <span class="nav-text">async await</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gitignore"><span class="nav-number">2.1.</span> <span class="nav-text">.gitignore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ESLint"><span class="nav-number">2.2.</span> <span class="nav-text">ESLint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">2.3.</span> <span class="nav-text">压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#range-范围请求"><span class="nav-number">2.4.</span> <span class="nav-text">range 范围请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检测服务器是否支持范围请求"><span class="nav-number">2.4.1.</span> <span class="nav-text">检测服务器是否支持范围请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从服务器端请求特定的范围"><span class="nav-number">2.4.2.</span> <span class="nav-text">从服务器端请求特定的范围</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-number">2.5.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存相关的-header"><span class="nav-number">2.5.1.</span> <span class="nav-text">缓存相关的 header</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ak-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    |  您是本站第 <span id="busuanzi_value_site_pv"></span> 位访问者
+</span>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

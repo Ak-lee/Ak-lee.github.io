@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="react," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Reactprops 外部传来属性 + state 内部维护的状态 = view 只接受 props ，而不在内部维持一个 state 的组件，可以视为纯函数。  纯函数，即函数返回的结果只依赖于它的参数，函数执行过程没有副作用。即这个组件在内部没有维持自有状态。   在react 中，父组件向子组件传递数据通过绑属性进去。 子组件向父组件传递数据，通过父组件提前通过绑属性的方式传一个函数进来，在">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react总览">
+<meta property="og:url" content="http://yoursite.com/2018/09/27/react总览/index.html">
+<meta property="og:site_name" content="Ak-lee">
+<meta property="og:description" content="Reactprops 外部传来属性 + state 内部维护的状态 = view 只接受 props ，而不在内部维持一个 state 的组件，可以视为纯函数。  纯函数，即函数返回的结果只依赖于它的参数，函数执行过程没有副作用。即这个组件在内部没有维持自有状态。   在react 中，父组件向子组件传递数据通过绑属性进去。 子组件向父组件传递数据，通过父组件提前通过绑属性的方式传一个函数进来，在">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-27T05:40:40.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react总览">
+<meta name="twitter:description" content="Reactprops 外部传来属性 + state 内部维护的状态 = view 只接受 props ，而不在内部维持一个 state 的组件，可以视为纯函数。  纯函数，即函数返回的结果只依赖于它的参数，函数执行过程没有副作用。即这个组件在内部没有维持自有状态。   在react 中，父组件向子组件传递数据通过绑属性进去。 子组件向父组件传递数据，通过父组件提前通过绑属性的方式传一个函数进来，在">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/27/react总览/"/>
+
+
+
+
+
+  <title>react总览 | Ak-lee</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ak-lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端修炼中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/27/react总览/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ak-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ak-lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">react总览</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-27T13:39:38+08:00">
+                2018-09-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><p><code>props</code> 外部传来属性 + <code>state</code> 内部维护的状态 = <code>view</code></p>
+<p>只接受 <code>props</code> ，而不在内部维持一个 <code>state</code> 的组件，可以视为纯函数。</p>
+<blockquote>
+<p>纯函数，即函数返回的结果只依赖于它的参数，函数执行过程没有副作用。即这个组件在内部没有维持自有状态。 </p>
+</blockquote>
+<p>在<code>react</code> 中，父组件向子组件传递数据通过绑属性进去。</p>
+<p>子组件向父组件传递数据，通过父组件提前通过绑属性的方式传一个函数进来，在子组件内部通过事件触发调用这个提前传进来的函数，来实现自组件向父组件的数据传递。</p>
+<p><code>react</code> 中改变 <code>state</code> 需要调用 <code>setState</code> API</p>
+<p>何时创建一个组件：单一职责原则</p>
+<blockquote>
+<ul>
+<li>每个组件只做一件事</li>
+<li>如果组件变得复杂，那么应该拆分成子组件</li>
+</ul>
+</blockquote>
+<p>数据状态管理原则：<code>DRY</code> 原则</p>
+<blockquote>
+<ul>
+<li>能计算得到的状态就不要单独存储，单独存储会提高复杂度，容易产生bug</li>
+<li>组件尽量无状态，所需的数据通过 <code>props</code> 获取，这样组件的性能更高。</li>
+</ul>
+</blockquote>
+<p>理解 <code>JSX</code>:</p>
+<p><code>JSX</code> 不是模板语言，只是一种语法糖。<code>JSX</code> 是一种在 允许<code>JavaScript</code>直接书写HTML标记</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const name = &quot;ak-lee&quot;;</div><div class="line">const element = &lt;h1&gt;Hello, &#123;name&#125;&lt;/h1&gt;</div><div class="line"></div><div class="line">// 以上代码等价于：</div><div class="line">const name = &quot;ak-lee&quot;;</div><div class="line">const element = React.createElement(&apos;h1&apos;, null, &apos;Hello, &apos;, name)</div></pre></td></tr></table></figure>
+<p><code>React.createElement()</code> 第三个参数及以后都是组件的子元素。</p>
+<blockquote>
+<p>约定：自定义组件以大写字母开头</p>
+<p>React 默认是整体更新，组件上用 <code>shouldComponentUpdate</code> 来拦截，实现只有我这个组件用到的 <code>props</code> 发生变化才做更新。这样可以提高性能。</p>
+<p>一般可以用 <code>PureComponent</code> 来实现相同的功能。</p>
+</blockquote>
+<p><code>JSX</code> 运行基础：Virtual DOM 虚拟DOM</p>
+<p>虚拟 DOM 发生变化时，会做一个 diff 算法，算出 DOM 的区别，用高效的方式来刷新DOM。diff 算法比较的是两个树（tree 一种数据结构） 。两个树的 diff 算法的复杂度是 O（n^3） ，React 工程师根据前端的特点，采用了 <code>广度优先分层比较</code> 的策略，把 diff 算法的复杂度优化成了 O(n) 级。这种策略就是一层一层的做比较。在很多情况下，未必是最佳的方案，但这种算法简单粗暴算法复杂度低。使用这种策略是因为前端DOM操作的特点：</p>
+<blockquote>
+<p>DOM 操作更多是： 节点的删除，添加，更新属性，交换位置。很少出现DOM节点的跨层移动。这种情况下，放弃做复杂的 树的diff算法 是明智的。</p>
+</blockquote>
+<p>虚拟 DOM 的两个假设：</p>
+<blockquote>
+<ol>
+<li>组件的 DOM 结构是相对稳定的。</li>
+<li>类型相同的兄弟节点可以被唯一标识。即 <code>key</code> 属性。<code>key</code> 属性的使用可以提高性能。<code>key</code> 属性的使用使得 <code>react</code> 可以方便的检测到两个元素的顺序发生变化。</li>
+</ol>
+</blockquote>
+<h3 id="组件复用的另外两种形式：-高阶组件和函数作为子组件"><a href="#组件复用的另外两种形式：-高阶组件和函数作为子组件" class="headerlink" title="组件复用的另外两种形式： 高阶组件和函数作为子组件"></a>组件复用的另外两种形式： 高阶组件和函数作为子组件</h3><h4 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h4><p>高阶组件：接受组件作为函数参数，函数返回一个新的组件。即实现对一个原始组件的封装。向原始组件传递的props继续保留，并添加一些新的props。高阶组件一般不会有自己的 UI 展现，只是为它封装的组件提供额外的功能和数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 封装一个计时器</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> fuction withTimer(WrappedComponent) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">        state = &#123;<span class="attr">time</span>: <span class="keyword">new</span> <span class="built_in">Date</span>() &#125;</div><div class="line">   		componentDidMount() &#123;</div><div class="line">        	<span class="keyword">this</span>.timerID = serInterval(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.tick(), <span class="number">1000</span>)</div><div class="line">    	&#125;</div><div class="line">    	componentWillUnmount()&#123;</div><div class="line">        	clearInterval(<span class="keyword">this</span>.timerID)</div><div class="line">    	&#125;</div><div class="line">        tick() &#123;</div><div class="line">            <span class="keyword">this</span>.setState(&#123;</div><div class="line">                time: <span class="keyword">new</span> <span class="built_in">Date</span>()</div><div class="line">            &#125;)</div><div class="line">    	&#125;</div><div class="line">    	render() &#123;</div><div class="line">        	<span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">WrappedComponent</span> <span class="attr">time</span>=<span class="string">&#123;this.state.time&#125;</span> &#123;<span class="attr">..this.props</span>&#125;&gt;</span><span class="tag">&lt;/<span class="name">WrappedComponent</span>&gt;</span></span></div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个计时器封装，实现了你传给我一个组件，我给这个组件一个每秒会自动改变的time属性。</p>
+<p>高阶组件实现一些通用的逻辑给不同的组件来使用。高阶组件本身任何 UI 的展现。</p>
+<h4 id="函数作为子组件"><a href="#函数作为子组件" class="headerlink" title="函数作为子组件"></a>函数作为子组件</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            &lt;div&gt;</div><div class="line">            	&#123;<span class="keyword">this</span>.props.children(<span class="string">'ak lee'</span>)&#125;</div><div class="line">            &lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp">        &#125;</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">&lt;MyComponent&gt;</span></div><div class="line"><span class="regexp">    &#123;</span></div><div class="line"><span class="regexp">    	(name) =&gt; &#123;</span></div><div class="line"><span class="regexp">    		&lt;div&gt;&#123;name&#125;&lt;/</span>div&gt;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&lt;<span class="regexp">/MyComponent&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="Context-API"><a href="#Context-API" class="headerlink" title="Context API"></a>Context API</h2><p><code>context API</code> 用于解决组件间通信的问题。</p>
+<p>根组件提供<code>provide</code>一个全局的context上下文，子孙节点用过<code>context API</code> 来获取<code>consume</code>这个全局的context上下文。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> ThemeContext = React.createContext(<span class="string">'light'</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            &lt;ThemeContext.Provider value=<span class="string">"dark"</span>&gt;</div><div class="line">            	&lt;ThemeButton /&gt;</div><div class="line">            &lt;<span class="regexp">/ThemeContext.Provider&gt;</span></div><div class="line"><span class="regexp">        &#125;</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">fuction ThemeButton(props) &#123;</span></div><div class="line"><span class="regexp">    return &#123;</span></div><div class="line"><span class="regexp">        &lt;ThemeContext.Consumer&gt;</span></div><div class="line"><span class="regexp">        	&#123;theme =&gt; &lt;Button &#123;...props&#125; theme=&#123;theme&#125; /</span>&gt;&#125;</div><div class="line">        &lt;<span class="regexp">/ThemeContext.Consumer&gt;</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div></pre></td></tr></table></figure>
+<p>一个用于切换中英文按钮的demo</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> enStrings = &#123;</div><div class="line">    submit: <span class="string">"Submit"</span>,</div><div class="line">    cancle: <span class="string">"Cancel"</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> cnStrings = &#123;</div><div class="line">    submit: <span class="string">"提交"</span>,</div><div class="line">    cancle: <span class="string">"取消"</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> LocalContext = React.createContext(enStrings)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LocaleProvider</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    state = &#123;<span class="attr">locale</span>: cnStrings&#125;;</div><div class="line">	toggleLocale = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    	<span class="keyword">const</span> locale = </div><div class="line">              <span class="keyword">this</span>.state.locale === enStrings</div><div class="line">        	  	? cnStrings</div><div class="line">        		: enStrings</div><div class="line">    	<span class="keyword">this</span>.setState(&#123; locale &#125;)</div><div class="line">	&#125;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">        	&lt;LocaleContext.Provider value=&#123;<span class="keyword">this</span>.state.locale&#125;&gt;</div><div class="line">            	&lt;button onClick=&#123;<span class="keyword">this</span>.toggleLocale&#125; &gt;切换语言					&lt;<span class="regexp">/button&gt;</span></div><div class="line"><span class="regexp">            	&#123;this.props.children&#125;</span></div><div class="line"><span class="regexp">            &lt;/</span>LocaleContext.Provider&gt;</div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LocaledButtons</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">        	&lt;LocaleContext.Consumer&gt;</div><div class="line">            &#123;locale =&gt; &#123;</div><div class="line">             &lt;div&gt;</div><div class="line">             	&lt;button&gt;&#123;locale.cancle&#125;&lt;<span class="regexp">/button&gt;</span></div><div class="line"><span class="regexp">            	&lt;button&gt;&#123;locale.submit&#125;&lt;/</span>button&gt;</div><div class="line">             &lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp">            &#125;&#125;</span></div><div class="line"><span class="regexp">            &lt;/</span>LocaleContext.Consumer&gt;</div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> () =&gt; &#123;</div><div class="line">    &lt;div&gt;</div><div class="line">        &lt;LocaleProvider&gt;</div><div class="line">        	&lt;div&gt;</div><div class="line">        		&lt;br /&gt;</div><div class="line">        		&lt;LocaledButtons /&gt;</div><div class="line">        	&lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp">        &lt;/</span>LocaleProvider&gt;</div><div class="line">    &lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp">&#125;</span></div></pre></td></tr></table></figure>
+<p><strong>使用脚手架来创建 react 应用</strong></p>
+<p>使用脚手架工具创建 react 应用： </p>
+<blockquote>
+<p>Create React App</p>
+<p>Codesandbox</p>
+<p>Rekit</p>
+</blockquote>
+<h3 id="打包和部署"><a href="#打包和部署" class="headerlink" title="打包和部署"></a>打包和部署</h3><p>使用 Webpack 进行打包。打包注意事项：</p>
+<blockquote>
+<ol>
+<li>设置 nodejs 环境为 production</li>
+<li>禁用开发时专用代码，比如 logger</li>
+<li>设置应用根路径。在<code>package.json</code> 中的homepage字段里设置。最终打包后的文件会从homepage这个路径开始寻找资源</li>
+</ol>
+</blockquote>
+<h2 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a>Redux</h2><p><code>redux</code> 是一个 JS 状态管理框架。全局只有唯一的<code>store</code>,这个 <code>store</code> 负责提供整个应用程序所有的状态。这样的设计使得react组件间的通信更加容易。</p>
+<h4 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> store = createStore(reducer)</div></pre></td></tr></table></figure>
+<blockquote>
+<ol>
+<li>getState() 拿到 store 中的数据</li>
+<li>dispatch(action) 触发一个action，让reducer去修改store</li>
+<li>subscribe( listener ) 订阅store的变化，store发生变化的时候触发listener</li>
+</ol>
+</blockquote>
+<h4 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    type: ADD_TODO,</div><div class="line">    text: <span class="string">'my fist todo-item'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">todoApp</span>(<span class="params"> state = initalState, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">        <span class="keyword">case</span>:ADD_TODO:</div><div class="line">            <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;</div><div class="line">                todos: [</div><div class="line">                    ...state.todos,</div><div class="line">                    &#123;</div><div class="line">                        text:action.text,</div><div class="line">                        completed: <span class="literal">false</span></div><div class="line">                    &#125;</div><div class="line">                ] </div><div class="line">            &#125;)</div><div class="line">        <span class="keyword">default</span>: </div><div class="line">            <span class="keyword">return</span> state</div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>bindActionCreators</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTodoWithDispath</span>(<span class="params">text</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> action = &#123;</div><div class="line">        type: ADD_TODO,</div><div class="line">        text</div><div class="line">    &#125;</div><div class="line">    dispatch(action)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上代码等价于：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> boundAddTodo = <span class="function"><span class="params">text</span> =&gt;</span> dispatch(addTodo(text))</div><div class="line"><span class="keyword">const</span> boundCompleteTodo = <span class="function"><span class="params">index</span> =&gt;</span> dispatch(completeTodo(index))</div></pre></td></tr></table></figure>
+<p><code>bindActionCreators</code> 即帮你封装一个原有产生 <code>action</code> 的函数，产生一个与原函数同名的一个调用后会自动生成 <code>action</code> 并 <code>dispatch</code> 的函数。</p>
+<h3 id="连接-react-和-redux-的包react-redux"><a href="#连接-react-和-redux-的包react-redux" class="headerlink" title="连接 react 和 redux 的包react-redux"></a>连接 react 和 redux 的包<code>react-redux</code></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SidePanel</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapStateToProps</span>(<span class="params">state</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        nextgen: state.nextgen,</div><div class="line">        router: state.router</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapDispatchToProps</span>(<span class="params">dispatch</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        actions: bindActionCreators(&#123;...actions&#125;, dispatch)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> ConnectedCounter = connect(mapStateToProps, mapDispatchToProps)(SidePanel)</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">CounterSample</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">        	&lt;Provider store = &#123;store&#125;&gt;</div><div class="line">            	&lt;ConnectedCounter /&gt;</div><div class="line">            &lt;<span class="regexp">/Provider&gt;</span></div><div class="line"><span class="regexp">        )</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">&#125;</span></div></pre></td></tr></table></figure>
+<p><code>mapStateToProps</code> 这个函数允许我们将 store 中的数据作为 props 绑定到组件上。</p>
+<p><code>mapDispatchToProps</code> 它的功能是，将 <code>action</code> 作为 <code>props</code> 绑定到组件上。</p>
+<p><strong>connect 的工作原理： 高阶组件</strong></p>
+<h3 id="redux-中的异步-action-与中间件"><a href="#redux-中的异步-action-与中间件" class="headerlink" title="redux 中的异步 action 与中间件"></a>redux 中的异步 action 与中间件</h3><p><strong>Redux 异步请求</strong></p>
+<p><code>Redux</code> 中间件（Middleware）</p>
+<blockquote>
+<ol>
+<li>截获 action</li>
+<li>发出 action</li>
+</ol>
+</blockquote>
+<p>中间件判断是否要截获一个Action的机制是：这个action是否为一个函数。如果是一个函数则会执行这个函数。这个函数内部一般都是 ajax 请求。函数执行完成之后，中间件发出结果action。</p>
+<h3 id="如何在-redux-中组织-action-和-reducer"><a href="#如何在-redux-中组织-action-和-reducer" class="headerlink" title="如何在 redux 中组织 action 和 reducer"></a>如何在 redux 中组织 action 和 reducer</h3><p>使用一种新的方式： 单个 action 和 reducer 放在同一个文件</p>
+<blockquote>
+<ol>
+<li>易于开发：不用在 action 和 Reducer 文件间来回切换</li>
+<li>易于维护：每个 action 文件都很小，容易理解</li>
+<li>易于测试： 每个业务逻辑只需对应一个测试文件</li>
+<li>易于理解：文件名就是 action 名字，文件列表就是 action 列表</li>
+</ol>
+</blockquote>
+<p>如何去把各种的action合并到一个文件，各种的reducer也合并到一个文件？</p>
+<p>把action和reducer放在同一个文件中，两者都用export导出</p>
+<p>在总的action文件中用import导入各个actionCreator函数，在reducer中也是用import导入各个各个reducer。</p>
+<p>导入action到actions.js文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// actions.js 文件内容</span></div><div class="line"><span class="comment">// 导入后马上导出</span></div><div class="line"><span class="keyword">export</span> &#123;addTodo&#125; <span class="keyword">from</span> <span class="string">'./addTodo'</span></div><div class="line"><span class="keyword">export</span> &#123;completeTodo&#125; <span class="keyword">from</span> <span class="string">'./completeTodo'</span></div><div class="line"><span class="keyword">export</span> &#123;deleteTodo&#125; <span class="keyword">from</span> <span class="string">'./deleteTodo'</span></div><div class="line"><span class="keyword">export</span> &#123;clearCompleted&#125; <span class="keyword">from</span> <span class="string">'./clearCompleted'</span></div><div class="line"><span class="keyword">export</span> &#123;completeAll&#125; <span class="keyword">from</span> <span class="string">'./completeAll'</span></div><div class="line"><span class="keyword">export</span> &#123;editTodo&#125; <span class="keyword">from</span> <span class="string">'./editTodo'</span></div></pre></td></tr></table></figure>
+<p>导入reducer到reducer.js文件。导入的各个reducer是一个个的函数，如何拼接函数是个挑战：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> initalState <span class="keyword">from</span> <span class="string">'./initalState'</span></div><div class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> addTodoReducer &#125; <span class="keyword">from</span> <span class="string">'./addTodo'</span></div><div class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> completeTodoReducer &#125; <span class="keyword">from</span> <span class="string">'./completeTodo'</span></div><div class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> deleteTodoReducer &#125; <span class="keyword">from</span> <span class="string">'./deleteTodo'</span></div><div class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> clearCompletedReducer &#125; <span class="keyword">from</span> <span class="string">'./clearCompleted'</span></div><div class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> completeAll &#125; <span class="keyword">from</span> <span class="string">'./completeAll'</span></div><div class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> editTodo &#125; <span class="keyword">from</span> <span class="string">'./eidtTodo'</span></div><div class="line"></div><div class="line"><span class="comment">// reducers 是包含多个函数的数组</span></div><div class="line"><span class="keyword">const</span> reducers = [</div><div class="line">    addTodoReducer,</div><div class="line">    completeTodoReducer,</div><div class="line">    deleteTodoReducer,</div><div class="line">    clearCompleteReducer,</div><div class="line">    completeAllReducer,</div><div class="line">    editTodoReducer,</div><div class="line">]</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state = initialState, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> newState;</div><div class="line">    <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">        <span class="keyword">default</span>: </div><div class="line">            newSate = state;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> reducers.reduce(<span class="function">(<span class="params">s, r</span>) =&gt;</span> r(s.action), newState )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="redux-的运行基础——不可变数据（immutable-data）"><a href="#redux-的运行基础——不可变数据（immutable-data）" class="headerlink" title="redux 的运行基础——不可变数据（immutable data）"></a>redux 的运行基础——不可变数据（immutable data）</h3><p>即这个数据不能改变，要想修改，只能生成新的数据来做完全覆盖。</p>
+<p>如何操作不可变数据：</p>
+<blockquote>
+<ol>
+<li><p>原生写法： {…}  即使用三点延展符, Object.assgin</p>
+</li>
+<li><p>immutability-helper</p>
+</li>
+<li>immer</li>
+</ol>
+</blockquote>
+<p>原生写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> state = &#123;<span class="attr">filter</span>: <span class="string">'completed'</span>, <span class="attr">todos</span>: [</div><div class="line">    <span class="string">'Learn React'</span></div><div class="line">]&#125;</div><div class="line"><span class="keyword">const</span> newState = &#123;...state, <span class="attr">todos</span>: [</div><div class="line">	...state.todos,</div><div class="line">    <span class="string">'Learn Redux'</span></div><div class="line">]&#125;</div><div class="line"><span class="keyword">const</span> newState2 = <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;<span class="attr">todos</span>: [</div><div class="line">    ...state.todos,</div><div class="line">    <span class="string">'Learn Redux'</span></div><div class="line">]&#125;)</div></pre></td></tr></table></figure>
+<p>   immutability-helper 写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> update <span class="keyword">from</span> <span class="string">'immutability-helper'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> state = &#123;<span class="attr">filter</span>: <span class="string">'completed'</span>, <span class="attr">todos</span>: [</div><div class="line">    <span class="string">'Learn React'</span></div><div class="line">]&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> newState = update(state, &#123;<span class="attr">todos</span>: &#123;<span class="attr">$push</span>: [<span class="string">'Learn Redux'</span>]&#125;&#125;)</div></pre></td></tr></table></figure>
+<p>immer 写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> produce <span class="keyword">from</span> <span class="string">'immer'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> state = &#123;<span class="attr">filter</span>: <span class="string">'completed'</span>, <span class="attr">todos</span>: [</div><div class="line">    <span class="string">'Learn React'</span></div><div class="line">]&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> newState = produce(state, draftState =&gt; &#123;</div><div class="line">    draftState.todos.push(<span class="string">'Learn Redux.'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><code>immer</code> 真的很好用，只是性能稍慢。<code>draftState</code> 相当于原来state的一个代理。没有在原来不可变的state上修改，而直接在原state的一个代理（像一个影子）上做修改操作，<code>immer</code> 会自动帮我们处理。</p>
+<h2 id="react-router"><a href="#react-router" class="headerlink" title="react-router"></a>react-router</h2><p><code>react router</code> : 路由不只是页面切换，更是代码组织方式。</p>
+<p>为什们需要路由：</p>
+<blockquote>
+<ol>
+<li>单页应用需要进行页面切换</li>
+<li>通过 URL 可以定位到页面</li>
+<li>更有语义的组织资源</li>
+</ol>
+</blockquote>
+<p>组件容器是由<code>react-router</code> 来控制具体的展示。组件容器也是页面布局的一部分。</p>
+<p>当url变化的时候，只是组件容器里面发生变化，页面布局的其他部分不发生变化。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Router</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"menu"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/home"</span>&gt;</span>Home<span class="tag">&lt;<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/hello"</span>&gt;</span>Hello<span class="tag">&lt;<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/about"</span>&gt;</span>About<span class="tag">&lt;<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">         </div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"page-container"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">"/home"</span> <span class="attr">component</span>=<span class="string">&#123;Home&#125;</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">"/hello"</span> <span class="attr">component</span>=<span class="string">&#123;Hello&#125;</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">"/about"</span> <span class="attr">component</span>=<span class="string">&#123;About&#125;</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Router</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>React Router 的特性</strong></p>
+<ol>
+<li>声明式路由定义。使用路由就像使用一个HTML的标签</li>
+<li>动态路由。</li>
+</ol>
+<p>三种路由的实现方式</p>
+<ol>
+<li>URL 路径</li>
+<li>hash 路由：可以支持低版本的浏览器</li>
+<li>内存路由：做服务器端渲染的时候用的到。url不发生变化，但内容可以发生变化。这个路由的状态完全是存在内存里面的而不是反应在url上面。</li>
+</ol>
+<p><strong>基于路由配置进行资源组织</strong></p>
+<ol>
+<li>实现业务逻辑的松耦合</li>
+<li>易于扩展，重构和维护</li>
+<li>路由层面实现 Lazy Load</li>
+</ol>
+<p><strong>React Router API</strong></p>
+<ol>
+<li><link>: 普通链接，不会触发浏览器刷新</li>
+<li><navlink>: 类似 Link 但是会添加当前选中状态</navlink></li>
+<li><prompt>: 满足条件时提示用户是否离开当前页面</prompt></li>
+<li><redirect>: 重定向当前页面，例如登录判断</redirect></li>
+<li><route>: 路由配置的核心标记，路径匹配时显示对应的组件</route></li>
+<li><switch>: 只显示第一个匹配路由</switch></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NavLink &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line">&lt;NavLink</div><div class="line">	to=<span class="string">"/faq"</span></div><div class="line">	activeClassName=<span class="string">"selected"</span></div><div class="line">&gt;FAQs&lt;<span class="regexp">/NavLink&gt;</span></div></pre></td></tr></table></figure>
+<p>重定向：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Route, Redirect &#125; <span class="keyword">from</span> <span class="string">'react-router'</span></div><div class="line"></div><div class="line">&lt;Route exact path=<span class="string">'/'</span> render=&#123;() =&gt; &#123;</div><div class="line">     loggedIn ? (</div><div class="line">           &lt;Redirect to=<span class="string">"/dashboard"</span> /&gt;                   </div><div class="line">     ) : (</div><div class="line">     	&lt;PublicHomePage /&gt;              </div><div class="line">     )</div><div class="line">&#125;&#125; /&gt;</div></pre></td></tr></table></figure>
+<route>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; BrowserRouter <span class="keyword">as</span> Router, Route &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line">&lt;Router&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">    	&lt;Route exact path=<span class="string">"/"</span> component=&#123;Home&#125;&gt;</div><div class="line">        &lt;Route exact path=<span class="string">"/news"</span> component=&#123;NewsFeed&#125;&gt;</div><div class="line">    &lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp">&lt;/</span>Router&gt;</div></pre></td></tr></table></figure>
+<p>  当两个路由同时匹配时，对应的组件都会显示。这种表现后端的路由不同。要想只显示第一个匹配的路由，可以使用 <code>&lt;Switch&gt;</code></p>
+<p><code>react-router</code> 就是在容器组件（<router>）中展示路由配置中对应的组件。</router></p>
+<h3 id="通过-url-传递参数"><a href="#通过-url-传递参数" class="headerlink" title="通过 url 传递参数"></a>通过 url 传递参数</h3><ol>
+<li>如何通过 url 传递参数： <route path="/topic/:id"></route></li>
+<li>如何获取参数： this.props.match.params</li>
+<li>在 url 中使用正则。在 github 上找 <code>path-to-regexp</code> 项目。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// &#123;match&#125; 处为对象的解构</span></div><div class="line"><span class="keyword">const</span> Topic = <span class="function">(<span class="params">&#123;match&#125;</span>) =&gt;</span> &#123;</div><div class="line">    &lt;h1&gt;Topic &#123;match.params.id&#125;&lt;<span class="regexp">/h1&gt;</span></div><div class="line"><span class="regexp">&#125;</span></div><div class="line"><span class="regexp">&lt;Router&gt;</span></div><div class="line"><span class="regexp">    &lt;Link to="/</span>topic/<span class="number">1</span><span class="string">"&gt;Topic 1&lt;/Link&gt;</span></div><div class="line"><span class="string">    &lt;Link to="</span>/topic/<span class="number">2</span><span class="string">"&gt;Topic 2&lt;/Link&gt;</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">    &lt;div id="</span>page-container<span class="string">"&gt;</span></div><div class="line"><span class="string">        &lt;Route path="</span>/topic/:id<span class="string">" component=&#123;Topic&#125; /&gt;</span></div><div class="line"><span class="string">    &lt;/div&gt;</span></div><div class="line"><span class="string">&lt;Router&gt;</span></div></pre></td></tr></table></figure>
+<p>其中：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Topic (&#123;match&#125;) =&gt; &#123;</div><div class="line">    &lt;h1&gt;Topic &#123;match.params.id&#125;&lt;<span class="regexp">/h1&gt;</span></div><div class="line"><span class="regexp">&#125;</span></div></pre></td></tr></table></figure>
+<p>说明react-router 在调用组件时传入了参数（通过高阶组件来实现传入参数）。如果使用类的组件定式方式，则使用 <code>this.props.params.id</code> 来获取url中的id</p>
+<h3 id="嵌套路由"><a href="#嵌套路由" class="headerlink" title="嵌套路由"></a>嵌套路由</h3><ol>
+<li>每个 react 组件都可以是路由容器</li>
+<li>react router 的声明式语法可以方便的定义嵌套路由</li>
+</ol>
+<h2 id="使用-Next-js-创建-React-同构应用"><a href="#使用-Next-js-创建-React-同构应用" class="headerlink" title="使用 Next.js 创建 React 同构应用"></a>使用 Next.js 创建 React 同构应用</h2><p>React开发之初就有一个特别的优势，就是前后端同构。</p>
+<p>什么是前后端同构呢？就是前后端都可以使用同一套代码生成页面，页面既可以由前端动态生成，也可以由后端服务器直接渲染出来</p>
+<p>同构应用：初次请求资源时，由服务器端渲染出html、css文件。首次加载显示页面的速度很快。浏览器端不用执行任何的 js 代码就能把页面展示出来。</p>
+<p>由于 react 本身具有服务器端渲染的能力，所以支持同构应用是非常简单的。</p>
+<p>使用 <code>Next.js</code> 实现服务端渲染是一件非常简单的事情，在这里，你完全可以不用自己去写webpack等配置了。</p>
+<p><code>Next.js</code> 是从服务器生成页面，在返回给前端展示。<code>Next.js</code> 默认从 <code>pages</code> 目录下取页面进行渲染返回给前端展示，并默认取 <code>pages/index.js</code> 作为系统的首页进行展示。注意，<code>pages</code> 是默认存放页面的目录。<strong>路由</strong>的<strong>根路径</strong>也是 pages 目录。</p>
+<p>上面的 <code>pages/index.js</code> 是一个返回 react 组件的 js 文件。</p>
+<p><code>Next.js</code> 采用的是文件系统作为api，每一个放在pages中的文件都会映射为一个路由。路由名称与文件名相同。</p>
+<p>打开 package.json 文件，配置我们的项目启动命令：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    "script"： &#123;</div><div class="line">    	“dev”： "next"</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在 <code>pages/index.js</code> 中创建一个React函数式组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Index = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    &lt;div&gt;</div><div class="line">        &lt;p&gt;Hello Next.js&lt;<span class="regexp">/p&gt;</span></div><div class="line"><span class="regexp">    &lt;/</span>div&gt;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> Index</div></pre></td></tr></table></figure>
+<p><strong>页面间导航</strong></p>
+<p>页面间跳转是很正常的事，因此 <code>Next.js</code> 为我们提供了 Link 这个高阶组件，用于页面导航。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Link <span class="keyword">from</span> <span class="string">'next/link'</span></div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> () =&gt; &#123;</div><div class="line">	&lt;div&gt;</div><div class="line">        &lt;Link href=<span class="string">"/about"</span> &gt;</div><div class="line">            &lt;a&gt;About Page&lt;<span class="regexp">/a&gt;</span></div><div class="line"><span class="regexp">        &lt;/</span>Link&gt;</div><div class="line">    	&lt;h1&gt;Hello Next.js&lt;<span class="regexp">/h1&gt;</span></div><div class="line"><span class="regexp">    &lt;/</span>div&gt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Link组件</strong> 是通过 <strong>location.history</strong> 的浏览器API保存历史路由，所以，你可以通过浏览器左上角的前进和后退按钮来切换历史路由。而在开发过程中，你不需要再单独写客户端路由配置。</p>
+<p><strong>Link组件</strong> 是React的高阶组件的实现，不能对它进行样式的设置，它只是起到路由跳转功能，但是它的复用性强，只要包含能触发onClick事件的组件即可。</p>
+<p><strong>组件复用</strong></p>
+<p>Next.js 是以多页面为中心，只要将页面放在 <strong>pages</strong> 目录下，就可以在浏览器上以文件名为路由名来访问到。</p>
+<p><strong>用路由遮盖( Route Masking )的干净的URL</strong>：</p>
+<p>Next.js 上提供了一个独特的特性： <strong>路由遮盖</strong>。它可以使得在浏览器上显示的是路由A，而App内部真正的路由是B。这个特性可以让我们设置一些比较简洁的路由显示在页面，而系统背后是使用一个但参数的路由。</p>
+<p>当在 Link 组件上使用 as 属性时，浏览器上显示的是 as 属性的值，走的是客户端路由，而服务器真正映射的是 href 属性的值，走的事服务端路由。</p>
+<p>这样就会有一个问题，如果在前端路由间切换不会有问题，可以正常显示，但是在页面 <a href="http://localhost:3000/p/hello-nextjs" target="_blank" rel="external">http://localhost:3000/p/hello-nextjs</a> 时刷新页面，会显示 404页面。这是因为<strong>路由遮盖</strong>默认只在客户端路由中有效，要想在服务端也支持<strong>路由遮盖</strong>，需要在服务端单独设置路由解析的方法。</p>
+<h4 id="Next-js-创建页面"><a href="#Next-js-创建页面" class="headerlink" title="Next.js 创建页面"></a>Next.js 创建页面</h4><ol>
+<li><p>页面就是 pages 目录下的一个组件</p>
+</li>
+<li><p>static 目录映射静态文件</p>
+</li>
+<li>page 具有特殊的静态方法 <code>getInitalProps</code></li>
+</ol>
+<h4 id="在页面中使用其他-React-组件"><a href="#在页面中使用其他-React-组件" class="headerlink" title="在页面中使用其他 React 组件"></a>在页面中使用其他 React 组件</h4><ol>
+<li>页面也是标准的 node 模块，可使用其他 React 组件</li>
+<li>页面会针对性打包，进包含引入的组件</li>
+</ol>
+<h4 id="使用Link-实现同构路由"><a href="#使用Link-实现同构路由" class="headerlink" title="使用Link 实现同构路由"></a>使用Link 实现同构路由</h4><ol>
+<li>使用 “ next/link ” 定义链接</li>
+<li><p>点击链接时页面不会刷新</p>
+</li>
+<li><p>使用 prefetch 预加载目标资源</p>
+</li>
+<li>使用 replace 属性替换 URL。这样当前链接就不包含在浏览器的history 中，通过浏览器的后退按钮不能回到这个链接。</li>
+</ol>
+<h4 id="Next-js-动态加载页面"><a href="#Next-js-动态加载页面" class="headerlink" title="Next.js 动态加载页面"></a>Next.js 动态加载页面</h4><p>lazy load</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> dynamic <span class="keyword">from</span> <span class="string">'next/dynamic'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> DynamicComponentWithCustomLoading = dynamic(</div><div class="line">	<span class="keyword">import</span>(<span class="string">'../components/hello2'</span>),</div><div class="line">    &#123;</div><div class="line">		loading: <span class="function"><span class="params">()</span> =&gt;</span> &lt;p&gt;...&lt;<span class="regexp">/p&gt;</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">)</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">export default () =&gt; &#123;</span></div><div class="line"><span class="regexp">    &lt;div&gt;</span></div><div class="line"><span class="regexp">      &lt;Header /</span>&gt;   </div><div class="line">      &lt;DynamicComponentWithCustomLoading /&gt;</div><div class="line">      &lt;p&gt;HOME PAGE is here!<span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></div><div class="line">    &lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp">&#125;</span></div></pre></td></tr></table></figure>
+<h2 id="使用-Jest-Enzyme-等工具进行单元测试"><a href="#使用-Jest-Enzyme-等工具进行单元测试" class="headerlink" title="使用 Jest, Enzyme 等工具进行单元测试"></a>使用 Jest, Enzyme 等工具进行单元测试</h2><p><strong>React 让前端单元测试变得容易</strong></p>
+<ol>
+<li>React 应用很少需要访问浏览器 API</li>
+<li>虚拟 DOM 可以在 NodeJS 环境运行和测试，故我们的单元测试是不需要浏览器环境的。</li>
+<li>Redux 隔离了状态管理，纯数据层单元测试</li>
+</ol>
+<p><strong>单元测试涉及到的工具</strong></p>
+<ol>
+<li>Jest： Facebook 开源的 JS 单元测试框架。零配置</li>
+<li>JS DOM： 浏览器环境的 NodeJS 模拟</li>
+<li>Enzyme： React组件渲染和测试。在 Node.js 环境下渲染react组件</li>
+<li>nock： 模拟接受 HTTP 请求，返回数据。</li>
+<li>sinon： 函数模拟和调用跟踪</li>
+<li>istanbul：单元测试覆盖率</li>
+</ol>
+<p><strong>Enzyme</strong>：主要用来render react组件。可以分级别来渲染：</p>
+<blockquote>
+<ol>
+<li>Shallow Rendering : 浅渲染。只 render 自己的部分，对于子组件，不会去做递归的render。测试虚拟DOM</li>
+<li>Full Rendering ： 深渲染。不仅 render 自己的部分，包括自组件也要递归的去做 render。测试虚拟DOM</li>
+<li>Static Rendering ： 静态渲染。测试真实DOM</li>
+</ol>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// conterPage.test.js 测试计数器的页面是否能够使用</span></div><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> &#123; shallow &#125; <span class="keyword">from</span> <span class="string">'enzyme'</span></div><div class="line"><span class="keyword">import</span> &#123; CounterPage &#125; <span class="keyword">from</span> <span class="string">'./examples/CounterPage'</span></div><div class="line"></div><div class="line">describe(<span class="string">'examples/CounterPage'</span>, () =&gt; &#123;</div><div class="line">    it(<span class="string">'renders node with correct class name'</span>, () =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> props = &#123;</div><div class="line">            examples: &#123;&#125;,</div><div class="line">            actions: &#123;&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">const</span> renderedComponent = shallow(<span class="xml"><span class="tag">&lt;<span class="name">CounterPage&#123;...props&#125;</span> /&gt;</span>)</span></div><div class="line"><span class="xml">        expect(renderedComponent.find('.expamles-counter-page').length).toBe(1)                                  </span></div><div class="line"><span class="xml">    &#125;)</span></div><div class="line"><span class="xml">&#125;)</span></div></pre></td></tr></table></figure>
+<h2 id="react-中常用的开发调试工具"><a href="#react-中常用的开发调试工具" class="headerlink" title="react 中常用的开发调试工具"></a>react 中常用的开发调试工具</h2><p>除了ESLint 还有一些其他的工具</p>
+<p><code>Prettier</code></p>
+<blockquote>
+<ol>
+<li>代码格式化神器</li>
+<li>保证容易写出风格一致的代码</li>
+</ol>
+</blockquote>
+<p>Prettier 风格不是完全支持定制，但能够在你保存代码的时候自动应用代码格式化。</p>
+<h1 id="前端项目的理想架构"><a href="#前端项目的理想架构" class="headerlink" title="前端项目的理想架构"></a>前端项目的理想架构</h1><p>可维护、可扩展、可测试、易开发、易构建。</p>
+<p>易于测试：</p>
+<blockquote>
+<ol>
+<li>功能的分层是否清楚。UI层，数据层，方便做各个层的单元测试</li>
+<li>副作用少</li>
+<li>尽量使用纯函数</li>
+</ol>
+</blockquote>
+<h4 id="拆分复杂度（1）-按领域模型（feature）组织代码，降低耦合度"><a href="#拆分复杂度（1）-按领域模型（feature）组织代码，降低耦合度" class="headerlink" title="拆分复杂度（1） 按领域模型（feature）组织代码，降低耦合度"></a>拆分复杂度（1） 按领域模型（feature）组织代码，降低耦合度</h4><p>按业务逻辑拆分成高内聚低耦合的模块。每个模块在内部拥有自己的 <code>reducer</code> ,<code>action</code>, <code>component</code></p>
+<p><strong>从业务逻辑的角度来拆分模块，而不是从技术或代码书写的角度来拆分模块</strong></p>
+<h4 id="拆分复杂度-2-如何组织-component-action-和-reducer-，即如何组织文件夹"><a href="#拆分复杂度-2-如何组织-component-action-和-reducer-，即如何组织文件夹" class="headerlink" title="拆分复杂度(2) 如何组织 component, action 和 reducer ，即如何组织文件夹"></a>拆分复杂度(2) 如何组织 component, action 和 reducer ，即如何组织文件夹</h4><p>文件夹结构</p>
+<ul>
+<li>按 feature （产品功能）组织源文件</li>
+<li>组件和样式文件同一级</li>
+<li>Redux 单独文件夹，里面放 action 和 reducer</li>
+<li>单元测试保持同样目录结构放在 tests 文件夹</li>
+</ul>
+<p><strong>组件和样式的加载</strong>： 按 feature 组织源文件，导致组件和样式散落在各个feature文件夹下。如何加载组件和样式：</p>
+<p>组件内部不要引用自己对应的那个样式文件。样式文件要集中起来打包成一个文件。样式文件要独立于组件来加载。</p>
+<p>组件import之后马上导出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// index.js 组件的集中文件</span></div><div class="line"><span class="keyword">export</span> &#123;<span class="keyword">default</span> <span class="keyword">as</span> 组件<span class="number">1</span>&#125; <span class="keyword">from</span> <span class="string">'./组件1.js'</span></div><div class="line"><span class="keyword">export</span> &#123;<span class="keyword">default</span> <span class="keyword">as</span> 组件<span class="number">2</span>&#125; <span class="keyword">from</span> <span class="string">'./组件2.js'</span></div></pre></td></tr></table></figure>
+<p>样式文件的集中：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@import</span> <span class="string">'./styles/style1.less'</span></div><div class="line"><span class="variable">@import</span> <span class="string">'./styles/style2.less'</span></div></pre></td></tr></table></figure>
+<p><strong>Action 和 Reducer 的组织</strong>：</p>
+<p>把同一个 feature 的 action 和 reducer 写在同一个文件。action 的名字和文件同名，reducer的名字就叫 ‘ reducer ’</p>
+<p>如何把散落在各处的 action 和 reducer 组织到一起呢？</p>
+<p>action(也是导入之后马上导出) :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// acions</span></div><div class="line"><span class="comment">// 加1，减1</span></div><div class="line"><span class="keyword">export</span> &#123;counterPlusOne&#125; <span class="keyword">from</span> <span class="string">'./counterPlusOne'</span></div><div class="line"><span class="keyword">export</span> &#123;conterMinusOne&#125; <span class="keyword">from</span> <span class="string">'./counterMinusOne'</span></div></pre></td></tr></table></figure>
+<p>Reducer:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> initialState <span class="keyword">from</span> <span class="string">'./initialState'</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> counterPlusOneReducer&#125; <span class="keyword">from</span> <span class="string">'./counterPlusOne'</span></div><div class="line"><span class="keyword">import</span> &#123;reducer <span class="keyword">as</span> counterMinusOneReducer&#125; <span class="keyword">from</span> <span class="string">'./counterMinusOne'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> reducers = [</div><div class="line">    counterPlusOneReducer,</div><div class="line">    counterMinusOneReducer</div><div class="line">]</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state = initialState, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> newState</div><div class="line">    <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">        <span class="comment">// handle cross-topic actions here</span></div><div class="line">        <span class="keyword">default</span>: </div><div class="line">            newState = state</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> reducers.reduce(<span class="function">(<span class="params">s, r</span>) =&gt;</span> r(s, action), newState )</div><div class="line">    <span class="comment">// newSate 是initialValue 作为回调函数（上面的箭头函数）的第一个参数的初始值。避免报错</span></div><div class="line">    <span class="comment">// s 是累加器累加回调返回的值。它是上一次调用回调时返回的值或initialValue</span></div><div class="line">    <span class="comment">// r 是数组中正在处理的元素，在这里就是一个个的 reducer。</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 上面的reducer只是把同一个模块中的不同reducer集中到了一起。如上例把加1功能的reducer和减1功能的reducer集中到了一起。</p>
+<p>我们还需要把不同的模块的reducer集中到一起：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// rootReducer.js</span></div><div class="line"><span class="keyword">import</span> &#123; combineReducers &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">import</span> &#123; routerReducer &#125; <span class="keyword">from</span> <span class="string">'react-router-redux'</span>;</div><div class="line"><span class="keyword">import</span> homeReducer <span class="keyword">from</span> <span class="string">'../features/home/redux/reducer'</span></div><div class="line"><span class="keyword">import</span> commonReducer <span class="keyword">from</span> <span class="string">'../features/common/redux/reducer'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> reducerMap = &#123;</div><div class="line">    router: routerReducer,</div><div class="line">    home: homeReducer,</div><div class="line">    common: commonReducer</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> combinReducers(reducerMap)</div></pre></td></tr></table></figure>
+<p><strong>一个项目先建一个文件夹叫 feature,里面建不同功能名字的文件夹，每个功能文件夹下写各个模块，功能文件夹下还有一个redux文件夹。redux文件夹里面有包含各个功能的同时有action和reducer的文件，reducer.js 把各个小的reducer集中起来，actions.js 把各个小的action集中起来。</strong></p>
+<p><strong>combineReducers() 用来把各个文件形式的reducer集中起来。必须得是文件形式。</strong></p>
+<h4 id="拆分复杂度（3）：如何组织react-router的路由配置"><a href="#拆分复杂度（3）：如何组织react-router的路由配置" class="headerlink" title="拆分复杂度（3）：如何组织react router的路由配置"></a>拆分复杂度（3）：如何组织react router的路由配置</h4><p>在每个 feature 中单独定义自己的路由。</p>
+<p>路由的拆分和action、reducer 的拆分还是有很一些的不同。我们习惯使用标签tag的形式来定义路由，不过这种方式不利于路由的集成。我们可以改用JSON形式来了做路由的集成。</p>
+<p><strong>使用JSON定义顶层路由</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;WelcomPage, CounterPage, RedditListPage, Layout&#125; <span class="keyword">from</span> <span class="string">'./'</span></div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    path: <span class="string">'examples'</span>,</div><div class="line">    name: <span class="string">'Examples'</span>,</div><div class="line">    component: Layout,</div><div class="line">    childRoutes: [</div><div class="line">        &#123;<span class="attr">path</span>: <span class="string">''</span>, <span class="attr">name</span>: <span class="string">"Welcome page"</span>, <span class="attr">component</span>: WelcomePage&#125;，</div><div class="line">        &#123;<span class="attr">path</span>:<span class="string">'counter'</span>,<span class="attr">name</span>:<span class="string">'Counter page'</span>,<span class="attr">component</span>:CounterPage&#125;</div><div class="line">        &#123;<span class="attr">path</span>: <span class="string">'reddit'</span>, <span class="attr">name</span>:<span class="string">'Reddit list page'</span>, <span class="attr">protected</span>: <span class="literal">true</span>, <span class="attr">component</span>: RedditListPage&#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个路由配置文件仅跟路由相关，便于我们理解。</p>
+<h2 id="Rekit"><a href="#Rekit" class="headerlink" title="Rekit"></a>Rekit</h2><p>前端现状：</p>
+<blockquote>
+<p>一个独立功能通常需要多个文件组成</p>
+<p>代码模板很复杂</p>
+<p>重构极为困难</p>
+<p>项目复杂后很难理解和维护</p>
+</blockquote>
+</route>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/20/node相关2/" rel="next" title="node相关2">
+                <i class="fa fa-chevron-left"></i> node相关2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="Ak-lee" />
+          
+            <p class="site-author-name" itemprop="name">Ak-lee</p>
+            <p class="site-description motion-element" itemprop="description">start from zero</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#React"><span class="nav-number">1.</span> <span class="nav-text">React</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件复用的另外两种形式：-高阶组件和函数作为子组件"><span class="nav-number">1.1.</span> <span class="nav-text">组件复用的另外两种形式： 高阶组件和函数作为子组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#高阶组件"><span class="nav-number">1.1.1.</span> <span class="nav-text">高阶组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数作为子组件"><span class="nav-number">1.1.2.</span> <span class="nav-text">函数作为子组件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context-API"><span class="nav-number">2.</span> <span class="nav-text">Context API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打包和部署"><span class="nav-number">2.1.</span> <span class="nav-text">打包和部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redux"><span class="nav-number">3.</span> <span class="nav-text">Redux</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Store"><span class="nav-number">3.0.1.</span> <span class="nav-text">Store</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Action"><span class="nav-number">3.0.2.</span> <span class="nav-text">Action</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reducer"><span class="nav-number">3.0.3.</span> <span class="nav-text">Reducer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接-react-和-redux-的包react-redux"><span class="nav-number">3.1.</span> <span class="nav-text">连接 react 和 redux 的包react-redux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redux-中的异步-action-与中间件"><span class="nav-number">3.2.</span> <span class="nav-text">redux 中的异步 action 与中间件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在-redux-中组织-action-和-reducer"><span class="nav-number">3.3.</span> <span class="nav-text">如何在 redux 中组织 action 和 reducer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redux-的运行基础——不可变数据（immutable-data）"><span class="nav-number">3.4.</span> <span class="nav-text">redux 的运行基础——不可变数据（immutable data）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-router"><span class="nav-number">4.</span> <span class="nav-text">react-router</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-url-传递参数"><span class="nav-number">4.1.</span> <span class="nav-text">通过 url 传递参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套路由"><span class="nav-number">4.2.</span> <span class="nav-text">嵌套路由</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Next-js-创建-React-同构应用"><span class="nav-number">5.</span> <span class="nav-text">使用 Next.js 创建 React 同构应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Next-js-创建页面"><span class="nav-number">5.0.1.</span> <span class="nav-text">Next.js 创建页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在页面中使用其他-React-组件"><span class="nav-number">5.0.2.</span> <span class="nav-text">在页面中使用其他 React 组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Link-实现同构路由"><span class="nav-number">5.0.3.</span> <span class="nav-text">使用Link 实现同构路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Next-js-动态加载页面"><span class="nav-number">5.0.4.</span> <span class="nav-text">Next.js 动态加载页面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Jest-Enzyme-等工具进行单元测试"><span class="nav-number">6.</span> <span class="nav-text">使用 Jest, Enzyme 等工具进行单元测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-中常用的开发调试工具"><span class="nav-number">7.</span> <span class="nav-text">react 中常用的开发调试工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前端项目的理想架构"><span class="nav-number"></span> <span class="nav-text">前端项目的理想架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#拆分复杂度（1）-按领域模型（feature）组织代码，降低耦合度"><span class="nav-number">0.0.1.</span> <span class="nav-text">拆分复杂度（1） 按领域模型（feature）组织代码，降低耦合度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拆分复杂度-2-如何组织-component-action-和-reducer-，即如何组织文件夹"><span class="nav-number">0.0.2.</span> <span class="nav-text">拆分复杂度(2) 如何组织 component, action 和 reducer ，即如何组织文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拆分复杂度（3）：如何组织react-router的路由配置"><span class="nav-number">0.0.3.</span> <span class="nav-text">拆分复杂度（3）：如何组织react router的路由配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rekit"><span class="nav-number">1.</span> <span class="nav-text">Rekit</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ak-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    |  您是本站第 <span id="busuanzi_value_site_pv"></span> 位访问者
+</span>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

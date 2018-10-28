@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="爬虫网站 https://www.json.cn/ 可以把控制台输出的json，以结构化的形式展示出来。 显示 node 相关的进程： 1ps aux | grep node  ps a : 显示现行终端机下的所有程序，包括其他用户的程序。 ps u: 以用户为主的格式来显示程序状况 ps x:  显示所有程序，不以终端机来区分 | ： 管道符  ps 是显示当前状态处于 running 的进程，">
+<meta name="keywords" content="node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node爬虫相关">
+<meta property="og:url" content="http://yoursite.com/2018/10/28/node爬虫相关/index.html">
+<meta property="og:site_name" content="Ak-lee">
+<meta property="og:description" content="爬虫网站 https://www.json.cn/ 可以把控制台输出的json，以结构化的形式展示出来。 显示 node 相关的进程： 1ps aux | grep node  ps a : 显示现行终端机下的所有程序，包括其他用户的程序。 ps u: 以用户为主的格式来显示程序状况 ps x:  显示所有程序，不以终端机来区分 | ： 管道符  ps 是显示当前状态处于 running 的进程，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-28T08:29:08.246Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node爬虫相关">
+<meta name="twitter:description" content="爬虫网站 https://www.json.cn/ 可以把控制台输出的json，以结构化的形式展示出来。 显示 node 相关的进程： 1ps aux | grep node  ps a : 显示现行终端机下的所有程序，包括其他用户的程序。 ps u: 以用户为主的格式来显示程序状况 ps x:  显示所有程序，不以终端机来区分 | ： 管道符  ps 是显示当前状态处于 running 的进程，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/28/node爬虫相关/"/>
+
+
+
+
+
+  <title>node爬虫相关 | Ak-lee</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ak-lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端修炼中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            Über
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/28/node爬虫相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ak-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ak-lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">node爬虫相关</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-28T16:28:03+08:00">
+                2018-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h1><p>网站 <code>https://www.json.cn/</code> 可以把控制台输出的json，以结构化的形式展示出来。</p>
+<p>显示 node 相关的进程：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps aux | grep node</div></pre></td></tr></table></figure>
+<blockquote>
+<p>ps a : 显示现行终端机下的所有程序，包括其他用户的程序。</p>
+<p>ps u: 以用户为主的格式来显示程序状况</p>
+<p>ps x:  显示所有程序，不以终端机来区分</p>
+<p>| ： 管道符</p>
+</blockquote>
+<p>ps 是显示当前状态处于 running 的进程，grep 表示在这些里搜索，而 ps | aux 是显示所有进程和其状态。</p>
+<p><strong>eslint 安装 air-bnb-config</strong> (安装方法参考npm搜索 <code>eslint-config-airbnb</code>)：</p>
+<ol>
+<li>对于 npm 版本小于等于 5 的 windows 用户（其他用户参考<code>eslint-config-airbnb</code> 文档）：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install -g install-peerdeps</div><div class="line">install-peerdeps --dev eslint-config-airbnb</div></pre></td></tr></table></figure>
+<ol>
+<li><p>创建 <code>.eslintrc.json</code> 文件。</p>
+<blockquote>
+<p>{</p>
+<pre><code>&quot;extends&quot;: &quot;airbnb-base&quot;
+</code></pre><p>}</p>
+</blockquote>
+</li>
+</ol>
+<p>在eslint中，在一个循环中不要使用await, 因为 await 会阻塞循环的执行。正确的做法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">    <span class="keyword">let</span> promise = [];</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; k; i++ )&#123;</div><div class="line">        promise.push(Spider.model.find(&#123;&#125;))</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">await</span> <span class="built_in">Promise</span>.all(promise)</div><div class="line">&#125;)()</div></pre></td></tr></table></figure>
+<p>文件上传进度条显示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fileObj = <span class="built_in">document</span>.getElementById(<span class="string">'file'</span>).files[<span class="number">0</span>]</div><div class="line"><span class="keyword">var</span> url = <span class="string">"uploadFile"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> form = <span class="keyword">new</span> FormData()</div><div class="line">form.append(<span class="string">'myfile'</span>, fileObj)</div><div class="line"></div><div class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</div><div class="line">xhr.open(<span class="string">"post"</span>, url, <span class="literal">true</span>)</div><div class="line">xhr.upload.onprogress = progressFunction;</div><div class="line">xhr.send(form)</div><div class="line"></div><div class="line">progressFunction(evt) &#123;</div><div class="line">    <span class="keyword">var</span> progressBar = <span class="built_in">document</span>.getElemntById(<span class="string">"progressBar"</span>)</div><div class="line">    <span class="keyword">var</span> percentageDiv = <span class="built_in">document</span>.getElementById(<span class="string">'percentage'</span>)</div><div class="line">    <span class="keyword">if</span>(evt.lengthComputable) &#123;</div><div class="line">				progressBar.max = evt.total;</div><div class="line">				progressBar.value = evt.loaded;</div><div class="line">				percentageDiv.innerHTML = <span class="built_in">Math</span>.round(evt.loaded / evt.total * <span class="number">100</span>) + <span class="string">"%"</span></div><div class="line">			&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>progress 事件会在浏览器接受新数据期间周期性地触发。而 onprogress 事件处理程序会接收到一个event对象，其target属性是XHR对象，但包含着三个额外的属性：lengthComputable、loaded 和 total。其中 lengthComputable 是一个表示进度信息是否可用的布尔值，loaded 表示已接受的字节数。total 表示根据 Content-length 响应头部确定的预期字节数。</p>
+<p>XMLHttpRequest 对象，传送数据的时候，有一个 progress 事件，用来返回进度信息。它分成上传和下载两种情况</p>
+<ol>
+<li>下载的 progress 事件属于 XMLHttpRequest 对象</li>
+<li>上传的 progress 事件属于XMLHttpRequest.upload 对象</li>
+</ol>
+</blockquote>
+<p><strong>爬虫</strong></p>
+<ul>
+<li>按照一定规则自动抓取网络信息的程序</li>
+</ul>
+<p>反爬虫：</p>
+<ul>
+<li>通过 User-agent, Referer, 验证码</li>
+<li>单位时间访问次数，访问量</li>
+<li>关键信息用图片来混淆。如显示一个评分，对于数字用雪碧图来展示。雪碧图上要显示哪个数字通过 css 样式来控制。</li>
+<li>异步加载。加载页面时只返回一个空的html文件，核心内容需要AJAX来加载，用同源策略来限制。</li>
+<li>懒加载</li>
+</ul>
+<p>本次爬虫系统包含的几个部分：</p>
+<ol>
+<li>内容爬取：根据设定的任务，爬取各个网站的内容</li>
+<li>订阅分发： 根据用户兴趣，从爬取内容中订阅，进行推送</li>
+<li>Web 服务： 提供一些列的网页和 API，供客户端显示</li>
+</ol>
+<p><strong>内容爬取</strong></p>
+<ol>
+<li><p>网页、api 爬取：视爬取难易程度和 api 友好程度，可以分为一下几种</p>
+<ol>
+<li>superagent / axios 等 http client、</li>
+<li>phantomjs 等无头（headless）浏览器</li>
+<li>使用 puppeteer 控制的 chromium</li>
+</ol>
+</li>
+<li><p>网页分析处理： 视复杂程度可以使用一下几种：</p>
+<ol>
+<li>cheerio，使用类似 js 的 api 分析处理 dom。（直接拿到了html文本）</li>
+<li>chromium 或者 phantomjs 等直接使用浏览器 js api 处理分析（没有直接拿到html文本，比如有些内容是通过ajax异步加载的，可以通过无头浏览器加载完网站自带的js代码后，再分析爬取相关的内容）</li>
+<li>简单的 json / xml 和文本处理工具</li>
+</ol>
+</li>
+<li><p>持久化</p>
+<ol>
+<li>爬取规则和策略：使用 mongodb 存储针对各个页面的爬取策略，如：爬取文件位置、运行时间和间隔</li>
+<li>源数据归档：持久化爬取到的元数据</li>
+<li>格式化数据：以资源的形式存储到数据库中</li>
+</ol>
+</li>
+</ol>
+<p><strong>订阅分发</strong></p>
+<ol>
+<li><p>推送</p>
+<ol>
+<li>使用 nodemailer 进行邮件推送</li>
+<li>使用三方推送进行客户端推送</li>
+<li>使用 socket.io 或者 http service 进行网页推送</li>
+</ol>
+</li>
+<li><p>订阅： 订阅数据库中的某种资源</p>
+</li>
+</ol>
+<p><strong>Web 服务</strong></p>
+<ol>
+<li>用户端：用户注册、登录、订阅管理和查阅等功能</li>
+<li>后台端：策略管理、异常管理、资源管理</li>
+</ol>
+<h2 id="爬虫具体内容"><a href="#爬虫具体内容" class="headerlink" title="爬虫具体内容"></a>爬虫具体内容</h2><p>爬虫的方法：</p>
+<ol>
+<li>通过反向编译一些客户端软件，如安卓的 APK，拿到获取文章内容的api，直接通过api来获取json数据。</li>
+<li>通过抓包软件。如 Charles。抓到网页的请求。</li>
+<li>通过最傻的请求网页，分析网页的DOM，拿到需要的内容。</li>
+</ol>
+<p><strong>抓包工具</strong>： </p>
+<p><strong>cheerio</strong> 是 nodejs 的抓取页面模块，为服务器特别定制的，快速、灵活。类似于jquery，只是jquery只能在浏览器上运行，而 cheerio 是独立于浏览器的dom处理器。</p>
+<p><strong>一行代码永远不要以括号开头。因为代码实际执行的时候，会去掉中间的换行。</strong> 例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">'axios'</span>);</div><div class="line">(<span class="function">(<span class="params">a</span>) =&gt;</span> &#123;</div><div class="line">   <span class="built_in">console</span>.log(a) </div><div class="line">&#125;)(<span class="string">'123'</span>)</div><div class="line"></div><div class="line"><span class="comment">// 第一行代码不加分号的话，会报错。会提示，require(...)(...) is not a function</span></div></pre></td></tr></table></figure>
+<p>下面我们来爬 <code>acfun</code> 网站的一篇文章：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">'axios'</span>);</div><div class="line"><span class="keyword">const</span> cheerio = <span class="built_in">require</span>(<span class="string">'cheerio'</span>);</div><div class="line"></div><div class="line">(<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> axios.get(<span class="string">'http://www.acfun.cn/a/ac4127544'</span>)</div><div class="line">    <span class="keyword">const</span> html = res.data</div><div class="line">    <span class="keyword">const</span> $ = cheerio.load(html)</div><div class="line">    <span class="keyword">const</span> articleContent = $(<span class="string">'.article-content'</span>)</div><div class="line">   	<span class="keyword">const</span> doms = articleContent.find(<span class="string">'p,p&gt;img, div,div&gt;img'</span>);</div><div class="line">    <span class="keyword">const</span> content = [];</div><div class="line">    doms.map(<span class="function">(<span class="params">i, d</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">const</span> text =$(d).text()</div><div class="line">        <span class="keyword">if</span>(text) &#123;</div><div class="line">            content.push(text)</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(d.name === <span class="string">'img'</span>)&#123;</div><div class="line">            <span class="keyword">const</span> src = $(d).attr(<span class="string">'src'</span>)</div><div class="line">            content.push(src)</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    <span class="built_in">console</span>.log(content)</div><div class="line">&#125;)()</div><div class="line">    .then(<span class="function"><span class="params">r</span> =&gt;</span> &#123;</div><div class="line">    process.exit(<span class="number">0</span>)</div><div class="line">&#125;).catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(e)</div><div class="line">    process.exit(<span class="number">1</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> HttpBaseError = <span class="built_in">require</span>(<span class="string">'./http_base_error'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> ERROR_CODE  = <span class="number">3000001</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NoSuchUserError</span> <span class="keyword">extends</span> <span class="title">HttpBaseError</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(id, username) &#123;</div><div class="line">        <span class="keyword">super</span>(<span class="number">404</span>, <span class="string">'该用户不存在'</span>， ERROR_CODE, <span class="string">`no such a user,<span class="subst">$&#123;username&#125;</span>, <span class="subst">$&#123;id&#125;</span>`</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = NoSuchUserError</div></pre></td></tr></table></figure>
+<h2 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h2><p><strong>redis</strong> 是一个非常高效快速的<strong>内存数据库</strong>  用<code>key</code> <code>value</code> 存储。</p>
+<ul>
+<li>做 http，静态资源内容缓存层</li>
+<li>基于 <code>key value</code> 的一个数据库</li>
+<li>可以用于解决跨进程数据同步的问题。对分布式系统友好。比较强的原子性。</li>
+</ul>
+<p><strong>使用 redis</strong></p>
+<blockquote>
+<ul>
+<li>redis-server：该命令用来启动redis服务。默认端口号为 6379</li>
+<li>redis-cli: 用于连接 redis 服务器</li>
+<li>set abc 123 :设置一个键值对，键名：abc ，值： 123</li>
+<li>get abc : 读取键名为 abc 的值</li>
+<li>incrby abc -1: 把键名为 abc 的值减少1</li>
+<li>del abc：删除键名为 abc 的键值对</li>
+<li>expire abc 5： 设置键名为 abc 的键值对的过期时间为 5 秒</li>
+<li>ttl abc : 查看 abc 用 expire 设置的过期时间还剩多少秒。已经过期了就开始显示负数。</li>
+<li>flushall：从删库到跑路，这是一个删库命令。</li>
+</ul>
+<p>redis 支持 set （集合） 这种数据结构。set 是一种永远没有重复元素出现的数据集合。</p>
+<ul>
+<li>sadd my_set 1    // 往 my_set 这个set集合中添加 1 </li>
+<li>sasdd my_set 2     // 往 my_set 这个set集合中添加 2</li>
+<li>smembers my_set  // 查看 my_set 这个set集合中的各个元素</li>
+<li>sismember my_set 1  // 判断 1 这个值是否在 my_set 这个集合里面</li>
+<li>scard my_set  // 返回 my_set 这个集合中元素的个数</li>
+<li>srem my_set  1 // 删除 my_set 这个集合中 1 这个元素</li>
+<li>spop my_set 2  // 随机从 my_set 这个集合中删除 2 个元素，因为这些元素在内存中都是随机存储的，并没有表头，表尾之类的顺序。</li>
+<li>srandmember my_set 1 // 随机中 my_set v这个集合里面取出一个值来。并不会删除原来集合中的元素。</li>
+</ul>
+<p>redis 支持 <code>sorted sets</code> 这种数据结构。可以用来做索引，插入的时候慢，检索的时候非常块。用空间换时间的一种数据结构。背后的原理就是 skip list (跳跃表)</p>
+<ul>
+<li><p>zadd my_sorted_set 100 a b 50</p>
+<p>// a 100分，b 50分</p>
+</li>
+<li><p>zrangebyscore  my_sorted_set 0 100 </p>
+<p>// 按升序排 my_sorted_set 处于 0 - 100 这个范围内的所有字段</p>
+</li>
+</ul>
+<p>hash set</p>
+<ul>
+<li>hset my_hash abc 1</li>
+<li>hgetall my_hash</li>
+</ul>
+<blockquote>
+<p>hash set 这种数据结构类似于 js 中的 map：</p>
+<p>const map = new Map()</p>
+<p>map.set(‘abc’, 123)</p>
+<p>map.set(‘def’, 456)</p>
+</blockquote>
+</blockquote>
+<p>redis 可以很方便的给我们的资源（key，键值对）设置一个过期时间。</p>
+<h3 id="使用-node-js-操作-redis-数据库"><a href="#使用-node-js-操作-redis-数据库" class="headerlink" title="使用 node.js 操作 redis 数据库"></a>使用 node.js 操作 redis 数据库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install --save node-redis</div><div class="line">// 或者使用：</div><div class="line">npm install --save ioredis</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// redis_demo.js</span></div><div class="line"><span class="keyword">const</span> Redis = <span class="built_in">require</span>(<span class="string">'ioredis'</span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> redis = <span class="keyword">new</span> Redis();</div><div class="line"></div><div class="line">(<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">    <span class="keyword">const</span> abc = <span class="keyword">await</span> redis.get(<span class="string">'abc'</span>)</div><div class="line">    <span class="keyword">const</span> hgetall = <span class="keyword">await</span> redis.hgetall(<span class="string">'my_hash'</span>)</div><div class="line">    <span class="keyword">const</span> smembers = <span class="keyword">await</span> redis.smembers(<span class="string">'my_set'</span>)</div><div class="line">    </div><div class="line">    <span class="built_in">console</span>.log(abc)</div><div class="line">    <span class="built_in">console</span>.log(hgetall)</div><div class="line">    <span class="built_in">console</span>.log(smembers)</div><div class="line">&#125;)()</div><div class="line">    .then(<span class="function"><span class="params">r</span> =&gt;</span> &#123; </div><div class="line">&#125;)</div><div class="line">    .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>因为在爬虫爬取内容的过程中，为了壁面触发反爬虫策略，我们最好随机的来爬取内容而不是按id一个接一个的爬取。下面我们写代码来实现一个自动生成一个随机的未爬取的id，然后在 acfun 网站上爬这个 id 对应的内容。爬到对应的内容之后自动存在数据库里面。</p>
+<p>这里我们利用 <strong>redis 中 set 自带随机存储的效果。在set中存入一系列连续的数据，但是spop 或 srandmember 的时候会随机的给出其中的一个值，故我们不用单独使用其他的随机算法。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// redis_service.js</span></div><div class="line"><span class="keyword">const</span> Redis = <span class="built_in">require</span>(<span class="string">'redis'</span>);</div><div class="line"><span class="keyword">const</span> redis = <span class="keyword">new</span> Redis()</div><div class="line"></div><div class="line"><span class="keyword">const</span> ACFUN_ID_SET_REDIS_KEY = <span class="string">'acfun_id_set'</span></div><div class="line"><span class="keyword">const</span> ACFUN_ARTICLE_GOT_ID_SET = ‘acfun_article_got_id_set’</div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">generateAcfunIdsToRedis</span>(<span class="params">min, max</span>) </span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = min; i &lt; max; i++) &#123;</div><div class="line">        <span class="keyword">await</span> redis.sadd(ACFUN_ID_SET_REDIS_KEY, i)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getRandomAcfunIds</span>(<span class="params">count</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> ids = <span class="keyword">await</span> redis.spop(ACFUN_ID_SET_REDIS_KEY, count)</div><div class="line">    <span class="keyword">return</span> ids;</div><div class="line">&#125;</div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">markArticleIdSucceed</span>(<span class="params">id</span>) </span>&#123;</div><div class="line">    <span class="keyword">await</span> redis.sadd(ACFUN_ARTICLE_GOT_ID_SET, id)</div><div class="line">&#125;</div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">idBackToPool</span>(<span class="params">id</span>) </span>&#123;</div><div class="line">    redis.sadd(ACFUN_ID_SET_REDIS_KEY, id)</div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    generateAcfunIdsToRedis,</div><div class="line">    getRandomAcfunIds,</div><div class="line">    markArticleIdSucceed,</div><div class="line">    idBackToPool,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// spider.js</span></div><div class="line"><span class="keyword">const</span> RedisService = <span class="built_in">require</span>(<span class="string">'./redis_service.js'</span>)</div><div class="line"></div><div class="line"><span class="keyword">switch</span> (process.argv[<span class="number">2</span>]) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'generate_ids'</span>:</div><div class="line">        RedisService.generateAcfunIdsToRedis(<span class="built_in">Number</span>(process.argv[<span class="number">3</span>]), <span class="built_in">Number</span>(process.argv[<span class="number">4</span>]))</div><div class="line">        .then(<span class="function"><span class="params">r</span>=&gt;</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'done'</span>)</div><div class="line">            process.exit(<span class="number">0</span>)</div><div class="line">        &#125;)</div><div class="line">        .catch(<span class="function"><span class="params">e</span>=&gt;</span>&#123;</div><div class="line">        	<span class="built_in">console</span>.log(e)</div><div class="line">            process.exit(<span class="number">1</span>)</div><div class="line">        &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>process.argv[0]</strong> : 你一个地址，你执行的这个node究竟是那个node，即 <code>which node</code> 的效果。</p>
+</li>
+<li><p><strong>process.argv[1]</strong>：你被执行的是那个文件，也是一个路径名。</p>
+</li>
+<li><strong>process.argv[2]及以后</strong>： 你用node执行这条命令的时候输入的自定义参数。</li>
+</ul>
+<ul>
+<li><strong>环境变量</strong>： 如<code>ABC=123 node spider.js</code> 在 spider.js 中通过 <code>process.env.ABC</code> 来访问执行的时候传入的环境变量。</li>
+</ul>
+<p>上面的 <code>redis_service.js</code> 对数据库的操作太频繁了，我们可以换个方式，每次操作数据库有的时候一次性的多插入一些数据，减少对数据库的操作次数：(这里是每次操作数据库时直接插入一万条数据)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// redis_service.js</span></div><div class="line"><span class="keyword">const</span> Redis = <span class="built_in">require</span>(<span class="string">'ioredis'</span>);</div><div class="line"><span class="keyword">const</span> redis = <span class="keyword">new</span> Redis()</div><div class="line"></div><div class="line"><span class="keyword">const</span> ACFUN_ID_SET_REDIS_KEY = <span class="string">'acfun_id_set'</span>;</div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">generateAcfunIdsToRedis</span>(<span class="params">min, max</span>) </span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = min; i &lt; max; i++) &#123;</div><div class="line">        <span class="keyword">const</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">10000</span>);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">10000</span>; j++) &#123;</div><div class="line">            arr.push(i*<span class="number">10000</span> + j);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">await</span> redis.sadd(ACFUN_ID_SET_REDIS_KEY, arr)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    enerateAcfunIdsToRedis,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>为了提高数据库的读取和操作的效率，应尽可能的减少I/O操作，尽可能把多次的数据库操作合并到一次中来，尽可能在内存中处理好，在插入到数据库中</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">spideringArticles</span>(<span class="params">count</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> ids = <span class="keyword">await</span> RedisService.getRandomAcfunIds(count)</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> id <span class="keyword">of</span> ids)&#123;</div><div class="line">        <span class="keyword">await</span> getSingleArticle(id)</div><div class="line">        <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">rsv</span>) =&gt;</span> &#123;</div><div class="line">            setTimeout(rsv, <span class="number">1000</span>)</div><div class="line">        &#125;)</div><div class="line">        <span class="comment">// 上面这个 Promise 纯粹是为了延时，避免触发 acfun 网站的反爬虫策略</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>decodeURI 和 decodeURIComponent 的区别</strong></p>
+<p><code>URI</code>: Uniform Resource Identifiers, 通用资源标识符</p>
+<p>Global 对象的 <code>encodeURI()</code> 和 encodeURICompoonent() 方法可以对 URI 进行编码，以便发送给浏览器。有效的URI中不能包含某些字符，例如空格。而这URI编码方法就可以对URI进行编码，它们用特殊的UTF-8编码替换所有无效字符，从而让浏览器能够接受和理解。</p>
+<ul>
+<li>encodeURI() 主要用于整个URI</li>
+<li>encodeURIComponent() 主要用于URI中的某一进行编码。</li>
+<li>decodeURI() 和 decodeURIComponent() 和上面的 encode 版本相对应，用于解码。</li>
+</ul>
+<p><strong>使用encodeURI() 编码的结果是除了空格之外的其他字符都原封不动，只有空格被替换成了 %20。而 encodeURIComponent() 方法则会使用对应的编码替换所有非字母数字字符。这也正式可以对整个URI使用encodeURI(), 而只能对附加在现有URI后面的字符串使用 encodeURIComponent() 的原因所在。</strong></p>
+<p>一般来说，我们使用<code>encodeURIComponent()</code> 的方法的时候要比使用 <code>encodeURI()</code> 更多，因为在实践中更常见的是对查询字符串参数而不是对基础URL进行编码。</p>
+<p><strong>怎么把html中 <code>&amp;#x</code> 开头的unicode编码转换为汉字</strong></p>
+<p>例如我要把 <code>&amp;#x6c49;&amp;#x5b47</code> 转为 “ 汉字 ” 两个字。<code>decodeURIComponent()</code> 用于UTF-8 编码，对于这种 unicode 编码是无能为力的。使用html的innerText，而不是 html() 即可。</p>
+<p>把爬取到的数据持久化到mongodb数据库</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123;MongoClient&#125; = <span class="built_in">require</span>(<span class="string">'mongodb'</span>);</div><div class="line"><span class="keyword">const</span> db = MongoClient.connect(<span class="string">'mongodb://localhost:27017/acfun'</span>)</div><div class="line"></div><div class="line">(<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">    <span class="keyword">await</span> db.collections(<span class="string">'articles'</span>),findOneAndUpdate(&#123;</div><div class="line">        acfunId: id,</div><div class="line">    &#125;,&#123;</div><div class="line">        acfunId: id,</div><div class="line">        content,</div><div class="line">        articleHtml: articleContent.html(),</div><div class="line">        createAt: <span class="built_in">Date</span>.now().valueOf(),</div><div class="line">    &#125;,&#123;</div><div class="line">        upsert: <span class="literal">true</span>,</div><div class="line">        returnNewValue: <span class="literal">true</span></div><div class="line">    &#125;)</div><div class="line">&#125;)()</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 后台自动做爬取</span></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getArticleBG</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> remainingCount = <span class="keyword">await</span> RedisService.getRemainingIDCount()</div><div class="line">    <span class="keyword">const</span> numbersPerTime = <span class="number">5</span> <span class="comment">// 每次爬取 5 篇文章</span></div><div class="line">    <span class="keyword">while</span>(remainingCount &gt;= <span class="number">5</span>)&#123;</div><div class="line">        <span class="keyword">await</span> Spider.spideringArticles(numbersPerTime)</div><div class="line">            .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</div><div class="line">            <span class="built_in">console</span>.log(e)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="使用-pm2-管理爬虫进程"><a href="#使用-pm2-管理爬虫进程" class="headerlink" title="使用 pm2 管理爬虫进程"></a>使用 pm2 管理爬虫进程</h2><p><code>pm2</code> 是一个进程管理器，当我们的进程因为各种意料之外的原因挂掉了，<code>pm2</code> 可以自动帮我们记录相关的日志并重启这个进程。 </p>
+<ul>
+<li><code>pm2 start bin/www -i 0</code>: 以你当前电脑的核心数来启动 bin/www 这个文件。默认使用 <code>cluster</code> 模式</li>
+<li><code>pm2 list</code> : 以表格的形式显示当前运行的所有实例</li>
+<li><code>pm2 stop all</code> : 停止所有 pm2 管理的进程</li>
+<li><code>pm2 delete all</code>: 杀掉所有 pm2 管理的进程</li>
+<li><code>pm2 show 0</code>: 用来查看进程的状态， 0表示 id 为 0 的进程。</li>
+<li><code>pm2 logs 1</code>  : 实时查看的进程号为 1 的日志，</li>
+<li><code>tail /xxx/yyy/a.log</code> ： 实时的查看某个文件的尾部</li>
+</ul>
+<h2 id="推荐系统初步"><a href="#推荐系统初步" class="headerlink" title="推荐系统初步"></a>推荐系统初步</h2><p>我们不仅要实现网站内容的爬取，为了把爬取到的内容能够推送给订阅的用户，我们还需要构建一个推荐系统。实现一个推荐系统，最基本的一步是在爬取网站的时候不仅要爬取文章内容，还要爬取文章的标题、文章所在的分类、网站文章自带的标签、文章中的高频词汇，以便于我们后台生成关键字方便用户订阅。</p>
+<p>推荐系统要素：</p>
+<ul>
+<li>内容之间的关联性，哪些内容是有联系的，用户喜欢了其中一篇文章就极有可能喜欢另外一篇文章。</li>
+<li>用户端，如何知道用户对某个内容有兴趣。</li>
+</ul>
+<p>内容和用户如何匹配：</p>
+<p>根据大数据和人工智能等相关的技术，建立用户的潜在因子矩阵Q（表达用户的喜好）和文章作品的潜在因子矩阵（表示各篇文章含有各种元素的成分）</p>
+<p>然后做矩阵的乘法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">张三对音乐A的喜欢程度是：</div><div class="line">张三对小清新的偏好*音乐A含有小清新的成分 + 张三对重口味的偏好*音乐A含有重口味的成分 + 张三对优雅的偏好*音乐A含有优雅的成分…………</div></pre></td></tr></table></figure>
+<p>每个用户对每首歌曲都这样计算可以得到不同用户对不同歌曲的评分矩阵</p>
+<p>那么问题来了，这个潜在因子（latent factor）是怎么得到的呢？</p>
+<p>由于面对海量的让用户自己给音乐分类并告诉我们自己的偏好系数是不现实的，事实上我们能获得的数据只有用户的行为数据。我们的量化标准为：单曲循环=5，分享=4，收藏=3，主动播放=2，听完=1，跳过=-2，拉黑=-5，在分析时能获得实际评分矩阵。</p>
+<p>事实上上面得到的这个评分矩阵是非常非常稀疏的矩阵，因为大部分用户只听过全部音乐中很少的一部分。如何利用这个矩阵去找潜在因子呢？这里主要应用到的是矩阵的UV分解。也就是将上面的评分矩阵分解为两个低纬度的矩阵，用 Q 和 P 两个矩阵的成绩去估计实际的评分矩阵。我们的任务就是完成就是完成这个矩阵的分解。这里面涉及到最优化理论，还要利用梯度下降法来辅助计算。</p>
+<p><strong>继续我们的acfun爬虫的推荐系统</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tag</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(name, value, score) &#123;</div><div class="line">        <span class="comment">// score 表示这个tag的权重</span></div><div class="line">        <span class="comment">// name 表示这个标签是那种标签，是文章类型大分类标签还是up主添加的标签</span></div><div class="line">        <span class="keyword">this</span>.name = name</div><div class="line">        <span class="keyword">this</span>.value = value</div><div class="line">        <span class="keyword">this</span>.score = score</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 最终我们要保存的数据格式：</span></div><div class="line"><span class="keyword">const</span> article = &#123;</div><div class="line">    acfunId, id,</div><div class="line">    content,</div><div class="line">    articleContentHtml: articleContent.html(),</div><div class="line">    createdAt: <span class="built_in">Date</span>.now().valueOf(),</div><div class="line">    originCreatedAt: <span class="number">0</span>,</div><div class="line">    title: <span class="string">''</span>,</div><div class="line">    tags: []</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>tips：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">100</span>);</div><div class="line">arr[<span class="number">0</span>] = <span class="number">0</span></div><div class="line">arr[<span class="number">1</span>] = <span class="number">1</span></div><div class="line"><span class="comment">// 思考这里为什么 arr 为 const声明的，后面却可以修改。</span></div><div class="line"><span class="comment">// 这里const声明只是要求arr这个指针本身不能重新赋值，数组里面的值却可以修改的。</span></div></pre></td></tr></table></figure>
+<p><strong>const 声明一个数组，这个数组里面的内容是可以随意修改的，不能修改的只是指向数组的这个变量名，不能把这个变量名指向别的东西</strong></p>
+<p><strong>微服务</strong></p>
+<p>一个微服务一般完成某个特定的功能，比如订单管理、客户管理等。每个微服务都是一个微型应用，有自己的六边形架构，包括商业逻辑和各种接口。有的微服务通过暴露 API 被别的微服务或者应用客户端所用；有的微服务则通过网页UI实现。在运行时，每个实例通常是一个云虚拟机或者 Docker 容器。</p>
+<p>微服务的目的是将大型的、复杂的、长期运行的应用程序构建为一组相互配合的服务，每个服务都可以很容易得到局部改良。“ 微 ” 这个字意味着每个服务都应该足够小，但是，这里的小不能用代码量来比较，而应该是从业务逻辑上比较——符合SRP原则的才叫微服务。</p>
+<p><strong>微服务与传统巨石应用的比较</strong></p>
+<p><strong>巨石（monolith）</strong></p>
+<p>web应用程序发展的早期，大部分web工程是将所有的功能模块（service side）打包到一起并放在一个 web 容器中运行，很多企业的 Java 应用程序打包为 war 包。其他语言（Ruby、Python 或者 C++）写的程序也有类似的问题。</p>
+<p>这种将所有功能都部署在一个 web 容器中运行的系统就叫做巨石型应用。巨石型应用有很多好处：IDE 都是为开发单个应用设计的、容易测试——在本地就可以启动完完整的系统、容易部署——直接打包为一个完整的包，拷贝到 web 容器的某个目录下即可运行。</p>
+<p>但是，上述的好处是有条件的：应用不那么复杂对于大规模的复杂应用，巨石型应用会显得特别笨重：要修改一个地方就要将整个应用全部部署；编译时间过长；回归测试周期过长；开发效率降低等。另外巨石型应用不利于更新技术框架，除非你愿意将系统全部重写。</p>
+<p><strong>应用拆分</strong> 把应用拆分并不仅仅是搞出一堆很小的服务，这不是目标；真正的目标是解决巨石型应用在业务急剧增长时遇到的问题。</p>
+<p><strong>微服务架构的通信机制</strong></p>
+<ol>
+<li><p>客户端与服务器端之间的通信</p>
+<p>在巨石型架构下，客户端应用程序（web 或 app）通过向服务端发送 HTTP 请求；但是，在微服务架构下，原来的巨石型服务器被一组微服务替代，这种情况下客户端如何发起请求呢？</p>
+<p>在客户端向微服务发HTTP请求时，可能出现这样的情况：客户端为了完成一个业务逻辑，需要发起多个 HTTP 请求，从而造成系统的吞吐率下降，再加上无线网络的延迟高，会严重影响客户端的用户体验。</p>
+<p>为了解决这个问题，一般后再服务器集群前面加一个角色： API gateway，它负责与客户端对接，并将这个客户端的请求转化成对内部服务的一系列调用。这样的好处是，服务升级不会影响到客户端，只需要修改 API gateway即可。</p>
+</li>
+<li><p>内部服务之间的通信</p>
+<p>内部服务之间的通信方式有两种：基于HTTP协议的同步机制； 基于消息队列的异步消息处理机制。</p>
+</li>
+</ol>
+<p>微服务有利于解决巨石应用更新部分代码时，主服务要重启，安装依赖，编译时间长的，服务之间耦合严重问题。</p>
+<p>微服务一般数据库相对独立，网关也是独立的。网关不一定是 HTTP 网关。</p>
+<p>微服务，通过一定的协议把你提供的服务暴露出来。其他人只关心提供的服务是个什么服务，这个服务怎么调用，而不用关心服务内部的服务期间集群，数据库集群，用的是什么语言写的。</p>
+<p><strong>实现一个爬虫系统，可以引入别人爬虫爬到的数据，需要约定一个协议方便与其他爬虫交互</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="section">### 数据约定</span></div><div class="line"><span class="section">#### 单条内容数据结构</span></div><div class="line">符合本平台推荐内容的数据，结构应该如下：</div><div class="line"><span class="code">	title: &#123;type: String, required:true, &#125;</span></div><div class="line"><span class="code">	contentType: &#123;type: String,&#125;	// link, full-text, dom,video, audio</span></div><div class="line"><span class="code">	content: &#123;type: Mixed,&#125;	// 具体内容既可以是单条也可以是多条</span></div><div class="line"><span class="code">	tags: [&#123;</span></div><div class="line"><span class="code">        name: String,</span></div><div class="line"><span class="code">        value: String,</span></div><div class="line"><span class="code">        score: Number,	// 标签权重</span></div><div class="line"><span class="code">	&#125;]</span></div><div class="line"><span class="code">	contentId: String,</span></div><div class="line"><span class="code">	source:&#123;type:String, required: true&#125;, // 资源来自哪个爬虫</span></div><div class="line"><span class="section">### 协议</span></div><div class="line">本协议使用 HTTP/1.1 协议进行通讯，通过约定一系列的接口，实现爬虫微服务与聚合推荐系统的数据共通与同步。</div><div class="line">协议名称：FULL<span class="emphasis">_NET_</span>SPIDER-PROTOCOL/0.1</div><div class="line"><span class="section">#### 基本概念</span></div><div class="line">服务发现：爬虫，可能是由不同的语言，不同人写的。为满足聚合推荐服务发现合规的爬虫，并进行数据拉取的操作，所需要的服务发现和注册</div><div class="line">数据同步：本服务规定了一系列的数据同步规则，用于在聚合推荐服务和爬虫之间交换数据</div><div class="line"><span class="section">#### 聚合推荐服务接口</span></div><div class="line">注册服务接口：</div></pre></td></tr></table></figure>
+<pre><code>PATH: /api/sevice
+METHOD: POST
+CONTENT-TYPE: application/json
+REQUEST-BODY: 
+{
+    service: {
+        name: String, // 服务名，不能与数据库中现有服务重名
+        validationUrl， // 验证URL,爬虫服务器需要在该URL被访问时采取正确的回应
+    }
+},
+SUCCESS-RESPONSE-BODY: 
+{
+    code: 0
+},
+ERROR-RESPONSE-BODY: 
+{
+    code: errorCode,
+    msg: errorMsg
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">修改服务注册接口：</div></pre></td></tr></table></figure>
+<pre><code>PATH: /api/sevice/:serviceName,
+METHOD: PATCH,
+CONTENT-TYPE: application/json
+REQUEST-BODY: 
+{
+    service: {
+        name: String, // 服务名，不能与数据库中现有服务重名
+        validationUrl， // 验证URL,爬虫服务器需要在该URL被访问时采取正确的回应
+    }
+},
+SUCCESS-RESPONSE-BODY: 
+{
+    code: 0
+},
+ERROR-RESPONSE-BODY: 
+{
+    code: errorCode,
+    msg: errorMsg
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">注销服务接口：</div></pre></td></tr></table></figure>
+<pre><code>PATH: /api/sevice/:serviceName,
+METHOD: DELETE,
+SUCCESS-RESPONSE-BODY: 
+{
+    code: 0
+},
+ERROR-RESPONSE-BODY: 
+{
+    code: errorCode,
+    msg: errorMsg
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#### 爬虫服务接口约定</div><div class="line">验证接口（validationUrl）：通过调用该接口， 爬虫服务应该返回符合规范的内容，以标识该爬虫能够兼容聚合系统的协议。</div></pre></td></tr></table></figure>
+<pre><code>PATH: 由注册服务接口规定
+METHOD: GET
+CONTENT-TYPE: application/json
+SUCCESS-RESPONSE-BODY:
+{
+    code: 0,
+    protocol: {
+        version: String,
+        name: &apos;FULL_NET_SPIDER-PROTOCOL&apos;
+    }
+    config: {
+        singleContent: {    // 方便聚合推荐服务拿取单条数据
+            url: String,
+            frequencyLimit: Number    // 频率
+        }，
+        contentList: { //获取多条内容接口
+            url: String,
+            pageSizeLimit: Number,    // 每次拉取多少条数据
+            frequencyLimit: Number， // 每秒钟最多拉取多少次
+        }
+    }
+}
+ERROR-RESPONSE-BODY:
+{
+    code: errorCode,
+    msg: errorMsg
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">获取多条内容接口：</div></pre></td></tr></table></figure>
+<pre><code>PATH: 由验证接口返回
+METHOD: GET
+CONTENT-TYPE: application/json
+REQUEST-PARAMS: 
+{
+    pageSize: Number,
+    latestId: String    // 数据库中的Id，而不是内容在网站上的id
+} 
+SUCCESS-RESPONSE-BODY:
+{
+    code: 0,
+    data: {
+        contentList: []
+    }
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p><strong>微服务</strong>： 即一个服务有自己的业务逻辑，自己的数据库等，通过一个接口暴露自己的服务出来。其他服务通过调用这个暴露出来的接口就可以拿到想要的数据。</p>
+<h2 id="在-AWS-上部署服务"><a href="#在-AWS-上部署服务" class="headerlink" title="在 AWS 上部署服务"></a>在 AWS 上部署服务</h2><p>aws 云，如果有 visa/MasterCard 信用卡，在套餐范围了可以免费使用一年。</p>
+<p>亚马逊云服务器部分在 EC2 分类里面。</p>
+<p>负载均衡： 当网络流量大的时候，把流量在多台服务器中分配。对于只有一台服务器，负载均衡也可用作把外来的请求转发到内部的其他端口号上去。</p>
+<p>负载均衡里面可以设置一个侦听器，当一个连接没有被路由到其他端口号时，我们来做一个重定向。</p>
+<p><strong>负载均衡的侦听器</strong>：</p>
+<blockquote>
+<p>侦听器使用它的配置协议和端口来检查连接请求，而负载平衡器使用侦听器规则，将请求路由到目标。您可以添加，移除或更新侦听器与侦听器规则。</p>
+</blockquote>
+<p><strong>当需要把一些请求转发到内网的端口上去时，需要使用到负载均衡的侦听器</strong></p>
+<p>负载均衡的侦听器：侦听器使用它的配置协议和端口来检查连接请求，而负载均衡器使用侦听器规则，将请求路由到目标。这样我们就可以实现请求的转发。服务器可以只暴露很少的接口，如22、80、443 这几个接口，我的一些子网页部署到服务器不同的端口上，但是这些端口不直接暴露出来，而是通过负载均衡来转发。这些端口只在内部有效。</p>
+<p><strong>安全组</strong>：服务器的一些服务可能会暴露一些接口，例如 mongodb 的 27017 端口。redis 的 6379 端口。但这些端口直接暴露给客户端是很危险的。安全组就可以用于控制端口的暴露。只暴露必要的端口，其他的端口只能内网中访问。这个功能底层是基于 iptables( Linux 下的防火墙 )。未经配置的服务器默认是所有端口都是打开的，这样很危险。安全组就是用来配置端口的暴露的。即哪些端口以哪些协议（TCP / UDP）来暴露。总之一句话，<strong>安全组设置了哪些流量可以进，哪些流量可以出</strong></p>
+<p>负载均衡的用的地址（aws会给一个默认域名）可能与服务器自身的地址（域名）不是同一个。</p>
+<p><strong>连接到 aws 服务器</strong>： 通过 ‘ ssh ‘ + ‘ -i ‘  + 私钥文件本地地址 + 服务器实例的公有 DNS</p>
+<p><strong>要访问你的实例</strong>：</p>
+<ol>
+<li><p>打开 SSH 客户端（windows 用户使用 Putty 连接）</p>
+</li>
+<li><p>查找你的私有密钥文件（aws_ec2.pem）。向导会自动检测您用于启动实例的密钥。</p>
+</li>
+<li><p>你的密钥必须不公开可见，SSH 才能工作。如果需要请使用此命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 400 aws_ec2.pem</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过公有 DNS 连接到您的实例，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ec2-13-59-196-62.us-east-2.compute.amazonws.com</div></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -i &quot;aws-ec2.pem&quot; ubuntu@ec2-13-59-196-62.us-east-2.compute.amazonws.com</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>亚马逊AWS提供的免费服务还是比较多的，其中使用较为多的还是EC2云服务器，可以开通Linux和window系统。</li>
+<li>EC2开通过程和设置还是比较简单的，唯独在安全策略出需要配置端口，这样确保服务器的安全，比如建站用途则需要开通22（ssh端口）、80（http端口）等端口。</li>
+<li>EC2 登录 SSH 的时候需要用到配置的密钥对连接。因为考虑到免费AWS账户有使用限制每月750小时，所以我们不用的实例要及时的删除，不要多台实例一起开，这样超支会导致欠费账单，超支额度很贵的。</li>
+</ul>
+<blockquote>
+<p>项目实例文件夹组织：</p>
+<p><code>what_i_love</code> 是聚合系统的实例。有自己的数据库<code>what_i_love</code>，可以从其他爬虫实例那里请求数据存入自己的数据库中。</p>
+<p><code>ac_article_spider</code> 是一个爬虫的实例。有自己的数据库，保存自己爬取到的数据。<code>ac_article_spider</code> 里面的 <code>redis-server</code> 只有简单的连接 <code>redis</code> 数据库的逻辑。数据存在对应<code>acfun</code>数据库里面的 <code>article</code> 表。<code>ac_article_spider</code> 里面的 <code>script/spider.js</code>  用于识别进程启动是传入的参数，开始爬虫的进程。<code>spider.js</code> 在某个时刻才执行，即爬虫肯定是需要执行的时候才去执行，需要单独启动。而 <code>ac_article_spider</code> 的主进程则会一直维持一个http服务器，用户向爬虫聚合系统暴露该爬虫实例爬取到的数据。</p>
+</blockquote>
+<p><code>ac_article_spider</code> 里面的暴露数据接口：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> article = <span class="built_in">require</span>(<span class="string">'../models/article'</span>)</div><div class="line">router.get(<span class="string">'/spiderProtocol'</span>, (req, res) =&gt; &#123;</div><div class="line">    res.json(&#123;</div><div class="line">        code: <span class="number">0</span>,</div><div class="line">        protocol: &#123;</div><div class="line">            name: <span class="string">'FULL_NET_SPIDER_PROTOCOL'</span>,</div><div class="line">            version: <span class="string">'0.1'</span></div><div class="line">        &#125;,</div><div class="line">        config: &#123;</div><div class="line">            contentList: &#123;</div><div class="line">                url: <span class="string">'https://localhost:3000/content'</span>,</div><div class="line">                pageSizeLimit: <span class="number">20</span>,</div><div class="line">                frequencyLimit: <span class="number">5</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">router.get(<span class="string">'/content'</span>, (req, res) =&gt; &#123;</div><div class="line">    (<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> &#123; pageSize, latestId&#125; = req.query</div><div class="line">        <span class="keyword">const</span> match = &#123;&#125;,</div><div class="line">              <span class="keyword">if</span>(latestId) &#123;</div><div class="line">                  match._id = &#123;</div><div class="line">                      $gt: latestId,</div><div class="line">                  &#125;</div><div class="line">              &#125;</div><div class="line">        <span class="keyword">const</span> article = <span class="keyword">await</span> Article.model.find(match)</div><div class="line">        	.sort(&#123;<span class="attr">_id</span>: <span class="number">1</span>&#125;)</div><div class="line">        	.limit(<span class="built_in">Number</span>(pageSize) || <span class="number">10</span>)</div><div class="line">        <span class="keyword">const</span> contentList = []</div><div class="line">        </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> a <span class="keyword">of</span> articles) &#123;</div><div class="line">            contentList.push(&#123;</div><div class="line">                title: a.title,</div><div class="line">                contentType: <span class="string">'dom'</span>,</div><div class="line">                content: &#123;</div><div class="line">                    html: a.articleContentHtml,</div><div class="line">                    text: a.articleContent</div><div class="line">                &#125;,</div><div class="line">                tags: a.tags,</div><div class="line">                contentId: a._id</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            contentList</div><div class="line">        &#125;</div><div class="line">    &#125;)()</div><div class="line">        .then(<span class="function"><span class="params">r</span> =&gt;</span> &#123;</div><div class="line">        	res.json(r)</div><div class="line">        &#125;)</div><div class="line">        .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;   </div><div class="line">    	&#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="推荐系统"><a href="#推荐系统" class="headerlink" title="推荐系统"></a>推荐系统</h2><p>ElasticSearch，一个开源的搜索引擎</p>
+<blockquote>
+<p>服务发现与注册，并持续的爬取别的服务已经爬取到的资源</p>
+<p>使用 ElasticSearchy 搜索引擎对内容进行聚合并推荐给不同的订阅者</p>
+</blockquote>
+<p><strong>服务的发现与注册</strong>：</p>
+<p>注册服务接口：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">PATH: <span class="regexp">/api/</span>service</div><div class="line">METHOD: POST</div><div class="line">CONTENT-TYPE: application/json</div><div class="line">REQUEST-BODY: </div><div class="line">&#123;</div><div class="line">    service: &#123;</div><div class="line">        name: <span class="built_in">String</span>, <span class="comment">// 服务名，不能与数据库中现有服务重名</span></div><div class="line">        validationUrl, <span class="comment">// 验证URL,爬虫服务需要在该URL得到正确的回应</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">SUCCESS-RESPONSE-BODY:</div><div class="line">&#123;</div><div class="line">    code: <span class="number">0</span>,</div><div class="line">&#125;,</div><div class="line">ERROR-RESPONSE-BODY:</div><div class="line">&#123;</div><div class="line">    code: errorCode,</div><div class="line">    msg: errorMsg</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>推荐系统：</p>
+<ol>
+<li>实现其他服务的注册接口</li>
+<li>收到注册请求后，对服务进行一次的调用来验证</li>
+<li><p>验证成功之后可以把还爬虫的相关信息存储到该推荐系统的数据库中</p>
+</li>
+<li><p>根据数据库中存的服务信息进行一个管理，比如开始爬取、停止爬取、间隔多少时间（根据爬虫服务返回的信息，如频率限制，页数限制）来爬取</p>
+</li>
+</ol>
+<ul>
+<li>注册服务需要做持久化，即使推荐系统关闭了，注册服务依然可以使用。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 推荐聚合系统what_i_love/models/mongoose/spider.js</span></div><div class="line"><span class="comment">// 这里需要保存注册的各种服务的信息</span></div><div class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>);</div><div class="line"><span class="keyword">const</span> &#123; Schema &#125; = mongoose;</div><div class="line"></div><div class="line"><span class="keyword">const</span> logger = <span class="built_in">require</span>(<span class="string">'../../utils/loggers/logger'</span>);</div><div class="line"><span class="keyword">const</span> InternalServerError = <span class="built_in">require</span>(<span class="string">'../../errors/internal_server_error'</span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> SpiderSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">    name: &#123;</div><div class="line">        type: <span class="built_in">String</span>, </div><div class="line">        required: <span class="literal">true</span>,</div><div class="line">        index: <span class="literal">true</span>,	<span class="comment">// 索引</span></div><div class="line">        unique: <span class="literal">true</span>	<span class="comment">// 其实unique为true就肯定有index索引为true，unique本身就是通过建立索引来判断是否重复</span></div><div class="line">    &#125;,</div><div class="line">    validationUrl: &#123;</div><div class="line">        type: <span class="built_in">String</span>,</div><div class="line">        required: <span class="literal">true</span>,</div><div class="line">    &#125;,</div><div class="line">    status: &#123;</div><div class="line">        type: <span class="built_in">String</span>,</div><div class="line">        required: <span class="literal">true</span>,</div><div class="line">        enum: [<span class="string">'registered'</span>, <span class="string">'validated'</span>, <span class="string">'runing'</span>, <span class="string">'paused'</span>, <span class="string">'stoped'</span>, <span class="string">'up_to_date'</span>], <span class="comment">// 对于一个爬虫服务，它的资源是有限的，推荐系统通过分次把它的内容爬下来。正在爬为 runing，暂停爬为 pause，爬得足够了就置为 stopped。up_to_date: 目前已经爬完了。但以后定期去看该爬虫服务数据库有没有新的数据出现。</span></div><div class="line">    &#125;,</div><div class="line">    singleContent: &#123;</div><div class="line">        url: &#123;</div><div class="line">            type: <span class="built_in">String</span>,</div><div class="line">        &#125;,</div><div class="line">        frequencyLimit: &#123;</div><div class="line">            type: <span class="built_in">Number</span>,</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    contentList: &#123;</div><div class="line">        url: &#123;</div><div class="line">            type: <span class="built_in">String</span>,</div><div class="line">            required: <span class="literal">true</span></div><div class="line">        &#125;,</div><div class="line">        pageSizeLimit: &#123;</div><div class="line">            type: <span class="built_in">Number</span>,</div><div class="line">            <span class="keyword">default</span>: <span class="number">10</span>,</div><div class="line">        &#125;,</div><div class="line">        frequencyLimit: &#123;</div><div class="line">            type: <span class="built_in">Number</span>,</div><div class="line">            <span class="keyword">default</span>: <span class="number">10</span>,</div><div class="line">            required: <span class="literal">true</span>,</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">const</span> SpiderModel = mongoose.model(<span class="string">'SpiderServices'</span>, SpiderSchema)</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">registerSpider</span>(<span class="params">spider</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> created = <span class="keyword">await</span> SpiderModel.create(spider)</div><div class="line">    .catch(<span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</div><div class="line">        logger.error(<span class="string">'error creating spider when trying to register a new one'</span>, &#123;<span class="attr">errMsg</span>: e.message, <span class="attr">errStack</span>: e.stack&#125;)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InternalServerError(<span class="string">'error creating spider service on mongoose'</span>);</div><div class="line">    &#125;);</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> created;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    model: SpiderModel,</div><div class="line">    registerSpider</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">// 推荐聚合系统what_i_love/services/spider_service.js</span></div><div class="line"><span class="keyword">const</span> Spider = <span class="built_in">require</span>(<span class="string">'../models/mongoose/spider'</span>);</div><div class="line"><span class="keyword">const</span> HTTPReqParamError = <span class="built_in">require</span>(<span class="string">'../errors/http_errors/http_request_param_error'</span>);</div><div class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">'axios'</span>)</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">registerSpider</span>(<span class="params">spider</span>)</span>&#123;</div><div class="line">    <span class="comment">// 判空</span></div><div class="line">    <span class="keyword">const</span> validations = &#123;</div><div class="line">        name: <span class="function">(<span class="params">name</span>)=&gt;</span>&#123;</div><div class="line">            <span class="keyword">if</span>(!name) <span class="keyword">throw</span> <span class="keyword">new</span> HTTPReqParamError(<span class="string">'spider service name'</span>, <span class="string">'名字不能为空'</span>,<span class="string">'a spdier service name can not be empty'</span>)</div><div class="line">        &#125;,</div><div class="line">        validationUrl: <span class="function">(<span class="params">url</span>) =&gt;</span> &#123;</div><div class="line">            <span class="keyword">if</span>(!url) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> HTTPReqParamError(</div><div class="line">                	<span class="string">'spider service validation url'</span>,</div><div class="line">                    <span class="string">'验证URL不能为空'</span>，</div><div class="line">                    <span class="string">'a spider service validation url can not be empty'</span></div><div class="line">                )</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(url.indexOf(<span class="string">'http'</span>) === <span class="string">'-1'</span>)&#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> HTTPReqParamError(</div><div class="line">                	<span class="string">'spider service validation url'</span>,</div><div class="line">                    <span class="string">'非法的URL'</span>，</div><div class="line">                    <span class="string">'a spider service validation url must be a valid url'</span></div><div class="line">                )</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">   	<span class="keyword">const</span> keys = <span class="built_in">Object</span>.keys(validations);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;keys.length; i++) &#123;</div><div class="line">        validations[k](spider[k])</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">const</span> res =  <span class="keyword">await</span> axios.get(spider.validationUrl).catch(<span class="function"><span class="params">e</span>=&gt;</span>&#123;</div><div class="line">        logger.error(<span class="string">'error validating spider service on provided validation url'</span>, &#123;<span class="attr">errMsg</span>: e.message, <span class="attr">errStack</span>: e.stack&#125;)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> HTTPBaseError(<span class="number">400</span>, <span class="string">'服务验证失败，请检查爬虫服务是否可用'</span>， <span class="number">40000200</span>, <span class="string">'error validating spider validation url'</span>);</div><div class="line">    &#125;)</div><div class="line">    </div><div class="line">    <span class="keyword">if</span>(res &amp;&amp; res.data) &#123;</div><div class="line">        <span class="comment">// 校验调用 validationUrl 返回的内容是否符合要求</span></div><div class="line">        <span class="comment">// 这里 spiderServiceResponseValidation 是一个新的验证对象</span></div><div class="line">        <span class="keyword">const</span> spiderServiceResponseValidation = &#123;</div><div class="line">            code: <span class="function">(<span class="params">code</span>) =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span>(code !== <span class="number">0</span>)&#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> HTTPBaseEror(<span class="number">400</span>, <span class="string">`爬虫服务返回错误码： <span class="subst">$&#123; code &#125;</span>`</span>, <span class="number">4000201</span>,<span class="string">'spider service returns a error code'</span> )</div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line">            protocol: <span class="function">(<span class="params">protocol</span>) =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span>(!protocol) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> HTTPBaseError(<span class="number">400</span>, <span class="string">'协议错误： 空的协议'</span>，<span class="number">40000201</span>， <span class="string">'spider validation url can not return a empty protocol obj'</span>)</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(protocol.name !== <span class="string">'FULL_NET_SPIDER_PROTOCOL'</span>) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> HTTPBaseError(<span class="number">400</span>, <span class="string">`协议错误：错误的版本名 <span class="subst">$&#123;protocol.name&#125;</span>`</span>, <span class="number">40000203</span>, <span class="string">`invalid spider service protocol name:<span class="subst">$&#123;protocol.name&#125;</span>`</span>)</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(protocol.version !== <span class="string">'0.1'</span>)&#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> HTTPBaseError(</div><div class="line">                    	<span class="number">400</span>,</div><div class="line">                        <span class="string">`协议错误： 错误的版本号<span class="subst">$&#123;protocol.version&#125;</span>`</span>,</div><div class="line">                        <span class="number">40000204</span>,</div><div class="line">                        <span class="string">`invalid spider service protocol version:<span class="subst">$&#123;protocol.version&#125;</span>`</span></div><div class="line">                    )</div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line">            config: <span class="function">(<span class="params">config</span>)=&gt;</span>&#123;</div><div class="line">                <span class="keyword">if</span>(!config) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> HTTPBaseError(</div><div class="line">                    	<span class="number">400</span>,</div><div class="line">                      	<span class="string">'协议错误： 空的配置'</span>,</div><div class="line">                        <span class="number">40000205</span>,</div><div class="line">                        <span class="string">'spider validation url can not return a empty config obj'</span></div><div class="line">                    )</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(!config.contentList) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> HTTPBaseError(</div><div class="line">                    	<span class="number">400</span>,</div><div class="line">                        <span class="string">'协议错误，空的列表接口'</span>，</div><div class="line">                        <span class="number">40000206</span>,</div><div class="line">                        <span class="string">'spider validation url can not return a empty content list obj'</span></div><div class="line">                    )</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(!config.contentList.url || !config.contentList.pageSizeLimit || !config.contentList.frequencyLimit) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> HTTPBaseError(</div><div class="line">                    	<span class="number">400</span>,</div><div class="line">                        <span class="string">'配置错误，不完整的 contentList 对象'</span>，</div><div class="line">                        <span class="number">40000207</span>,</div><div class="line">                        <span class="string">'spider validation url has to return a valid config content obj'</span></div><div class="line">                    )</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">const</span> keys = <span class="built_in">Object</span>.keys(spiderServiceResponseValidation)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; keys.length; i++)&#123;</div><div class="line">        	<span class="keyword">const</span> k = keys[k],</div><div class="line">             spiderServiceResponseValidation[k](res.data[k])</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    spider.contentList = res.data.config.contentList</div><div class="line">    spider.singleContent = res.data.config.singleContent</div><div class="line">    spider.status = <span class="string">'validated'</span></div><div class="line">    <span class="keyword">const</span> createdSpider = <span class="keyword">await</span> Spider.registerSpider(spider)</div><div class="line">    retrun createdSpider</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    registerSpider</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对 HTTP 请求的相关参数验证可以使用一个现成的express中间件 <code>express-validator</code></p>
+<p><strong>express-validator</strong>: An express.js middleware for node-validator, 这个中间件实现了很多常用的验证需求。</p>
+<hr>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// routes/api/admin.js 一些只有管理员才能操作的东西</span></div><div class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">const</span> apiRes = <span class="built_in">require</span>(<span class="string">'../../utils/api_response'</span>);</div><div class="line"><span class="keyword">const</span> SpiderService = <span class="built_in">require</span>(<span class="string">'../../service/spider_service'</span>)</div><div class="line"></div><div class="line"><span class="keyword">const</span> router = express.Router();</div><div class="line"></div><div class="line"></div><div class="line">router.route(<span class="string">'/spider'</span>)</div><div class="line">    .post(<span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</div><div class="line">    (<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> &#123; spider &#125; = req.body;</div><div class="line">        <span class="keyword">const</span> createdSpider = <span class="keyword">await</span> SpiderService.registerSpider(spider)</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            spider: createdSpider</div><div class="line">        &#125;</div><div class="line">    &#125;)()</div><div class="line">        .then(<span class="function"><span class="params">r</span> =&gt;</span> &#123;</div><div class="line">        res.data = r</div><div class="line">        apiRes(res, res)</div><div class="line">    &#125;).catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</div><div class="line">        next(e)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = router</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//   /utils/api_response.js</span></div><div class="line"><span class="keyword">const</span> logger = <span class="built_in">require</span>(<span class="string">'../utils/loggers/logger'</span>)</div><div class="line"></div><div class="line">modules.exports = <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">if</span>(res.headersSent) &#123;</div><div class="line">        logger.error(</div><div class="line">        	<span class="string">'error sending response: header already sent'</span>,</div><div class="line">            &#123;url： req.originalUrl&#125;</div><div class="line">        )</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        res.json(&#123;</div><div class="line">            code: <span class="number">0</span>,</div><div class="line">            data: res.data</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>router.route(path)</strong> : 路由以链式的方式一次处理get put post delete 等 http 请求。</p>
+<p><strong>router.param([name], callback)</strong>  <code>http://127.0.0.1:3000/user/:id</code>方式，router对象的param方法用于路径参数的处理</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var app = express();</div><div class="line">var router = express.Router();</div><div class="line"></div><div class="line">router.param(&apos;user_id&apos;, (req, res, next, id) =&gt; &#123;</div><div class="line">    req.user = &#123;</div><div class="line">        id: id,</div><div class="line">        name: &apos;小明&apos;</div><div class="line">    &#125;</div><div class="line">    next()</div><div class="line">&#125;)</div><div class="line">router.route(&apos;/users/:user_id&apos;)</div><div class="line">	.all((req, res, next) =&gt; &#123;</div><div class="line">        next()</div><div class="line">	&#125;)</div><div class="line">	.get((req, res, next)=&gt;&#123;</div><div class="line">	&#125;)</div><div class="line">	.put((req, res, next)=&gt;&#123;</div><div class="line">	&#125;)</div></pre></td></tr></table></figure>
+<p>开始抓取别的爬虫已经拿到的数据: </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">startFetchingProcess</span>(<span class="params">spider</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> &#123; contentList &#125; = spider</div><div class="line">    <span class="keyword">let</span> &#123; latestId &#125; = spider</div><div class="line">    <span class="keyword">const</span> &#123; url, pageSizeLimit, frequencyLimit &#125; = contentList</div><div class="line">    <span class="keyword">const</span> actualPeriod = <span class="built_in">Math</span>.ceil(<span class="number">1000</span> / frequencyLimit) * <span class="number">2</span></div><div class="line">    <span class="keyword">const</span> intervalId = setInterval(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">        (<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">            <span class="keyword">const</span> list = <span class="keyword">await</span> fetchingLists(url, latestId, pageSizeLimit)</div><div class="line">            <span class="keyword">const</span> wrappedContent = list.map(<span class="function"><span class="params">c</span>=&gt;</span>&#123;</div><div class="line">                <span class="keyword">return</span> &#123;</div><div class="line">                    spiderServiceId: spider._id,</div><div class="line">                    spiderServiceContentId: c.contentId,</div><div class="line">                    contentType: c.contentType,</div><div class="line">                    content: c.content</div><div class="line">                    title: c.title,</div><div class="line">                    tags: c.content.tags</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">            <span class="keyword">await</span> Content.model.insert(wrappedContent)</div><div class="line">            latestId = wrappedContent[wrappedContent.length - <span class="number">1</span>].spiderServiceContentId;</div><div class="line">            <span class="keyword">if</span>(wrappedContent.length &lt; pageSizeLimit) &#123;</div><div class="line">                clearInterval(intervalId)</div><div class="line">                <span class="comment">// 这里还需要一步，保存 latestId 到 spider服务对象中。</span></div><div class="line">            &#125;</div><div class="line">        &#125;)() </div><div class="line">            .catch(<span class="function"><span class="params">e</span>=&gt;</span>&#123;</div><div class="line">            logger.error(<span class="string">'error fetching list data from spider service'</span>, &#123;</div><div class="line">                errMsg: e.message,</div><div class="line">                errStack: e.stack</div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;, actualPeriod)</div><div class="line">    <span class="keyword">const</span> contentList = fetchingLists(url, latestId, )</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">fetchingLists</span>(<span class="params">url, latestId, pageSize</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> contentList = <span class="keyword">await</span> axios.get(url, &#123;latestId, pageSize&#125;)</div><div class="line">    .then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!res.data || !res.data.contentList) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'invalid response from spider service'</span>)</div><div class="line">        <span class="keyword">return</span> res.data.contentList</div><div class="line">    &#125;)</div><div class="line">    .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</div><div class="line">        logger.error(<span class="string">'error fetching content from spider service'</span>, &#123;<span class="attr">errMsg</span>: e.message, <span class="attr">errStack</span>: e.stack&#125;)</div><div class="line">    &#125;)</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> contentList</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">initSpiders</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> spiders = <span class="keyword">await</span> Spider.model.find(&#123;<span class="attr">status</span>: <span class="string">'validated'</span>&#125;)</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; spiders.length; i++) &#123;</div><div class="line">    	<span class="keyword">var</span> spider = spiders[i]</div><div class="line">        startFetchingProcess(spider)</div><div class="line">            .catch(<span class="function"><span class="params">e</span>=&gt;</span>&#123;</div><div class="line">            logger.error(<span class="string">`error start fetching process on spider<span class="subst">$&#123;spider._id&#125;</span>`</span>, </div><div class="line">            &#123;</div><div class="line">                errMsg: e.message,</div><div class="line">                errStack: e.stack</div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">initSpiders()</div><div class="line">	.catch(<span class="function"><span class="params">e</span>=&gt;</span>&#123;</div><div class="line">            logger.error(<span class="string">'error initial spider process'</span>, </div><div class="line">            &#123;</div><div class="line">                errMsg: e.message,</div><div class="line">                errStack: e.stack</div><div class="line">            &#125;)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    initSpiders</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对从其他爬虫服务抓取到的数据进行保存：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> &#123; Schema &#125; = mongoose；</div><div class="line"><span class="keyword">const</span> &#123; ObjectId &#125; = Schema.Types;</div><div class="line"></div><div class="line"><span class="keyword">const</span> ContentSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">    spiderServiceId: &#123;</div><div class="line">        type: ObjectId,</div><div class="line">        required: <span class="literal">true</span>,</div><div class="line">        index: <span class="literal">true</span> </div><div class="line">    &#125;,</div><div class="line">    spiderServiceContentId: &#123;</div><div class="line">        type: <span class="built_in">String</span>,</div><div class="line">        required: <span class="literal">true</span>,</div><div class="line">    &#125;,</div><div class="line">    contentType: <span class="built_in">String</span>,</div><div class="line">    content: &#123;</div><div class="line">        html: <span class="built_in">String</span>,</div><div class="line">        createdAt: <span class="built_in">Number</span>,</div><div class="line">        originCreatedAt: <span class="built_in">Number</span>,</div><div class="line">        sourceId: <span class="built_in">String</span>,</div><div class="line">    &#125;,</div><div class="line">    createdAt: &#123;</div><div class="line">        type: <span class="built_in">Number</span>,</div><div class="line">        <span class="keyword">default</span>: <span class="built_in">Date</span>.now.valueOf()</div><div class="line">    &#125;,</div><div class="line">    title: <span class="built_in">String</span>,</div><div class="line">    tags: [</div><div class="line">        &#123;</div><div class="line">            name: <span class="built_in">String</span>,</div><div class="line">            value: <span class="built_in">String</span>,</div><div class="line">            score: <span class="built_in">Number</span></div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>如果由于网络等其他原因爬出不到一个资源，就要隔一段时间就重试，第一次重试间隔1分钟，第二次尝试间隔5分钟，第三次尝试间隔30分钟。故推荐系统爬取爬虫服务数据时需要有一个重试机制。</p>
+<h2 id="ElasticSearch-基础"><a href="#ElasticSearch-基础" class="headerlink" title="ElasticSearch 基础"></a>ElasticSearch 基础</h2><p><code>ElasticSearch</code> 是一个分布式的 RESTful 风格的搜索和数据分析引擎，能够解决不断涌现的各种用例。作为 Elastic Stack 的核心它集中存储您的数据，帮助您发现意料之中以及意料之外的情况。基于 <code>apache lucene</code></p>
+<p>在我们的爬虫项目中，使用 ElasticSearch 来根据用户的兴趣喜好，来推荐进行内容的推荐。</p>
+<p><code>elastic</code> 是弹性的意思。<code>elasticSearch</code> 意味着不管你的项目是大还是小，它都可以通过这一套解决方案来完成。</p>
+<h3 id="ElasticSearch-的安装与使用"><a href="#ElasticSearch-的安装与使用" class="headerlink" title="ElasticSearch 的安装与使用"></a>ElasticSearch 的安装与使用</h3><p>安装了 <code>elasticSearch</code> 之后，需要配置一下host, 一般本地调试需要把host配置为：<code>127.0.0.1</code>, 以及安装一个很重要的中文插件<code>Smart Chinese Analysis Plugin</code></p>
+<p>进入到 <code>elasticSearch</code> 文件目录后，通过运行 <code>bin/elasticSearch</code> 。</p>
+<p>在开发机调试的时候，将 <code>network.host</code> 改为： <code>127.0.0.1</code></p>
+<p>类似于 <code>mongodb</code> ，有一个服务器，也有一个客户端，用客户端来连接服务器。</p>
+<p>通过运行 <code>bin/elasticSearch</code> 启动服务，通过浏览器或<code>curl</code>或 <code>postman</code>  来发起连接到 <code>localhost:9200</code> 的请求。</p>
+<p>使用 <code>elasticSearch</code> 有一个非常重要的组件要安装： <code>Smart Chinese Analysis Plugin</code> 。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo bin/elasticsearch-plugin install analysis-smartcn</div></pre></td></tr></table></figure>
+<p>有了 <code>smart chinese analysis plugin</code> 这个插件，<code>elasticSearch</code> 这个搜索引擎才能处理中文相关的搜索。</p>
+<p><code>elasticSearch</code> 搜索引擎需要先往里面塞一些内容才能使用搜索引擎。</p>
+<p>往 <code>elasticSearch</code> 里面塞东西遵循一个格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">localhost:9200/:index/:type/:contentId</div><div class="line">// 把上面 :开头的那部分替换成对应的名字即可。</div><div class="line">// :index 为索引</div><div class="line">// :type  为类型</div><div class="line">// :contentId 为内容的 ID</div></pre></td></tr></table></figure>
+<p>例如：</p>
+<blockquote>
+<p>用 get 方法去访问：localhost:9200/whatever 可以访问到 <code>whatever</code> 这个index索引</p>
+<p>用 put 方法去访问： localhost:9200/whatever 可以创建 <code>whatever</code> 这个 index 索引</p>
+<p>用 put 方法去访问 localhost:9200/:index/:type/:contentId 并且在请求体中附上要传入的内容，这个就可以保存到elasticSearch ` 数据库中。表示把这个内容保存到 对应的索引下的对应的类型下的对应的contentId</p>
+<p><strong>这种风格叫做 RESTful</strong></p>
+<p>在 <code>elasticSearch</code> 中，增删改查数据都是通过请求使用不同的方法来实现。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// 在 whatever 这个索引下搜索所有的数据</div><div class="line">localhost:9200/whatever/_search</div><div class="line">// 在 whatever 这个索引下搜索 name 为 laoyang 的数据</div><div class="line">localhost:9200/whatever/_search?q=name:laoyang</div><div class="line">// 还用 post 的方法来查询数据，可以在请求体中带上查询的参数。</div><div class="line">&#123;</div><div class="line">    &quot;query&quot;: &#123;</div><div class="line">        &quot;match&quot;: &#123;</div><div class="line">            &quot;hobbies&quot;: &quot;dancing&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>其实 GET 方法也可以发送一个请求体（request body）。例如：</p>
+<p>curl  -XGET “localhost:9200/whatever/_search” -d ‘{“query”: “name”:”xiaoming”}’</p>
+</blockquote>
+<p><strong>倒置索引</strong>： 我们可以不仅仅是对文章标题做索引，还可以对文章内容里面所有的文字做索引。</p>
+<p>传统的索引是给文章标题，文章的属性来做，这样可以快速的定位到文章本身。现在可以对文章的内容做一些分析，最后可以根据文章中出现的某个词找到这个文章。其实根据词汇来找文章计算量也不大，毕竟常用的词汇也就那些。如果你的文章里面有专有词汇，通过专有词汇更容易找到这篇文章。</p>
+<p>常用的词就那么多，我发现某篇文章里面出现了这个词，我就把这篇文章记载这个词下面（有点像百度网盘保存资源的策略，在资源的名字下面挂人名）。常见的词就小几万的量 级，对计算机来说还是很小的。 </p>
+<p><strong>倒置索引</strong>： 为了通过关键字把文章给定位出来，我们把文章的关键字提取出来后，把这篇文章的引用挂到各个关键词里面去。下次用关键字来搜索时，就能拿到对应的文章。</p>
+<p><strong>elasticSearch 中的评分算法</strong></p>
+<p>部分实例：</p>
+<blockquote>
+<p>用 老杨 为关键字去搜索下面两句话：</p>
+<ol>
+<li>老杨是个好人</li>
+<li>老杨今天中午吃了米粉</li>
+</ol>
+<p>搜索之后评分分别为：</p>
+<ol>
+<li>0.382</li>
+<li>0.327</li>
+</ol>
+<p>搜索引擎认为： 老杨是个好人 这句话跟老杨的关系更大一些。</p>
+<ol>
+<li>老杨就是杨靖宇</li>
+<li>老鹰是个好人</li>
+</ol>
+<p>同样是使用 老杨 来搜索：</p>
+<p>“老杨就是杨靖宇” 的分值要高一些。因为 杨靖宇 并不是一个常用的词，比较专有性。</p>
+</blockquote>
+<ul>
+<li>一句含有关键词的话中，句子越长关键词对应的分值越低</li>
+<li><p>助词，连接词等对关键词的分值的影响是微不足道的。</p>
+</li>
+<li><p>搜索引擎会分析一句话中的各个词汇，这个词汇是名词，动词，形容词，助词等，或者，这个词是普通常见的词汇还是专有词汇。比较专有的词汇，带论断性质的词汇的分数肯定会高一些。</p>
+</li>
+<li>使用多个词汇进行搜索，会分别对各个词汇进行各自的算分，最后在把各自的分数结合起来得出一个总分数。</li>
+</ul>
+<h4 id="ElasticSearch-demo"><a href="#ElasticSearch-demo" class="headerlink" title="ElasticSearch demo"></a><code>ElasticSearch demo</code></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install elasticsearch</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> es = <span class="built_in">require</span>(<span class="string">'elasticsearch'</span>);</div><div class="line"><span class="keyword">const</span> client = <span class="keyword">new</span> es.Client(&#123;</div><div class="line">    host: <span class="string">'localhost:9200'</span>,</div><div class="line">    log: <span class="string">'trace'</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line">(<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">    <span class="keyword">const</span> r = <span class="keyword">await</span> client.searh(&#123;</div><div class="line">        index: <span class="string">'whatever'</span>,</div><div class="line">        body: &#123;</div><div class="line">            query: &#123;</div><div class="line">                match:&#123;</div><div class="line">                    desc: <span class="string">"老杨"</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> r</div><div class="line">&#125;)()</div><div class="line">.then(<span class="function"><span class="params">r</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(r)</div><div class="line">    process.exit(<span class="number">0</span>)</div><div class="line">&#125;)</div><div class="line">.catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(r  )</div><div class="line">    process.exit(<span class="number">1</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>增删改查</strong>：</p>
+<p>增：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> created = <span class="keyword">await</span> client.create(&#123;</div><div class="line">    index: <span class="string">'whatever'</span>,</div><div class="line">    type: <span class="string">'ever'</span>,</div><div class="line">    id: <span class="string">'laoyang'</span></div><div class="line">    body: &#123;</div><div class="line">    	name: <span class="string">'laoyang'</span>,</div><div class="line">        hobbies: [</div><div class="line">			<span class="string">'video games'</span>,</div><div class="line">    		<span class="string">'swimming'</span>,</div><div class="line">        ],</div><div class="line">    	age: <span class="number">30</span></div><div class="line">	&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>改：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> updated = <span class="keyword">await</span> client.create(&#123;</div><div class="line">    index: <span class="string">'whatever'</span>,</div><div class="line">    type: <span class="string">'ever'</span>,</div><div class="line">    id: <span class="string">'laoyang'</span></div><div class="line">    body: &#123;</div><div class="line">        doc: &#123;</div><div class="line">			age: <span class="number">32</span></div><div class="line">        &#125;</div><div class="line">	&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>查：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> search = <span class="keyword">await</span> client.search(&#123;</div><div class="line">    index: <span class="string">'whatever'</span>,</div><div class="line">    body: &#123;</div><div class="line">        query: &#123;</div><div class="line">            match: &#123;</div><div class="line">                hobbies: <span class="string">'swimming'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>删：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">await</span> cleint.delete(&#123;</div><div class="line">    index: <span class="string">'whatever'</span>,</div><div class="line">    type: <span class="string">'ever'</span>,</div><div class="line">    id: <span class="string">'laoyang'</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>elasticsearch 可以被视为一个微服务，因为它在内部有自己的逻辑，通过 RESTful 风格的HTTP请求来暴露自身提供的服务</strong></p>
+<h2 id="微信授权登录-与-Oauth2-0"><a href="#微信授权登录-与-Oauth2-0" class="headerlink" title="微信授权登录 与 Oauth2.0"></a>微信授权登录 与 Oauth2.0</h2><p><strong>准备工作</strong></p>
+<p>网站应用微信登录是基于OAuth2.0 协议标准构建的微信OAuth2.0授权登录系统。</p>
+<p>在进行微信OAuth2.0，进行微信OAuth2.0授权登录接入之前，在微信开放平台注册开发者账号，并拥有一个已审核通过的网站应用，并获得相应的AppID和AppSecret，申请微信登录且通过审核后，可开始接入流程。</p>
+<p><strong>授权流程说明</strong></p>
+<p>微信OAuth2.0授权登录让微信用户使用微信身份安全登录第三方应用或网站，在微信用户授权登录已接入微信OAuth2.0的第三方应用后, 第三方可以获取到用户的接口调用凭证（acess_token）, 通过acess_token可以进行微信开放平台授权关系接口调用，从而实现获取微信用户的基本开放信息和帮助用户实现基础开放功能等。</p>
+<p>微信OAuth2.0授权登录目前支持authorization_code模式，适用于拥有server端的应用授权。该模式整体流程为：</p>
+<blockquote>
+<ol>
+<li><p>第三方发起微信授权登录请求，微信用户允许授权第三方应用后，微信会拉起应用或重定向到第三方网站，并且带上授权临时票据code参数</p>
+</li>
+<li><p>通过code参数加上AppID和AppSecret等，通过API换取 access_token;</p>
+</li>
+<li><p>通过 access_token 进行进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。</p>
+</li>
+</ol>
+</blockquote>
+<ol>
+<li>微信用户请求登录第三方应用</li>
+<li>第三方应用请求微信OAuth2.0授权登录</li>
+<li>微信开放平台请求用户确认</li>
+<li>用户确认</li>
+<li>微信开放平台拉起第三方应用或重定向到第三方，带上授权临时票据（code）</li>
+<li>第三方应用通过code加上appSecreth和appID换取access_token </li>
+<li>微信开放平台返回 access-token</li>
+</ol>
+<p><strong>第一步： 请求CODE</strong></p>
+<p>第三方使用网站应用授权登陆前请注意以获取相应网页授权作用域（scope=snsapi_login）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://open.weixin.qq.com/connect/qrconnect?appid=APPID&amp;redirect_uri=REDIRECT_URI&amp;response_type=code&amp;scope=SCOPE&amp;state=STATE#wechat_redirect</div></pre></td></tr></table></figure>
+<ul>
+<li><p>appID: 应用唯一标识</p>
+</li>
+<li><p>redirect_uri: 登录之后要跳转的链接。请使用urlEncode对链接进行处理</p>
+</li>
+<li>response-type: 请填写 code</li>
+<li>scope： 应用授权作用域，拥有多个作用域用逗号（，）分隔，网页应用目前仅填写 snsapi_login 即可</li>
+<li>state： 非必须填写的。用于保持请求和回调的状态，授权请求后原样待会第三方。该参数可用户防止ssrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验</li>
+</ul>
+<p><strong>返回说明</strong></p>
+<p>用户允许授权后，将会重定向到redirec_uri 的网站上，并且带上code和state参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redirect_uri?code=CODE&amp;state=STATE</div></pre></td></tr></table></figure>
+<p>若用户禁止授权，则重定向后不会带上code参数，仅会带上state参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redirect_uri?state=STATE</div></pre></td></tr></table></figure>
+<p>为了满足网站更订制化的需求，我们还提供了第二种获取code的方式，支持网站将微信登录二维码内嵌到自己页面中，用户使用微信扫码授权后通过JS将code返回给网站。</p>
+<p>JS微信登录主要用途：网站希望用户在网站内就能完成登录，无须跳转到微信域下登录后在返回，提升微信登录的流畅性与成功率。网站内嵌二维码微信登录JS的实现办法：</p>
+<ol>
+<li><p>在页面中先引入如下JS文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js</div></pre></td></tr></table></figure>
+</li>
+<li><p>在需要使用微信登录的地方实例化一下JS对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var obj = new WxLogin(&#123;</div><div class="line">self_redirect:true,</div><div class="line">id:&quot;login_container&quot;, </div><div class="line">appid: &quot;&quot;, </div><div class="line">scope: &quot;&quot;, </div><div class="line">redirect_uri: &quot;&quot;,</div><div class="line"> state: &quot;&quot;,</div><div class="line">style: &quot;&quot;,</div><div class="line">href: &quot;&quot;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>第二步：通过code获取access_token</strong></p>
+<p>通过code获取access_token ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&amp;secret=SECRET&amp;code=CODE&amp;grant_type=authorization_code</div></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>是否必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>appid</td>
+<td>是</td>
+<td>应用唯一标识，在微信开放平台提交应用审核通过后获得</td>
+</tr>
+<tr>
+<td>secret</td>
+<td>是</td>
+<td>应用密钥AppSecret，在微信开放平台提交应用审核通过后获得</td>
+</tr>
+<tr>
+<td>code</td>
+<td>是</td>
+<td>填写第一步获取的code参数</td>
+</tr>
+<tr>
+<td>grant-type</td>
+<td>是</td>
+<td>填 authorization_code</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回说明</strong></p>
+<p>正确的返回：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"access_token"</span>:<span class="string">"ACCESS_TOKEN"</span>, </div><div class="line">    <span class="attr">"expires_in"</span>:<span class="number">7200</span>, </div><div class="line">    <span class="attr">"refresh_token"</span>:<span class="string">"REFRESH_TOKEN"</span>,</div><div class="line">    <span class="attr">"openid"</span>:<span class="string">"OPENID"</span>, </div><div class="line">    <span class="attr">"scope"</span>:<span class="string">"SCOPE"</span>,</div><div class="line">    <span class="attr">"unionid"</span>: <span class="string">"o6_bmasdasdsad6_2sgVt7hMZOPfL"</span> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>参数说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>access-token</td>
+<td>接口调用凭证</td>
+</tr>
+<tr>
+<td>expires_in</td>
+<td>access_token接口调用凭证超时时间，单位秒</td>
+</tr>
+<tr>
+<td>refresh_token</td>
+<td>用户刷新 access_token</td>
+</tr>
+<tr>
+<td>openid</td>
+<td>授权用户唯一标识</td>
+</tr>
+<tr>
+<td>scope</td>
+<td>用户授权的作用域，使用逗号（，）分隔</td>
+</tr>
+<tr>
+<td>unionid</td>
+<td>当且仅当该网站应用一伙的该用户的userinfo授权时，才会出现该字段</td>
+</tr>
+</tbody>
+</table>
+<p><strong>刷新access_token 有效期</strong></p>
+<p><code>access_token</code> 是调用授权关系接口的调用凭证，但 <code>access_token</code> 有效期（目前为2小时）较短，当 access_token超时后可以使用 <code>refresh_token</code> 进行刷新，<code>access_token</code> 刷新结果有两种：</p>
+<blockquote>
+<ol>
+<li>若 <code>access_token</code> 已超时，那么进行 <code>refresh_token</code>会获取一个新的 <code>access_token</code>, 新的超时时间；</li>
+<li>若 <code>access_token</code> 未超时，那么进行<code>refresh_token</code> 不会改变 <code>access_token</code>,但超时时间会刷新，相当于续期<code>access_token</code></li>
+</ol>
+</blockquote>
+<p><code>refresh_token</code>拥有较长的有效期（30天）,当 <code>refresh_token</code> 失效会，需要用户重新授权。</p>
+<p>注意：</p>
+<blockquote>
+<ol>
+<li>AppSecret 是应用接口使用密钥，泄露后将可能导致应用数据泄漏、应用的用户数据泄漏等高风险后果；存储在客户端极有可能被恶意窃取（如反编译获取 appSecret）</li>
+<li><code>access_token</code> 为用户授权第三方应所用发起接口调用的凭证（相当于用户登录态），存储在客户端，可能会出现恶意获取 <code>access_token</code> 后导致的用户数据泄漏、用户微信相关接口功能被恶意发起等行为；</li>
+<li><code>refreh_token</code> 为用户授权第三方应用的畅销凭证，仅用于刷新access_token ，但泄漏后相当于 <code>access_token</code> ，风险同上</li>
+</ol>
+<p>建议将 secret、用户数据（如 access_token） 放在 app云端服务器，有云端中转接口调用请求。</p>
+</blockquote>
+<p><strong>第三步： 通过 access_token 调用接口</strong></p>
+<p>获取 <code>access_token</code> 后，进行接口调用，有以下前提：</p>
+<blockquote>
+<ol>
+<li>access_token 有效且未超时；</li>
+<li>微信用户已授权给第三方应用账号相应接口作用域（scope）</li>
+</ol>
+</blockquote>
+<p>对于接口作用域（scope）,能调用的接口有以下：</p>
+<table>
+<thead>
+<tr>
+<th>授权作用域（scope）</th>
+<th>接口</th>
+<th>接口说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>snsapi_base</td>
+<td>/sns/oauth2/access_token</td>
+<td>通过code换取access_token、refresh_token和已授权scope</td>
+</tr>
+<tr>
+<td>snsapi_base</td>
+<td>/sns/oauth2/refresh_token</td>
+<td>刷新或续期access_token使用</td>
+</tr>
+<tr>
+<td>snsapi_base</td>
+<td>/sns/auth</td>
+<td>检查access_token有效性</td>
+</tr>
+<tr>
+<td>snsapi_userinfo</td>
+<td>/sns/userinfo</td>
+<td>获取用户个人信息</td>
+</tr>
+</tbody>
+</table>
+<p>其中snsapi_base属于基础接口，若应用已拥有其它scope权限，则默认拥有snsapi_base的权限。使用snsapi_base可以让移动端网页授权绕过跳转授权登录页请求用户授权的动作，直接跳转第三方网页带上授权临时票据（code），但会使得用户已授权作用域（scope）仅为snsapi_base，从而导致无法获取到需要用户授权才允许获得的数据和基础功能。</p>
+<h3 id="OAuth2-0"><a href="#OAuth2-0" class="headerlink" title="OAuth2.0"></a>OAuth2.0</h3><p>OAuth2.0 是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是 2.0</p>
+<p><strong>OAuth的思路</strong></p>
+<p>客户端：这里第三方服务提供商</p>
+<p>服务提供商： 即用于注册账号的那个网站。</p>
+<p>OAuth的作用就是让客户端安全可控地获取用户的授权，与服务提供商进行互动</p>
+<p>OAuth 在客户端和服务提供商之间，设置了一层授权层（authorization layer）。客户端不能直接登录到服务提供商，只能登录到授权层，一次将用户与客户端区分开来。客户端登录授权层所有的令牌（token），与用户的密码不同。用户可以在登录的时候，指定授权层令牌的权限范围和有效期。</p>
+<ul>
+<li>用户打开客户端以后，客户端要求用户给予授权</li>
+<li>用户统一给予客户端授权。</li>
+<li>客户端使用上一步获得的授权，向认证服务器申请令牌。</li>
+<li>认证服务器对客户端进行认证以后，确认无误，同意发令牌。</li>
+<li>客户端使用令牌，向资源服务器申请获取资源。</li>
+<li>资源服务器确认令牌无误，同一向客户端开放资源。</li>
+</ul>
+<p><strong>客户端的授权模式</strong></p>
+<p>客户端必须得到用户的授权（authorization grant），才能获得令牌（access token）。OAuth2.0 定义了四种授权方式。</p>
+<ul>
+<li>授权码模式（authorization code）</li>
+<li>简化模式（implicit）</li>
+<li>密码模式（resource owner password credentials）</li>
+<li>客户端模式（client credentials）</li>
+</ul>
+<p>OAuth2.0注意项：</p>
+<ul>
+<li>同一用户给不同的第三方服务提供商的令牌（token） 都是不一样的。一个服务商不能用其他服务商的令牌</li>
+<li>给每一家第三方服务提供商的令牌都有独立的权限控制系统。</li>
+</ul>
+<p><strong>为什么用户授权登录之后，服务器不直接返回一个 access-token, 而是返回一个 code？</strong> 用 <code>code</code> 去换取 <code>access-token</code> 。这个 <code>code</code> 只能使用一次。</p>
+<blockquote>
+<p>client 是怎么拿到 code 的呢？</p>
+<p>code 是通过浏览器重定向获取的。你在浏览器地址栏就可以看到。如果这一步不返回code而是直接返回access-token，那么这个token其实已经暴露了。</p>
+<p>而client拿到code以后换取access-token是client后台对认证服务器的访问。不依赖浏览器。access-token不会暴露出去。</p>
+</blockquote>
+<ul>
+<li>第三方服务的客户端请求微信登录。用户授权后需要跳转到登录前的页面。</li>
+<li>跳转链接的网址为到登录前的页面地址加上 code 参数。</li>
+<li>服务器返回该地址的页面，并自己在后台保留code参数。</li>
+<li>服务器后台通过保留的参数去访问微信，拿到 access-token。整个获取access-token 的操作是在后端完成的。</li>
+</ul>
+<p><strong>获取 access-token 一定得是服务器后端去获取。</strong></p>
+<p><strong>微信登录的 scope</strong>： </p>
+<blockquote>
+<ul>
+<li>scope: ‘snsapi_userinfo’ 可以拿到用户的个人信息</li>
+<li>scope: ‘snsapi_base’ 只能拿到一个用户ID</li>
+</ul>
+</blockquote>
+<p>refresh token 是用来刷新 access token 的。</p>
+<h3 id="ElasticSearch-评分调试（控制相关度）"><a href="#ElasticSearch-评分调试（控制相关度）" class="headerlink" title="ElasticSearch 评分调试（控制相关度）"></a>ElasticSearch 评分调试（控制相关度）</h3><p>深入了解 <code>elasticSearch</code> 请查阅官方文档 <strong>elasticsSearch 权威指南</strong></p>
+<h2 id="NCR-numeric-character-reference"><a href="#NCR-numeric-character-reference" class="headerlink" title="NCR numeric character reference"></a>NCR numeric character reference</h2><p><strong>NCR</strong>：把不想用网页原来的通用的编码（如UTF-8、unicode）表示，就可以用 NCR 来表示。如 &amp;#x725B；&amp;#x987f 表示 牛顿两个字。等同于在 node.js 中的 <code>\u725b\u987f</code></p>
+<p>NCR 通常用于在特定的文档中表示不可直接编码的字符</p>
+<p>如何把 NCR 表示的这些奇怪的字符转为对应的UTF-8编码？</p>
+<p>通过正则来解决。把所有以  &amp;#x 开头以分号结尾的字符全部转换为以 <code>\u</code> 开头。但是这种方法不可行。因为是拼接出来的字符串，node直接给你打印出拼接之后的字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> str = <span class="string">'\\u'</span> + <span class="string">'725B'</span></div><div class="line"><span class="built_in">console</span>.log(str)</div><div class="line"><span class="comment">// 打印出的结果为： \u7258 而不是对应的汉字 牛。因为 \ 已经转义过了</span></div></pre></td></tr></table></figure>
+<p>解决这种问题可以使用 <code>String.fromCodePoint()</code></p>
+<p><code>String.fromCodePoint()</code> 静态方法返回使用指定的代码点序列创建的字符串。</p>
+<p>因为 <code>fromCodePoint()</code> 是 String 的一个静态方法，所以只能通过  <code>String.fromCodePoint()</code> 这样的方式来使用，不能在你创建的String 对象实例上直接调用。也有一个类似的方法 <code>String.fromCharCode()</code>这个方法传入的值16进制不能超过 4 位。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> str = <span class="string">'&amp;#x725b;&amp;#x987f;'</span>;</div><div class="line"><span class="keyword">const</span> replaced = str.replace(<span class="regexp">/&amp;#x([a-fA-F0-9]&#123;2,6&#125;);/g</span>, (match, p1) =&gt; &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">String</span>.fromCodePoint(<span class="built_in">Number</span>(<span class="string">'0x'</span> + p1, <span class="string">'hex'</span>))</div><div class="line">&#125;)</div><div class="line"><span class="built_in">console</span>.log(replaced)</div></pre></td></tr></table></figure>
+<h3 id="Mocha-初探"><a href="#Mocha-初探" class="headerlink" title="Mocha 初探"></a>Mocha 初探</h3><p><strong>单元测试</strong></p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -g mocha</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// es_search_mocha_demo.js</span></div><div class="line"><span class="comment">// 用 mocha.js 来运行这个文件，加载 mocha.js 时就会在全局挂载诸如 describe() 的方法</span></div><div class="line"><span class="keyword">const</span> assert = <span class="built_in">require</span>(<span class="string">'assert'</span>);</div><div class="line"><span class="comment">// asert 可以帮你判断你传入的两个值或两个对象是否相等。</span></div><div class="line">describe(<span class="string">'elastic_search tests'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">    it(<span class="string">'1 should equal  1'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        assert.equal(<span class="number">1</span>, <span class="number">1</span>);</div><div class="line">        <span class="comment">// 测试通过</span></div><div class="line">    &#125;);</div><div class="line">    it(<span class="string">'1 should equal  1'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        assert.equal(<span class="number">1</span>, <span class="number">2</span>);</div><div class="line">       	<span class="comment">// 期望得到 2 ，结果得到 1 ，测试不通过</span></div><div class="line">    &#125;);</div><div class="line">    it(<span class="string">'1 should equal  1'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'something wrong'</span>)</div><div class="line">       	<span class="comment">// 抛出了错误，测试不通过</span></div><div class="line">    &#125;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>函数的 <code>.toString()</code> 方法一般用来查看函数是怎么写的。</strong></p>
+<p>每个 it 就是一个测试用例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> assert = <span class="built_in">require</span>(<span class="string">'assert'</span>);</div><div class="line"><span class="keyword">const</span> ElasticSearch = <span class="built_in">require</span>(<span class="string">'elasticsearch'</span>);</div><div class="line"><span class="keyword">let</span> es;</div><div class="line"><span class="keyword">const</span> INDEX = <span class="string">'test_acfun_index'</span>;</div><div class="line"><span class="keyword">const</span> TYPE = <span class="string">'acfun_article_test_type'</span>;</div><div class="line"></div><div class="line">describe(<span class="string">'elastic-search tests'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">    before(<span class="string">'connect to elasticSearch service'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        <span class="comment">// before 是一个生命周期函数</span></div><div class="line">        es = <span class="keyword">new</span> ElasticSearch.client(&#123;</div><div class="line">   			host: <span class="string">'localhost:9200'</span>,</div><div class="line">		&#125;) </div><div class="line">        <span class="keyword">await</span> es.ping()</div><div class="line">    &#125;)</div><div class="line">    it(<span class="string">'should create a doc no create command'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> r = <span class="keyword">await</span> es.create(&#123;</div><div class="line">            index: INDEX,</div><div class="line">            type: TYPE,</div><div class="line">            id: <span class="number">1</span>,</div><div class="line">            body: &#123;</div><div class="line">                name: <span class="string">"xiaoming"</span>,</div><div class="line">                hobbies: [<span class="string">'video games'</span>, <span class="string">'swimming'</span>],</div><div class="line">                age: <span class="number">30</span></div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">        <span class="built_in">console</span>.log(r)</div><div class="line">    &#125;)</div><div class="line">    </div><div class="line">    after(<span class="string">'clear all data created'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        <span class="keyword">await</span> es.indices.delete(&#123;</div><div class="line">            index: INDEX</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="ElasticSearch-评分调试"><a href="#ElasticSearch-评分调试" class="headerlink" title="ElasticSearch 评分调试"></a>ElasticSearch 评分调试</h3><p>ElasticSearch 对于插入的文档，本质上是先对文章内容进行分词（类似于用 结巴分词，实际上用的是 smartcn），然后把文章的索引挂到它里面分出来的各个词汇下面。这就叫做倒排索引。</p>
+<p>每次搜索词汇的时候，就到这个词汇下面去找挂载的各篇文章的索引，并按分数来排出顺序来。</p>
+<p>所以每次往 <code>elasticSearch</code> 里面存储了一篇文章，要过几秒的时间才能把这篇文章搜索出来。因为存储文章之后， <code>elasticSearch</code> 会在后台对文章进行分词并分别进行好索引挂载。</p>
+<p>对于 <code>elasticSearch</code> 不管你里面存储的数据是什么量级，它的搜索查询时间都不会有太大的差距。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> es;</div><div class="line">describe(<span class="string">'es advanced tests'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">    beforeEach(<span class="string">'init es connection'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        es = <span class="keyword">new</span> ElasticSearch.Client(&#123;</div><div class="line">            host: <span class="string">'localhost:9200'</span></div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">    afterEach(<span class="string">'delete index'</span>,<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">        <span class="keyword">await</span> es.indices.delete(&#123;</div><div class="line">            index: INDEX</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">    </div><div class="line">    describe(<span class="string">'es scoring'</span>, <span class="keyword">async</span> ()=&gt; &#123;</div><div class="line">        <span class="keyword">const</span> doc1 = &#123;</div><div class="line">            titlｅ = <span class="string">'牛顿真的研究炼金术吗'</span>，</div><div class="line">            tags: [&#123;</div><div class="line">            	tagValue: <span class="string">"炼金术"</span>，</div><div class="line">            	tagScore： <span class="number">5</span></div><div class="line">            &#125;,&#123;</div><div class="line">				tagValue: <span class="string">"牛顿"</span>，</div><div class="line">                tagScore： <span class="number">8</span></div><div class="line">            &#125;]</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">const</span> doc2 = &#123;</div><div class="line">            title = <span class="string">'钢之炼金术师真好玩'</span>，</div><div class="line">            tags: [</div><div class="line">                &#123;</div><div class="line">					tagValue: <span class="string">'炼金术'</span>，</div><div class="line">            		tagScore: <span class="number">8</span></div><div class="line">                &#125;,&#123;</div><div class="line">					tagValue: <span class="string">'好玩'</span>，</div><div class="line">            		tagScore: <span class="number">3</span></div><div class="line">                &#125;</div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">             </div><div class="line">             it(<span class="string">'should return larger score when searching for 炼金术 with a boost of tag score field on doc2'</span>, <span class="keyword">async</span> () =&gt; &#123;</div><div class="line">                <span class="keyword">const</span> r = <span class="keyword">await</span> es.search(&#123;</div><div class="line">					index: INDEX,</div><div class="line">                    body: &#123;</div><div class="line">                        query: &#123;</div><div class="line">                            function_score: &#123;</div><div class="line">                                query： &#123;</div><div class="line">                                    match: &#123;</div><div class="line">                                    <span class="string">'tag.tagValue'</span>: <span class="string">'炼金术'</span></div><div class="line">                                    &#125;</div><div class="line">                                &#125;</div><div class="line">                                field_value_factor: &#123;</div><div class="line">                                    filed: <span class="string">'tags.tagScore'</span>,</div><div class="line">                                &#125;</div><div class="line">                        	&#125;</div><div class="line">                    	&#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;).hits.hits;</div><div class="line">        </div><div class="line">        		assert.equal(<span class="literal">true</span>, r[<span class="number">0</span>]._score &lt; r[<span class="number">1</span>]._score); </div><div class="line">            &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/07/npm-script前端工作流/" rel="next" title="npm_script前端工作流">
+                <i class="fa fa-chevron-left"></i> npm_script前端工作流
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="Ak-lee" />
+          
+            <p class="site-author-name" itemprop="name">Ak-lee</p>
+            <p class="site-description motion-element" itemprop="description">start from zero</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#爬虫"><span class="nav-number">1.</span> <span class="nav-text">爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#爬虫具体内容"><span class="nav-number">1.1.</span> <span class="nav-text">爬虫具体内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis"><span class="nav-number">1.2.</span> <span class="nav-text">redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-node-js-操作-redis-数据库"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用 node.js 操作 redis 数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-pm2-管理爬虫进程"><span class="nav-number">1.3.</span> <span class="nav-text">使用 pm2 管理爬虫进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统初步"><span class="nav-number">1.4.</span> <span class="nav-text">推荐系统初步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-AWS-上部署服务"><span class="nav-number">1.5.</span> <span class="nav-text">在 AWS 上部署服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统"><span class="nav-number">1.6.</span> <span class="nav-text">推荐系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ElasticSearch-基础"><span class="nav-number">1.7.</span> <span class="nav-text">ElasticSearch 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ElasticSearch-的安装与使用"><span class="nav-number">1.7.1.</span> <span class="nav-text">ElasticSearch 的安装与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ElasticSearch-demo"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">ElasticSearch demo</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微信授权登录-与-Oauth2-0"><span class="nav-number">1.8.</span> <span class="nav-text">微信授权登录 与 Oauth2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OAuth2-0"><span class="nav-number">1.8.1.</span> <span class="nav-text">OAuth2.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ElasticSearch-评分调试（控制相关度）"><span class="nav-number">1.8.2.</span> <span class="nav-text">ElasticSearch 评分调试（控制相关度）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NCR-numeric-character-reference"><span class="nav-number">1.9.</span> <span class="nav-text">NCR numeric character reference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mocha-初探"><span class="nav-number">1.9.1.</span> <span class="nav-text">Mocha 初探</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ElasticSearch-评分调试"><span class="nav-number">1.9.2.</span> <span class="nav-text">ElasticSearch 评分调试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ak-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    |  您是本站第 <span id="busuanzi_value_site_pv"></span> 位访问者
+</span>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

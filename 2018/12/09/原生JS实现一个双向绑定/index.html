@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="原生JS实现一个双向绑定Object.defineProperty使用 Object.defineProperty 可以实现数据的拦截。 Object.defineProperty() 方法会直接在一个对象上定义个新属性，或者修改一个对象的现有属性。这个方法执行完之后会返回修改后的这个对象。 语法1Object.defineProperty(obj, prop, descriptor)  obj:">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="原生JS实现一个双向绑定">
+<meta property="og:url" content="http://yoursite.com/2018/12/09/原生JS实现一个双向绑定/index.html">
+<meta property="og:site_name" content="Ak-lee">
+<meta property="og:description" content="原生JS实现一个双向绑定Object.defineProperty使用 Object.defineProperty 可以实现数据的拦截。 Object.defineProperty() 方法会直接在一个对象上定义个新属性，或者修改一个对象的现有属性。这个方法执行完之后会返回修改后的这个对象。 语法1Object.defineProperty(obj, prop, descriptor)  obj:">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-09T14:19:40.352Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="原生JS实现一个双向绑定">
+<meta name="twitter:description" content="原生JS实现一个双向绑定Object.defineProperty使用 Object.defineProperty 可以实现数据的拦截。 Object.defineProperty() 方法会直接在一个对象上定义个新属性，或者修改一个对象的现有属性。这个方法执行完之后会返回修改后的这个对象。 语法1Object.defineProperty(obj, prop, descriptor)  obj:">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/09/原生JS实现一个双向绑定/"/>
+
+
+
+
+
+  <title>原生JS实现一个双向绑定 | Ak-lee</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ak-lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端修炼中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            Über
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/原生JS实现一个双向绑定/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ak-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ak-lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">原生JS实现一个双向绑定</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T22:08:08+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="原生JS实现一个双向绑定"><a href="#原生JS实现一个双向绑定" class="headerlink" title="原生JS实现一个双向绑定"></a>原生JS实现一个双向绑定</h1><h2 id="Object-defineProperty"><a href="#Object-defineProperty" class="headerlink" title="Object.defineProperty"></a>Object.defineProperty</h2><p>使用 <code>Object.defineProperty</code> 可以实现数据的拦截。</p>
+<p><code>Object.defineProperty()</code> 方法会直接在一个对象上定义个新属性，或者修改一个对象的现有属性。这个方法执行完之后会返回修改后的这个对象。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.defineProperty(obj, prop, descriptor)</div></pre></td></tr></table></figure>
+<ul>
+<li>obj: 要处理的目标对象</li>
+<li>prop： 要定义或修改的属性的名称</li>
+<li>descriptor: 将被定义或修改的属性描述符</li>
+</ul>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;</div><div class="line">obj.name = <span class="string">'Mike'</span></div><div class="line">obj[<span class="string">'age'</span>] = <span class="number">18</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'intro'</span>, &#123;</div><div class="line">    value: <span class="string">'hello world'</span>,</div><div class="line">&#125;)</div><div class="line"><span class="built_in">console</span>.log(obj)	<span class="comment">// &#123;name: 'Mike', age: 18, intro: 'hello world'&#125;</span></div></pre></td></tr></table></figure>
+<p>以上三种方法都可以用来定义/修改一个属性，<code>Object.defineProperty</code> 的方法貌似看起来有些大题小做，没关系，且往下看它的复杂用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;</div><div class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'intro'</span>, &#123;</div><div class="line">    configurable: <span class="literal">false</span>,</div><div class="line">    value: <span class="string">'hello world'</span></div><div class="line">&#125;)</div><div class="line">obj.intro = <span class="string">'hello Michael'</span></div><div class="line"><span class="built_in">console</span>.log(obj.intro)	<span class="comment">// “hello world”</span></div><div class="line"><span class="keyword">delete</span> obj.intro		<span class="comment">// false，删除失败</span></div><div class="line"><span class="built_in">console</span>.log(obj.intro)	<span class="comment">// “hello world”</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'name'</span>, &#123;</div><div class="line">    configurable: <span class="literal">false</span>,</div><div class="line">    value: <span class="string">"Mike Jackson"</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">delete</span> obj.name	<span class="comment">// true 删除成功</span></div></pre></td></tr></table></figure>
+<p>通过上面的例子我们可以看出，数据描述对象中 configurable 的值设置为false后（默认</p>
+<p>用 Object.defineProperty 定义的数据的 configurable 就是false），以后就不能再次通过 Object.defineProperty 修改属性，也无法删除该属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">name</span>: <span class="string">"xiaoming"</span>&#125;</div><div class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'age'</span>, &#123;</div><div class="line">    value: <span class="number">3</span>,</div><div class="line">    enumerable: <span class="literal">false</span>,</div><div class="line">&#125;)</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> obj) &#123;</div><div class="line">    <span class="built_in">console</span>.log(key)	<span class="comment">// 只输出 'name', 不输出 'age'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>设置 enumerable 属性为 false 后，遍历对象的时候会忽略当前属性（如果未设置，默认就是false，即不可遍历）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">name</span>: <span class="string">"xiaoming"</span>&#125;</div><div class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'age'</span>, &#123;</div><div class="line">    value: <span class="number">3</span>,</div><div class="line">    writabel: <span class="literal">false</span>,</div><div class="line">&#125;)</div><div class="line">obj.age = <span class="number">4</span></div><div class="line"><span class="built_in">console</span>.log(obj.age) <span class="comment">// 3, writable 为 false 时，修改对象的当前属性值无效</span></div></pre></td></tr></table></figure>
+<p>value 和 writable 叫 <strong>数据描述符</strong>， 具有以下可选键值：</p>
+<ul>
+<li>value： 该属性对应的值。可以是任何有效的 Javascript 值，默认为 undefined</li>
+<li>writable： 当且仅当该属性的writable为true时，该属性该才能被赋值运算符改变。<strong>默认为 false</strong>。</li>
+</ul>
+<p><code>configurable: true</code> 和 <code>writable: true</code> 的区别就是，前者是设置属性能删除，后者是设置属性能修改。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;</div><div class="line"><span class="keyword">var</span> age</div><div class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'age'</span>, &#123;</div><div class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'get age ...'</span>)</div><div class="line">        <span class="keyword">return</span> age	<span class="comment">// 这个age， 不是上面那个带引号的age，而是第二行的变量 age</span></div><div class="line">    &#125;,</div><div class="line">    set: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'set age ...'</span>)</div><div class="line">        age = val</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;)</div><div class="line">obj.age = <span class="number">100</span>	<span class="comment">// 'set age ...'</span></div><div class="line"><span class="built_in">console</span>.log(obj.age)	<span class="comment">// 'get age ...', 100</span></div></pre></td></tr></table></figure>
+<p>在上面的例子中， <code>obj.age</code> 与外面的age指向同一块内存，修改其中的人一个，另一个也跟着一起变化。</p>
+<p>不能这样写：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj2 = &#123;&#125;</div><div class="line"><span class="built_in">Object</span>.defineProperty(obj2, <span class="string">'age'</span>, &#123;</div><div class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'get age ...'</span>)</div><div class="line">        <span class="keyword">return</span> obj2.age</div><div class="line">    &#125;,</div><div class="line">    set: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'set age ...'</span>)</div><div class="line">        obj2.age = val</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>上面的这种写法会造成死循环。如打印 obj2.age 时，会触发<code>get</code>方法，<code>return</code> 方法中返回 <code>obj2.age</code> ，也是对 <code>obj2.age</code> 的读操作，又会触发 <code>get</code> 方法。故会死循环。对obj2.age 赋值的时候也是同理。</p>
+<p><code>get</code> 和 <code>set</code> 叫<strong>存取描述符</strong>，有以下可选键值：</p>
+<ul>
+<li>get: 一个给属性提供 <code>getter</code> 的方法，如果没有 getter 则为undefined。该方法返回值被用作属性值。默认为 undefined。</li>
+<li>set: 一个给属性提供 <code>setter</code> 的方法，如果没有 setter 则为undefined。改方法接受唯一参数，并将该参数的新值分配给该属性。默认为 undefined。</li>
+</ul>
+<p><strong>数据描述符和存取符是不可能同时存在的</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;</div><div class="line"><span class="keyword">var</span> age </div><div class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'age'</span>, &#123;</div><div class="line">    value: <span class="number">100</span>,</div><div class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'get age...'</span>)</div><div class="line">        <span class="keyword">return</span> age</div><div class="line">    &#125;,</div><div class="line">    set: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'set age...'</span>)</div><div class="line">        age = val</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>因为有 <code>value</code> ，又有 <code>get</code> ，故上述代码会报错。</p>
+<h2 id="数据的劫持"><a href="#数据的劫持" class="headerlink" title="数据的劫持"></a>数据的劫持</h2><p>上面我们介绍了 <code>Object.defineProperty</code> 的用法，现在我们利用这个方法来动态监听数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data = &#123;</div><div class="line">    name: <span class="string">'Michael'</span>,</div><div class="line">    friends: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</div><div class="line">&#125;</div><div class="line">observe(data)</div><div class="line"><span class="built_in">console</span>.log(data.name)</div><div class="line">data.name = <span class="string">'Jackson'</span></div><div class="line">data.friends[<span class="number">0</span>] = <span class="number">4</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(!data || <span class="keyword">typeof</span> data !== <span class="string">'object'</span>) <span class="keyword">return</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> data) &#123;</div><div class="line">    	<span class="keyword">let</span> val = data[key]	<span class="comment">// val 是一个临时变量</span></div><div class="line">        <span class="built_in">Object</span>.defineProperty(data, key, &#123;</div><div class="line">			enumerable: <span class="literal">true</span>,</div><div class="line">    		configurable: <span class="literal">true</span>,</div><div class="line">            get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">`get <span class="subst">$&#123;val&#125;</span>`</span>)</div><div class="line">				<span class="keyword">return</span> val</div><div class="line">			&#125;,</div><div class="line">            set: <span class="function"><span class="keyword">function</span>(<span class="params">newVal</span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">`changes happen: <span class="subst">$&#123;val&#125;</span>=&gt;<span class="subst">$&#123;newVal&#125;</span>`</span>)</div><div class="line">				val = newVal</div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> val === <span class="string">'object'</span>) &#123;</div><div class="line">			observe(val)</div><div class="line">        &#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的 observe 函数实现了一个数据监听，当监听某个对象后，我们可以在用户读取或者设置属性值得时候做个拦截，做我们想做的事情。</p>
+<h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>一个典型的观察者模式应用场景是用户在一个网站订阅主题</p>
+<ol>
+<li><p>多个用户（观察者，Observer） 都可以订阅某个主题（Subject）</p>
+</li>
+<li><p>当主题内容更新时订阅该主题的用户都能收到通知。</p>
+</li>
+</ol>
+<p>以下是代码实现</p>
+<p>Subject 是构造函数，new Subject() 创建一个主题对象，该对象内部维护订阅当前主题的观察者数组。主题对象上有一些方法，如添加观察者（addObserver），删除观察者（removeObserver）、通知观察者更新（notify）。当notify时，实际上调用全部观察者 observer 自身的 update 方法。</p>
+<p>Observer 是构造函数，new Observer() 创建一个观察者对象，该对象有一个 update 方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Subject</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.observers = []</div><div class="line">&#125;</div><div class="line">Subject.prototype.addObserver = <span class="function"><span class="keyword">function</span>(<span class="params">observer</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.observers.push(observer)</div><div class="line">&#125;</div><div class="line">Subject.prototype.removeObserver = <span class="function"><span class="keyword">function</span>(<span class="params">observer</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> index = <span class="keyword">this</span>.observers.indexOf(observer)</div><div class="line">    <span class="keyword">if</span>(index &gt; <span class="number">-1</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.observers.splice(index, <span class="number">1</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">Subject.prototype.notify = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.observers.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">observer</span>) </span>&#123;</div><div class="line">        observer.update()</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Observer</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name</div><div class="line">    <span class="keyword">this</span>.update = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(name + <span class="string">' update...'</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 创建主题</span></div><div class="line"><span class="keyword">var</span> subject = <span class="keyword">new</span> Subject()</div><div class="line"></div><div class="line"><span class="comment">// 创建观察者1</span></div><div class="line"><span class="keyword">var</span> observer1 = <span class="keyword">new</span> Observer(<span class="string">'Michael'</span>)</div><div class="line"><span class="comment">// 主题添加观察者1</span></div><div class="line">subject.addObserver(observer1)</div><div class="line"><span class="comment">// 创建观察者2</span></div><div class="line"><span class="keyword">var</span> observer2 = <span class="keyword">new</span> Observer(<span class="string">'Jackson'</span>)</div><div class="line"><span class="comment">// 主题添加观察者2</span></div><div class="line">subject.addObserver(observer2)</div><div class="line"></div><div class="line"><span class="comment">// 主题通知所有的观察者更新</span></div><div class="line">subject.notify()</div></pre></td></tr></table></figure>
+<p>换成ES6 的写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>() &#123;</div><div class="line">        <span class="keyword">this</span>.observers = []</div><div class="line">    &#125;</div><div class="line">    addObserver(observer) &#123;</div><div class="line">        <span class="keyword">this</span>.observers.push(observer)</div><div class="line">    &#125;</div><div class="line">    removeObserver(observer) &#123;</div><div class="line">        <span class="keyword">var</span> index = <span class="keyword">this</span>.observers.indexOf(observer)</div><div class="line">        <span class="keyword">if</span>(index &gt; <span class="number">-1</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.observers.splice(index, <span class="number">1</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    notify() &#123;</div><div class="line">        <span class="keyword">this</span>.observers.forEach(<span class="function"><span class="params">observer</span> =&gt;</span> &#123;</div><div class="line">            observer.update()</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span>() </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>() &#123;</div><div class="line">        <span class="keyword">this</span>.update = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码中， 主题被观察者订阅的写法是 subject.addObserver(observer), 不是很直观，下面我们给观察者添加订阅方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span>() </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>() &#123;</div><div class="line">        <span class="keyword">this</span>.update = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">    &#125;</div><div class="line">    subscribeTo(subject)&#123;</div><div class="line">        subject.addObserver(<span class="keyword">this</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> subject = <span class="keyword">new</span> Subject()</div><div class="line"><span class="keyword">let</span> observer = <span class="keyword">new</span> Observer()</div><div class="line">observer.update = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'observer update'</span>)</div><div class="line">&#125;</div><div class="line">observer.subscribeTo(subject)	<span class="comment">// 观察者订阅主题</span></div><div class="line"></div><div class="line">subject.notify()</div></pre></td></tr></table></figure>
+<h2 id="MVVM-单向绑定的实现"><a href="#MVVM-单向绑定的实现" class="headerlink" title="MVVM 单向绑定的实现"></a>MVVM 单向绑定的实现</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>MVVM（Model-View-ViewModel）是一种用于把数据和 UI 分离的设计模式</p>
+<p>MVVM中的 Model 表示应用程序使用的数据，比如一个用户账户信息（名字、头像、电子邮箱等），Model 保存信息，但通常不会处理行为，不会对信息进行再次加工。数据的格式化是由 View 处理的。行为一般认为是业务逻辑。封装在 ViewModel 中。</p>
+<p>View 是与用户进行交互的桥梁。</p>
+<p>ViewModel 充当数据转换器。将 Model 信息转换为 View 的信息。将命令从 View 传递到 Model 中。</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>假如有如下代码， data 里面的 <code>name</code> 会和视图中的 <code>&amp;#123;name&amp;#125;</code> 一一映射，修改 data 里面的值，会直接引起视图中对应数据的变化。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span>&amp;#123;name&amp;#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">mvvm</span>(<span class="params"></span>) </span>&#123;</span></div><div class="line"><span class="javascript">            <span class="comment">// todo ...</span></span></div><div class="line"><span class="undefined">        &#125;</span></div><div class="line"><span class="javascript">        <span class="keyword">var</span> vm = <span class="keyword">new</span> mvvm() &#123;</span></div><div class="line"><span class="javascript">            el: <span class="string">'#app'</span>, </span></div><div class="line"><span class="undefined">            data: &#123;</span></div><div class="line"><span class="javascript">				name: <span class="string">'xiaoming'</span></span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        &#125;</span></div><div class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>如何实现上述 mvvm 呢？</p>
+<p>一起回想之前讲的观察者模式和数据监听。</p>
+<ol>
+<li>主题（subject）是什么</li>
+<li>观察者（observer）是什么</li>
+<li>观察者何时订阅主题？</li>
+<li>主题何时通知更新？</li>
+</ol>
+<p>上面的例子中，主题应该是 <code>data</code> 的 name 属性，观察者应该是视图里面的 <code>&amp;#123;name&amp;#125;</code> ，当一开始执行mvvm初始化（根据 <code>el</code> 解析发现 <code>&amp;#123;name&amp;#125;</code>的时候订阅主题，当 <code>data.name</code> 发生改变的时候，通知观察者更新内容。我们在一开始监控 <code>data.name</code>(Object.defineProperty(data, ‘name’, {…}))）, 当用户修改<code>data.name</code> 的时候对用主题的 <code>subject.notify</code>.</p>
+<h2 id="单向绑定的实现"><a href="#单向绑定的实现" class="headerlink" title="单向绑定的实现"></a>单向绑定的实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;meta charset=&quot;utf-8&quot;/&gt;</div><div class="line">        &lt;title&gt;MVVM 单向绑定&lt;/title&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;div id=&quot;app&quot;&gt;</div><div class="line">            &lt;h1&gt;</div><div class="line">                &amp;#123;name&amp;#125;&apos;s age is &amp;#123;age&amp;#125;</div><div class="line">            &lt;/h1&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div><div class="line">&lt;script src=&apos;./mvvm.js&apos;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>下面是 <code>mvvm.js</code></p>
+<p><code>data</code> 中的每一个属性都是一个 <code>subject</code>. 即发布者</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">    <span class="comment">// 监控数据的变化</span></div><div class="line">    <span class="keyword">if</span>(!data || <span class="keyword">typeof</span> data !== <span class="string">'object'</span>) <span class="keyword">return</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> data) &#123;</div><div class="line">        <span class="keyword">let</span> val = data[key]</div><div class="line">        <span class="keyword">let</span> mykey = key</div><div class="line">        <span class="comment">// 为 data 中的每个字段创建一个 subject（发布者）</span></div><div class="line">        <span class="keyword">let</span> subject = <span class="keyword">new</span> Subject()</div><div class="line">        <span class="built_in">Object</span>.defineProperty(data, key, &#123;</div><div class="line">            enumerable: <span class="literal">true</span>,</div><div class="line">            configurable: <span class="literal">true</span>,</div><div class="line">            get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">`get <span class="subst">$&#123;mykey&#125;</span>: <span class="subst">$&#123;val&#125;</span>`</span>)</div><div class="line">                <span class="keyword">if</span>(currentObserver) &#123;</div><div class="line">                    <span class="comment">// currentObserver 当前的观察者</span></div><div class="line">                    <span class="comment">// 如果有当前的观察者，就把他加入到当前字段的订阅列表中</span></div><div class="line">                    <span class="built_in">console</span>.log(<span class="string">'has currentObserver'</span>)</div><div class="line">                    currentObserver.subscribeTo(subject)</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> val</div><div class="line">            &#125;,</div><div class="line">            set: <span class="function"><span class="keyword">function</span>(<span class="params">newVal</span>) </span>&#123;</div><div class="line">                val = newVal</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'start notify...'</span>)</div><div class="line">                subject.notify()</div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> val === <span class="string">'object'</span>) &#123;</div><div class="line">            observe(val)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> id = <span class="number">0</span></div><div class="line"><span class="comment">// currentObserver 即当前的观察者</span></div><div class="line"><span class="keyword">let</span> currentObserver = <span class="literal">null</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>() &#123;</div><div class="line">        <span class="comment">// 每个Subject实例都有个id</span></div><div class="line">        <span class="keyword">this</span>.id = id++</div><div class="line">        <span class="keyword">this</span>.observers = []</div><div class="line">    &#125;</div><div class="line">    addObserver(observer) &#123;</div><div class="line">        <span class="keyword">this</span>.observers.push(observer)</div><div class="line">    &#125;</div><div class="line">    removeObserver(observer) &#123;</div><div class="line">        <span class="keyword">var</span> index = <span class="keyword">this</span>.observers.indexOf(observer)</div><div class="line">        <span class="keyword">if</span>(index &gt; <span class="number">-1</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.observers.splice(index, <span class="number">1</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    notify() &#123;</div><div class="line">        <span class="keyword">this</span>.observers.forEach(<span class="function"><span class="params">observer</span> =&gt;</span> &#123;</div><div class="line">            observer.update()</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(vm, key, cb) &#123;</div><div class="line">        <span class="comment">// vm 即 let vm = new mvvm(&#123;&#125;) 的那个vm</span></div><div class="line">        <span class="comment">// key 字段名，被监听的那个属性</span></div><div class="line">        <span class="comment">// cb，即callback，回调函数</span></div><div class="line">        <span class="keyword">this</span>.subjects = &#123;&#125;</div><div class="line">        <span class="keyword">this</span>.vm = vm</div><div class="line">        <span class="keyword">this</span>.key = key</div><div class="line">        <span class="keyword">this</span>.cb = cb</div><div class="line">        <span class="keyword">this</span>.value = <span class="keyword">this</span>.getValue()</div><div class="line">    &#125;</div><div class="line">    update() &#123;</div><div class="line">        <span class="keyword">let</span> oldVal = <span class="keyword">this</span>.value</div><div class="line">        <span class="keyword">let</span> value = <span class="keyword">this</span>.getValue()</div><div class="line">        <span class="keyword">if</span>(value !== oldVal)&#123;</div><div class="line">            <span class="keyword">this</span>.value = value</div><div class="line">            <span class="keyword">this</span>.cb.bind(<span class="keyword">this</span>.vm)(value, oldVal)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    subscribeTo(subject) &#123;</div><div class="line">        <span class="keyword">if</span>(!<span class="keyword">this</span>.subjects[subject.id]) &#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'subscribeTo ...'</span>, subject)</div><div class="line">            subject.addObserver(<span class="keyword">this</span>)</div><div class="line">            <span class="keyword">this</span>.subjects[subject.id] = subject</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    getValue() &#123;</div><div class="line">        currentObserver = <span class="keyword">this</span></div><div class="line">        <span class="keyword">let</span> value = <span class="keyword">this</span>.vm.$data[<span class="keyword">this</span>.key]</div><div class="line">        currentObserver = <span class="literal">null</span></div><div class="line">        <span class="keyword">return</span> value</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">mvvm</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(opts) &#123;</div><div class="line">        <span class="keyword">this</span>.init(opts)</div><div class="line">        observe(<span class="keyword">this</span>.$data)</div><div class="line">        <span class="keyword">this</span>.compile()</div><div class="line">    &#125;</div><div class="line">    init(opts)&#123;</div><div class="line">        <span class="keyword">this</span>.$el = <span class="built_in">document</span>.querySelector(opts.el)</div><div class="line">        <span class="keyword">this</span>.$data = opts.data</div><div class="line">        <span class="keyword">this</span>.observers = []</div><div class="line">    &#125;</div><div class="line">    compile() &#123;</div><div class="line">        <span class="keyword">this</span>.traverse(<span class="keyword">this</span>.$el)</div><div class="line">    &#125;</div><div class="line">    traverse(node) &#123;</div><div class="line">        <span class="keyword">if</span>(node.nodeType === <span class="number">1</span>) &#123;</div><div class="line">            node.childNodes.forEach(<span class="function"><span class="params">childNode</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">this</span>.traverse(childNode)</div><div class="line">            &#125;)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(node.noeType === <span class="number">3</span>) &#123;</div><div class="line">            <span class="comment">// 文本</span></div><div class="line">            <span class="keyword">this</span>.renderText(node)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    renderText(node) &#123;</div><div class="line">        <span class="keyword">let</span> reg = <span class="regexp">/&amp;#123;(.+?)&amp;#125;/g</span></div><div class="line">        <span class="keyword">let</span> match</div><div class="line">        <span class="keyword">while</span>(match = reg.exec(node.nodeValue)) &#123;</div><div class="line">            <span class="keyword">let</span> raw = match[<span class="number">0</span>]</div><div class="line">            <span class="keyword">let</span> key = match[<span class="number">1</span>].trim()</div><div class="line">            node.nodeValue = node.nodeValue.replace(raw, <span class="keyword">this</span>.$data[key])</div><div class="line">            <span class="keyword">new</span> Observer(<span class="keyword">this</span>, key, <span class="function"><span class="keyword">function</span>(<span class="params">val, oldVal</span>) </span>&#123;</div><div class="line">                node.nodeValue = node.nodeValue.replace(oldVal, val)</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> vm = <span class="keyword">new</span> mvvm(&#123;</div><div class="line">    el: <span class="string">'#app'</span>,</div><div class="line">    data: &#123;</div><div class="line">        name: <span class="string">'mike'</span>,</div><div class="line">        age: <span class="number">3</span></div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    vm.$data.age ++</div><div class="line">&#125;, <span class="number">1000</span>)</div></pre></td></tr></table></figure>
+<p>解析：</p>
+<ul>
+<li><p>mvvm() 介绍一个配置参数的对象。</p>
+<ul>
+<li>做初始化 <code>init</code>。把 <code>el</code> 对应的dom节点挂载到 <code>$el</code> 上，把  <code>data</code> 赋值为 <code>$data</code> 。创建一个空的 observer 的数组observers（<strong>这一步目前还看不懂</strong>）</li>
+<li>监听 <code>$data</code> 的变化。会为每个 <code>$data</code> 中的属性创建一个 <code>subject</code>（发布者）。当读取 <code>$data</code> 中的数据时，<code>subject</code>(发布者) 中会记录有哪些（observer）订阅者，同时 observer （订阅者）中也会记录自己订阅了哪些 <code>subject</code>(发布者)。当修改 <code>$data</code> 中的数据时，会调用 <code>subject</code> 保存的所有订阅者的 <code>update</code> 方法。</li>
+<li>启动编译<code>compile</code> , 对dom元素进行递归，指导递归到 文本级（node.nodeType === 3）, 对文本内容调用 <code>renderText(node)</code> 方法。</li>
+<li><code>renderText(node)</code> 方法，首先使用正则表达式匹配出待注入数据的项。然后使用 <code>$data</code> 中的数据替换掉原来的占位字符。<strong>并且新建一个 Observer（观察者）， 这个观察者用于观察对应对象的对应属性，一旦对应的属性发生变化，则调用回调函数，即重新更新当前的dom元素内容</strong>。 即模板html中有几个 <code>&amp;#123;&amp;#125;</code> 标记，才会新建几个观察者（observer）</li>
+</ul>
+</li>
+<li><p>Observer 观察者</p>
+<ul>
+<li><p>生成 Observer 实例 <code>new Observer(vm, key, cb)</code> vm 即要观察的是哪个对象。key，即观察这个对象的哪个属性。<code>cb</code>, 为 callback, 回调函数。回调函数在 <code>Observer</code> 实例被调用 <code>update</code> 方法是会调用。</p>
+</li>
+<li><p>Observer 实例上会挂载 <code>vm</code>(即当前监听的是哪个对象)， <code>key</code> 当前监听的是哪个对象的哪个属性。<code>cb</code> 即回调函数，即属性更新时要做什么。<code>value</code> 监听对象的监听属性的当前值。</p>
+</li>
+<li><code>getValue</code> 方法，即获取当前监听对象的监听属性的当前值。当获取当前监听对象的监听属性的当前值的时候，会把全局变量 <code>currentObserver</code> 设置为当前 observer。方便<code>observe</code> 函数那边记录当前observer有没有进入订阅者数组。<strong>这里的 getValue 是观察者去获取被监听对象的值</strong>。</li>
+<li><code>update</code> 方法，比较当前保存的 <code>value</code> 与现在最新值有无变化。如果有变化，则调用 <code>cb</code> 回调函数。回调函数会被一次传入 <code>val</code> 和 <code>oldVal</code> (新值和旧值)。</li>
+</ul>
+</li>
+</ul>
+<p><strong>总结一下思路</strong>： 根据模板html字符串中需要注入的数据来分别新建观察者（observer）。读取被监听对象的被监听属性时，分为两种情况，一种是直接读，<code>renderText</code> 函数中有出现。另一种是由观察者去读。观察者去读有点特殊，观察者去读之前，会把 <code>currentObserver</code> 置为当前的观察者，方便 subject（发布者）那边把观察者放入观察者数组中。每次新建一个观察者，都会触发这个观察者以观察者的身份去取对应的属性。对方的subject就会把这个观察者添加到观察者数组中去。每次数据发生变化后，都会调用观察者数组中每个观察者的<code>update</code> 的方法，即告诉各个观察者：<strong>我这边的数据更新了，你们重新来获取一下吧。</strong> 观察者每次重新获取<code>value</code> 后，会判断 <code>value</code> 有无变化（毕竟可能出现把一个值修改为一模一样的新值，同样触发了 setter），如果有变化就执行回调函数更新页面。</p>
+<p><strong>专门设计了观察者（Observer）会保存观察对象的观察属性的当前值</strong>。故观察者在初始化时（constructor函数阶段）一定会调用 getValue, 方便在第一次时，subject 那边把观察者放进观察者数组中。</p>
+<p>理解上面的代码，关键是要弄清楚一个问题，<strong>我们需要去订阅一个属性的变动，但什么时候去订阅呢？</strong>。答：在解析模板的时候创建观察者，在观察者初始化的时候就去订阅。创建了观察者就马上会进入观察者初始化工作。</p>
+<h2 id="实现双向绑定"><a href="#实现双向绑定" class="headerlink" title="实现双向绑定"></a>实现双向绑定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">  &lt;title&gt;MVVM 双向绑定&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;div id=&quot;app&quot; &gt;</div><div class="line">  &lt;input v-model=&quot;name&quot; type=&quot;text&quot;&gt;</div><div class="line">  &lt;h1&gt;&amp;#123;name&amp;#125; &apos;s age is &amp;#123;age&amp;#125;&lt;/h1&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line"></div><div class="line">function observe(data) &#123;</div><div class="line">  if(!data || typeof data !== &apos;object&apos;) return</div><div class="line">  for(var key in data) &#123;</div><div class="line">    let val = data[key]</div><div class="line">    let subject = new Subject()</div><div class="line">    Object.defineProperty(data, key, &#123;</div><div class="line">      enumerable: true,</div><div class="line">      configurable: true,</div><div class="line">      get: function() &#123;</div><div class="line">        console.log(`get $&#123;key&#125;: $&#123;val&#125;`)</div><div class="line">        if(currentObserver)&#123;</div><div class="line">          console.log(&apos;has currentObserver&apos;)</div><div class="line">          currentObserver.subscribeTo(subject)</div><div class="line">        &#125;</div><div class="line">        return val</div><div class="line">      &#125;,</div><div class="line">      set: function(newVal) &#123;</div><div class="line">        val = newVal</div><div class="line">        console.log(&apos;start notify...&apos;)</div><div class="line">        subject.notify()</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">    if(typeof val === &apos;object&apos;)&#123;</div><div class="line">      observe(val)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let id = 0</div><div class="line">let currentObserver = null</div><div class="line"></div><div class="line">class Subject &#123;</div><div class="line">  constructor() &#123;</div><div class="line">    this.id = id++</div><div class="line">    this.observers = []</div><div class="line">  &#125;</div><div class="line">  addObserver(observer) &#123;</div><div class="line">    this.observers.push(observer)</div><div class="line">  &#125;</div><div class="line">  removeObserver(observer) &#123;</div><div class="line">    var index = this.observers.indexOf(observer)</div><div class="line">    if(index &gt; -1)&#123;</div><div class="line">      this.observers.splice(index, 1)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  notify() &#123;</div><div class="line">    this.observers.forEach(observer=&gt; &#123;</div><div class="line">      observer.update()</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Observer&#123;</div><div class="line">  constructor(vm, key, cb) &#123;</div><div class="line">    this.subjects = &#123;&#125;</div><div class="line">    this.vm = vm</div><div class="line">    this.key = key</div><div class="line">    this.cb = cb</div><div class="line">    this.value = this.getValue()</div><div class="line">  &#125;</div><div class="line">  update()&#123;</div><div class="line">    let oldVal = this.value</div><div class="line">    let value = this.getValue()</div><div class="line">    if(value !== oldVal) &#123;</div><div class="line">      this.value = value</div><div class="line">      this.cb.bind(this.vm)(value, oldVal)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  subscribeTo(subject) &#123;</div><div class="line">    if(!this.subjects[subject.id])&#123;</div><div class="line">      console.log(&apos;subscribeTo.. &apos;, subject)</div><div class="line">       subject.addObserver(this)</div><div class="line">       this.subjects[subject.id] = subject</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  getValue()&#123;</div><div class="line">    currentObserver = this</div><div class="line">    let value = this.vm.$data[this.key]</div><div class="line">    currentObserver = null</div><div class="line">    return value</div><div class="line">  &#125;</div><div class="line">&#125; </div><div class="line"></div><div class="line"></div><div class="line">class Compile &#123;</div><div class="line">  constructor(vm)&#123;</div><div class="line">    this.vm = vm</div><div class="line">    this.node = vm.$el</div><div class="line">    this.compile()</div><div class="line">  &#125;</div><div class="line">  compile()&#123;</div><div class="line">    this.traverse(this.node)</div><div class="line">  &#125;</div><div class="line">  traverse(node)&#123;</div><div class="line">    if(node.nodeType === 1)&#123;</div><div class="line">      this.compileNode(node)   //解析节点上的v-bind 属性</div><div class="line">      node.childNodes.forEach(childNode=&gt;&#123;</div><div class="line">        this.traverse(childNode)</div><div class="line">      &#125;)</div><div class="line">    &#125;else if(node.nodeType === 3)&#123; //处理文本</div><div class="line">      this.compileText(node)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  compileText(node)&#123;</div><div class="line">    let reg = /&amp;#123;(.+?)&amp;#125;/g</div><div class="line">    let match</div><div class="line">    console.log(node)</div><div class="line">    while(match = reg.exec(node.nodeValue))&#123;</div><div class="line">      let raw = match[0]</div><div class="line">      let key = match[1].trim()</div><div class="line">      node.nodeValue = node.nodeValue.replace(raw, this.vm.$data[key])</div><div class="line">      new Observer(this.vm, key, function(val, oldVal)&#123;</div><div class="line">        node.nodeValue = node.nodeValue.replace(oldVal, val)</div><div class="line">      &#125;)</div><div class="line">    &#125;    </div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //处理指令</div><div class="line">  compileNode(node)&#123;</div><div class="line">    let attrs = [...node.attributes] //类数组对象转换成数组，也可用其他方法</div><div class="line">    attrs.forEach(attr=&gt;&#123;</div><div class="line">      //attr 是个对象，attr.name 是属性的名字如 v-model， attr.value 是对应的值，如 name</div><div class="line">      if(this.isDirective(attr.name))&#123;</div><div class="line">        let key = attr.value       //attr.value === &apos;name&apos;</div><div class="line">        node.value = this.vm.$data[key]  </div><div class="line">        new Observer(this.vm, key, function(newVal)&#123;</div><div class="line">          node.value = newVal</div><div class="line">        &#125;)</div><div class="line">        node.oninput = (e)=&gt;&#123;</div><div class="line">          this.vm.$data[key] = e.target.value  //因为是箭头函数，所以这里的 this 是 compile 对象</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">  //判断属性名是否是指令</div><div class="line">  isDirective(attrName)&#123;</div><div class="line">     return attrName === &apos;v-model&apos;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">class mvvm &#123;</div><div class="line">  constructor(opts) &#123;</div><div class="line">    this.init(opts)</div><div class="line">    observe(this.$data)</div><div class="line">    new Compile(this)</div><div class="line">  &#125;</div><div class="line">  init(opts)&#123;</div><div class="line">    this.$el = document.querySelector(opts.el)</div><div class="line">    this.$data = opts.data</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">let vm = new mvvm(&#123;</div><div class="line">  el: &apos;#app&apos;,</div><div class="line">  data: &#123; </div><div class="line">    name: &apos;jirengu&apos;,</div><div class="line">    age: 3</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// setInterval(function()&#123;</div><div class="line">//   vm.$data.age++</div><div class="line">// &#125;, 1000)</div><div class="line"></div><div class="line"></div><div class="line">&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<h2 id="增加事件指令-、完善代码"><a href="#增加事件指令-、完善代码" class="headerlink" title="增加事件指令 、完善代码"></a>增加事件指令 、完善代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">  &lt;title&gt;事件与代码优化&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;div id=&quot;app&quot; &gt;</div><div class="line">  &lt;input v-model=&quot;name&quot; v-on:click=&quot;sayHi&quot; type=&quot;text&quot;&gt;</div><div class="line">  &lt;h1&gt;&amp;#123;name&amp;#125; &apos;s age is &amp;#123;age&amp;#125;&lt;/h1&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line"></div><div class="line">function observe(data) &#123;</div><div class="line">  if(!data || typeof data !== &apos;object&apos;) return</div><div class="line">  for(var key in data) &#123;</div><div class="line">    let val = data[key]</div><div class="line">    let subject = new Subject()</div><div class="line">    Object.defineProperty(data, key, &#123;</div><div class="line">      enumerable: true,</div><div class="line">      configurable: true,</div><div class="line">      get: function() &#123;</div><div class="line">        console.log(`get $&#123;key&#125;: $&#123;val&#125;`)</div><div class="line">        if(currentObserver)&#123;</div><div class="line">          console.log(&apos;has currentObserver&apos;)</div><div class="line">          currentObserver.subscribeTo(subject)</div><div class="line">        &#125;</div><div class="line">        return val</div><div class="line">      &#125;,</div><div class="line">      set: function(newVal) &#123;</div><div class="line">        val = newVal</div><div class="line">        console.log(&apos;start notify...&apos;)</div><div class="line">        subject.notify()</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">    if(typeof val === &apos;object&apos;)&#123;</div><div class="line">      observe(val)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let id = 0</div><div class="line">let currentObserver = null</div><div class="line"></div><div class="line">class Subject &#123;</div><div class="line">  constructor() &#123;</div><div class="line">    this.id = id++</div><div class="line">    this.observers = []</div><div class="line">  &#125;</div><div class="line">  addObserver(observer) &#123;</div><div class="line">    this.observers.push(observer)</div><div class="line">  &#125;</div><div class="line">  removeObserver(observer) &#123;</div><div class="line">    var index = this.observers.indexOf(observer)</div><div class="line">    if(index &gt; -1)&#123;</div><div class="line">      this.observers.splice(index, 1)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  notify() &#123;</div><div class="line">    this.observers.forEach(observer=&gt; &#123;</div><div class="line">      observer.update()</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Observer&#123;</div><div class="line">  constructor(vm, key, cb) &#123;</div><div class="line">    this.subjects = &#123;&#125;</div><div class="line">    this.vm = vm</div><div class="line">    this.key = key</div><div class="line">    this.cb = cb</div><div class="line">    this.value = this.getValue()</div><div class="line">  &#125;</div><div class="line">  update()&#123;</div><div class="line">    let oldVal = this.value</div><div class="line">    let value = this.getValue()</div><div class="line">    if(value !== oldVal) &#123;</div><div class="line">      this.value = value</div><div class="line">      this.cb.bind(this.vm)(value, oldVal)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  subscribeTo(subject) &#123;</div><div class="line">    if(!this.subjects[subject.id])&#123;</div><div class="line">      console.log(&apos;subscribeTo.. &apos;, subject)</div><div class="line">       subject.addObserver(this)</div><div class="line">       this.subjects[subject.id] = subject</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  getValue()&#123;</div><div class="line">    currentObserver = this</div><div class="line">    let value = this.vm[this.key]   //等同于 this.vm.$data[this.key]</div><div class="line">    currentObserver = null</div><div class="line">    return value</div><div class="line">  &#125;</div><div class="line">&#125; </div><div class="line"></div><div class="line"></div><div class="line">class Compile &#123;</div><div class="line">  constructor(vm)&#123;</div><div class="line">    this.vm = vm</div><div class="line">    this.node = vm.$el</div><div class="line">    this.compile()</div><div class="line">  &#125;</div><div class="line">  compile()&#123;</div><div class="line">    this.traverse(this.node)</div><div class="line">  &#125;</div><div class="line">  traverse(node)&#123;</div><div class="line">    if(node.nodeType === 1)&#123;</div><div class="line">      this.compileNode(node)   //解析节点上的v-bind 属性</div><div class="line">      node.childNodes.forEach(childNode=&gt;&#123;</div><div class="line">        this.traverse(childNode)</div><div class="line">      &#125;)</div><div class="line">    &#125;else if(node.nodeType === 3)&#123; //处理文本</div><div class="line">      this.compileText(node)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  compileText(node)&#123;</div><div class="line">    let reg = /&amp;#123;(.+?)&amp;#125;/g</div><div class="line">    let match</div><div class="line">    console.log(node)</div><div class="line">    while(match = reg.exec(node.nodeValue))&#123;</div><div class="line">      let raw = match[0]</div><div class="line">      let key = match[1].trim()</div><div class="line">      node.nodeValue = node.nodeValue.replace(raw, this.vm[key])</div><div class="line">      new Observer(this.vm, key, function(val, oldVal)&#123;</div><div class="line">        node.nodeValue = node.nodeValue.replace(oldVal, val)</div><div class="line">      &#125;)</div><div class="line">    &#125;    </div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //处理指令</div><div class="line">  compileNode(node)&#123;</div><div class="line">    let attrs = [...node.attributes] //类数组对象转换成数组，也可用其他方法</div><div class="line">    attrs.forEach(attr=&gt;&#123;</div><div class="line">      //attr 是个对象，attr.name 是属性的名字如 v-model， attr.value 是对应的值，如 name</div><div class="line">      if(this.isModelDirective(attr.name))&#123;</div><div class="line">        this.bindModel(node, attr)</div><div class="line">      &#125;else if(this.isEventDirective(attr.name))&#123;</div><div class="line">        this.bindEventHander(node, attr)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">  bindModel(node, attr)&#123;</div><div class="line">    let key = attr.value       //attr.value === &apos;name&apos;</div><div class="line">    node.value = this.vm[key]  </div><div class="line">    new Observer(this.vm, key, function(newVal)&#123;</div><div class="line">      node.value = newVal</div><div class="line">    &#125;)</div><div class="line">    node.oninput = (e)=&gt;&#123;</div><div class="line">      this.vm[key] = e.target.value  //因为是箭头函数，所以这里的 this 是 compile 对象</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  bindEventHander(node, attr)&#123;       //attr.name === &apos;v-on:click&apos;, attr.value === &apos;sayHi&apos;</div><div class="line">    let eventType = attr.name.substr(5)       // click</div><div class="line">    let methodName = attr.value</div><div class="line">    node.addEventListener(eventType, this.vm.$methods[methodName]) </div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //判断属性名是否是指令</div><div class="line">  isModelDirective(attrName)&#123;</div><div class="line">     return attrName === &apos;v-model&apos;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  isEventDirective(attrName)&#123;</div><div class="line">    return attrName.indexOf(&apos;v-on&apos;) === 0</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">class mvvm &#123;</div><div class="line">  constructor(opts) &#123;</div><div class="line">    this.init(opts)</div><div class="line">    observe(this.$data)</div><div class="line">    new Compile(this)</div><div class="line">  &#125;</div><div class="line">  init(opts)&#123;</div><div class="line">    this.$el = document.querySelector(opts.el)</div><div class="line">    this.$data = opts.data || &#123;&#125;</div><div class="line">    this.$methods = opts.methods || &#123;&#125;</div><div class="line"></div><div class="line">    //把$data 中的数据直接代理到当前 vm 对象</div><div class="line">    for(let key in this.$data) &#123;</div><div class="line">      Object.defineProperty(this, key, &#123;</div><div class="line">        enumerable: true,</div><div class="line">        configurable: true,</div><div class="line">        get: ()=&gt; &#123;  //这里用了箭头函数，所有里面的 this 就指代外面的 this 也就是 vm</div><div class="line">          return this.$data[key]</div><div class="line">        &#125;,</div><div class="line">        set: newVal=&gt; &#123;</div><div class="line">          this.$data[key] = newVal</div><div class="line">        &#125;        </div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //让 this.$methods 里面的函数中的 this，都指向当前的 this，也就是 vm</div><div class="line">    for(let key in this.$methods) &#123;</div><div class="line">      this.$methods[key] = this.$methods[key].bind(this)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">let vm = new mvvm(&#123;</div><div class="line">  el: &apos;#app&apos;,</div><div class="line">  data: &#123; </div><div class="line">    name: &apos;jirengu&apos;,</div><div class="line">    age: 3</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">    sayHi()&#123;</div><div class="line">      alert(`hi $&#123;this.name&#125;` )</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">let clock = setInterval(function()&#123;</div><div class="line">  vm.age++   //等同于 vm.$data.age， 见 mvvm init 方法内的数据劫持</div><div class="line"></div><div class="line">  if(vm.age === 10) clearInterval(clock)</div><div class="line">&#125;, 1000)</div><div class="line"></div><div class="line"></div><div class="line">&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/28/node爬虫相关/" rel="next" title="node爬虫相关">
+                <i class="fa fa-chevron-left"></i> node爬虫相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="Ak-lee" />
+          
+            <p class="site-author-name" itemprop="name">Ak-lee</p>
+            <p class="site-description motion-element" itemprop="description">start from zero</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原生JS实现一个双向绑定"><span class="nav-number">1.</span> <span class="nav-text">原生JS实现一个双向绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-defineProperty"><span class="nav-number">1.1.</span> <span class="nav-text">Object.defineProperty</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据的劫持"><span class="nav-number">1.2.</span> <span class="nav-text">数据的劫持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式"><span class="nav-number">1.3.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVVM-单向绑定的实现"><span class="nav-number">1.4.</span> <span class="nav-text">MVVM 单向绑定的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.4.1.</span> <span class="nav-text">概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考"><span class="nav-number">1.5.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单向绑定的实现"><span class="nav-number">1.6.</span> <span class="nav-text">单向绑定的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现双向绑定"><span class="nav-number">1.7.</span> <span class="nav-text">实现双向绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增加事件指令-、完善代码"><span class="nav-number">1.8.</span> <span class="nav-text">增加事件指令 、完善代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ak-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    |  您是本站第 <span id="busuanzi_value_site_pv"></span> 位访问者
+</span>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
